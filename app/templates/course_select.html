@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}コース選択 - 愛媛探索AIクイズ{% endblock %}
+
+{% block content %}
+<section class="course-select">
+    <h2 class="section-title">コースを選択してください</h2>
+    <p class="section-description">愛媛の地域（中予・南予・東予）からコースを選んで学習を始めましょう。</p>
+
+    <!-- 地域タブ -->
+    <div class="region-tabs" role="tablist" aria-label="地域選択">
+        {% for region in regions %}
+        <button
+            class="region-tab {% if region.key == active_region %}active{% endif %}"
+            role="tab"
+            aria-selected="{% if region.key == active_region %}true{% else %}false{% endif %}"
+            aria-controls="panel-{{ region.key }}"
+            id="tab-{{ region.key }}"
+            data-region="{{ region.key }}"
+            onclick="switchTab('{{ region.key }}')"
+        >
+            {{ region.label }}
+            {% if not region.available %}
+            <span class="badge badge-coming-soon">準備中</span>
+            {% endif %}
+        </button>
+        {% endfor %}
+    </div>
+
+    <!-- タブパネル -->
+    {% for region in regions %}
+    <div
+        class="region-panel {% if region.key == active_region %}active{% endif %}"
+        role="tabpanel"
+        id="panel-{{ region.key }}"
+        aria-labelledby="tab-{{ region.key }}"
+        {% if region.key != active_region %}hidden{% endif %}
+    >
+        {% if region.available %}
+        <div class="course-grid">
+            {% for course in region.courses %}
+            <form method="post" action="/quiz/start/{{ course.id }}" class="course-card-form">
+                <button type="submit" class="course-card course-card-clickable">
+                    <div class="course-card-header">
+                        <h3 class="course-name">{{ course.name }}</h3>
+                        <span class="badge badge-difficulty badge-{{ course.difficulty.name | lower }}">
+                            {{ course.difficulty.value }}
+                        </span>
+                    </div>
+                    <p class="course-description">{{ course.description }}</p>
+                    <div class="course-card-meta">
+                        <span class="course-meta">
+                            📍 {{ course.region.value }} ・ 📝 {{ course.question_count }}問
+                        </span>
+                    </div>
+                    <div class="course-card-action">
+                        <span class="btn-start">▶ この コースで学習を始める</span>
+                    </div>
+                </button>
+            </form>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p class="empty-state-icon">🚧</p>
+            <p class="empty-state-text">この地域のコースは現在準備中です。</p>
+            <p class="empty-state-subtext">もうしばらくお待ちください。</p>
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function switchTab(regionKey) {
+    // タブの切り替え
+    document.querySelectorAll('.region-tab').forEach(function(tab) {
+        var isActive = tab.dataset.region === regionKey;
+        tab.classList.toggle('active', isActive);
+        tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    // パネルの切り替え
+    document.querySelectorAll('.region-panel').forEach(function(panel) {
+        var isActive = panel.id === 'panel-' + regionKey;
+        panel.classList.toggle('active', isActive);
+        if (isActive) {
+            panel.removeAttribute('hidden');
+        } else {
+            panel.setAttribute('hidden', '');
+        }
+    });
+}
+</script>
+{% endblock %}

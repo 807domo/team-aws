@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}解説 - 問題 {{ question_index + 1 }} - 愛媛探索AIクイズ{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <!-- 正誤フィードバック -->
+    <div class="mb-6">
+        {% if is_correct %}
+        <div class="bg-green-50 border-2 border-green-400 rounded-lg p-4 text-center">
+            <span class="text-3xl">🎉</span>
+            <p class="text-green-700 font-bold text-xl mt-2">正解！</p>
+        </div>
+        {% else %}
+        <div class="bg-red-50 border-2 border-red-400 rounded-lg p-4 text-center">
+            <span class="text-3xl">😢</span>
+            <p class="text-red-700 font-bold text-xl mt-2">不正解...</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- 保存失敗時のエラーメッセージ (Requirement 4.5) -->
+    {% if save_failed %}
+    <div class="mb-6 bg-yellow-50 border-2 border-yellow-400 rounded-lg p-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <span class="text-2xl mr-3">⚠️</span>
+                <p class="text-yellow-800 font-medium">結果の保存に失敗しました。再試行しますか？</p>
+            </div>
+            <form method="post" action="/quiz/{{ session_id }}/answer" class="ml-4">
+                <input type="hidden" name="question_id" value="{{ question.id }}">
+                <input type="hidden" name="choice_index" value="{{ selected_index }}">
+                <input type="hidden" name="question_index" value="{{ question_index }}">
+                <button type="submit"
+                        class="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors text-sm font-medium">
+                    🔄 再試行
+                </button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- 選択肢の正誤表示 -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h3 class="text-sm font-semibold text-gray-500 uppercase mb-3">回答結果</h3>
+        <p class="text-gray-800 font-medium mb-4">{{ question.text }}</p>
+
+        <div class="space-y-2">
+            {% for choice in choices %}
+            <div class="flex items-center p-3 rounded-lg
+                        {% if loop.index0 == correct_index %}
+                            bg-green-50 border-2 border-green-400
+                        {% elif loop.index0 == selected_index and not is_correct %}
+                            bg-red-50 border-2 border-red-400
+                        {% else %}
+                            bg-gray-50 border border-gray-200
+                        {% endif %}">
+                <span class="inline-flex items-center justify-center w-7 h-7
+                             rounded-full mr-3 text-sm font-bold
+                             {% if loop.index0 == correct_index %}
+                                 bg-green-500 text-white
+                             {% elif loop.index0 == selected_index and not is_correct %}
+                                 bg-red-500 text-white
+                             {% else %}
+                                 bg-gray-200 text-gray-600
+                             {% endif %}">
+                    {{ ['A', 'B', 'C', 'D'][loop.index0] }}
+                </span>
+                <span class="text-gray-700 flex-1">{{ choice }}</span>
+                {% if loop.index0 == correct_index %}
+                    <span class="text-green-600 font-bold">✓ 正解</span>
+                {% elif loop.index0 == selected_index and not is_correct %}
+                    <span class="text-red-600 font-bold">✗ あなたの回答</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- 解説セクション -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <!-- 愛媛トリビア -->
+        <div class="mb-6">
+            <div class="flex items-center mb-3">
+                <span class="text-2xl mr-2">🍊</span>
+                <h3 class="text-lg font-bold text-orange-700">愛媛トリビア</h3>
+            </div>
+            <p class="text-gray-700 leading-relaxed pl-10">
+                {{ question.ehime_trivia }}
+            </p>
+        </div>
+
+        <hr class="border-gray-200 my-4">
+
+        <!-- AWS/AI 解説 -->
+        <div>
+            <div class="flex items-center mb-3">
+                <span class="text-2xl mr-2">☁️</span>
+                <h3 class="text-lg font-bold text-blue-700">AWS / AI 解説</h3>
+            </div>
+            <p class="text-gray-700 leading-relaxed pl-10">
+                {{ question.aws_ai_explanation }}
+            </p>
+        </div>
+    </div>
+
+    <!-- 次へボタン -->
+    <div class="text-center">
+        {% if is_last_question %}
+        <a href="/quiz/{{ session_id }}/complete"
+           class="inline-block bg-orange-600 text-white py-3 px-8 rounded-lg
+                  font-semibold hover:bg-orange-700 transition-colors duration-200">
+            結果を見る 📊
+        </a>
+        {% else %}
+        <a href="/quiz/{{ session_id }}/question?index={{ next_index }}"
+           class="inline-block bg-orange-600 text-white py-3 px-8 rounded-lg
+                  font-semibold hover:bg-orange-700 transition-colors duration-200">
+            次へ →
+        </a>
+        {% endif %}
+    </div>
+
+    <!-- 進捗表示 -->
+    <div class="text-center mt-4 text-sm text-gray-500">
+        問題 {{ question_index + 1 }} / {{ total_questions }}
+    </div>
+</div>
+{% endblock %}
