@@ -46,16 +46,16 @@ VALID_REGIONS = {"中予", "南予", "東予"}
 class TestSeedDataDirectValidation:
     """シードデータのリスト定義を直接検証するテスト群"""
 
-    def test_total_questions_at_least_30(self):
-        """問題数が30問以上であること（Req 9.2）"""
-        assert len(QUESTIONS) >= 30, (
-            f"問題数が不足: {len(QUESTIONS)}問 (最低30問必要)"
+    def test_total_questions_at_least_102(self):
+        """問題数が102問以上であること（Req 10.1）"""
+        assert len(QUESTIONS) >= 102, (
+            f"問題数が不足: {len(QUESTIONS)}問 (最低102問必要)"
         )
 
-    def test_total_courses_at_least_3(self):
-        """コース数が3以上であること（Req 9.2）"""
-        assert len(COURSES) >= 3, (
-            f"コース数が不足: {len(COURSES)}コース (最低3コース必要)"
+    def test_total_courses_at_least_9(self):
+        """コース数が9以上であること（Req 8.1）"""
+        assert len(COURSES) >= 9, (
+            f"コース数が不足: {len(COURSES)}コース (最低9コース必要)"
         )
 
     def test_at_least_one_course_per_region(self):
@@ -188,7 +188,7 @@ class TestSeedDataDatabaseIntegration:
 
         questions = db_session.query(QuestionModel).all()
         assert len(questions) == len(QUESTIONS)
-        assert len(questions) >= 30
+        assert len(questions) >= 102
 
     def test_seed_database_is_idempotent(self, db_session: Session):
         """seed_databaseが冪等であること（2回目はスキップ）"""
