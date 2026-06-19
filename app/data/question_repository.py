@@ -43,13 +43,16 @@ class QuestionRepository:
         Raises:
             ValueError: バリデーション失敗時（エラーリスト付き）
         """
+        # ID が未指定の場合は UUID を生成（バリデーション前に設定）
+        if not question_data.get("id"):
+            question_data = {**question_data, "id": str(uuid.uuid4())}
+
         # バリデーション実行
         result = validate_question(question_data)
         if not result.is_valid:
             raise ValueError(f"問題データが不正です: {result.errors}")
 
-        # ID が未指定の場合は UUID を生成
-        question_id = question_data.get("id") or str(uuid.uuid4())
+        question_id = question_data["id"]
 
         # SQLAlchemy モデルを作成
         model = QuestionModel(

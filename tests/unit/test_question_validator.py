@@ -10,6 +10,7 @@ from app.domain.question_validator import ValidationResult, validate_question
 def _valid_question_data() -> dict:
     """有効な問題データのベースを返す"""
     return {
+        "id": "q-cc-001",
         "text": "松山城の別名は何でしょう？",
         "choice_1": "金亀城",
         "choice_2": "白鷺城",
@@ -20,6 +21,7 @@ def _valid_question_data() -> dict:
         "aws_ai_explanation": "Amazon S3のバケット命名は城の別名のようにユニークである必要があります。",
         "course_id": "course-chuyo-basic",
         "difficulty": "基礎",
+        "exam_domain": "Cloud Concepts",
     }
 
 
@@ -177,6 +179,102 @@ class TestValidateQuestion:
         result = validate_question(data)
         assert result.is_valid is False
         assert len(result.errors) >= 4
+
+    # --- exam_domain バリデーションテスト ---
+
+    @pytest.mark.parametrize(
+        "domain",
+        [
+            "Cloud Concepts",
+            "Security and Compliance",
+            "Cloud Technology and Services",
+            "Billing Pricing and Support",
+            "AI and ML Fundamentals",
+            "Generative AI",
+            "Responsible AI",
+        ],
+    )
+    def test_valid_exam_domains(self, domain: str):
+        """有効な exam_domain 値はすべてバリデーション通過"""
+        data = _valid_question_data()
+        data["exam_domain"] = domain
+        result = validate_question(data)
+        assert result.is_valid is True
+
+    def test_invalid_exam_domain_fails(self):
+        """無効な exam_domain はバリデーション失敗"""
+        data = _valid_question_data()
+        data["exam_domain"] = "Invalid Domain"
+        result = validate_question(data)
+        assert result.is_valid is False
+        assert any("exam_domain" in e for e in result.errors)
+
+    def test_missing_exam_domain_fails(self):
+        """exam_domain がないとバリデーション失敗"""
+        data = _valid_question_data()
+        del data["exam_domain"]
+        result = validate_question(data)
+        assert result.is_valid is False
+        assert any("exam_domain" in e for e in result.errors)
+
+    # --- id フィールド境界値テスト ---
+
+    def test_empty_id_fails(self):
+        """空の id はバリデーション失敗"""
+        data = _valid_question_data()
+        data["id"] = ""
+        result = validate_question(data)
+        assert result.is_valid is False
+        assert any("id" in e for e in result.errors)
+
+    def test_id_50_chars_passes(self):
+        """50文字の id はバリデーション通過"""
+        data = _valid_question_data()
+        data["id"] = "a" * 50
+        result = validate_question(data)
+        assert result.is_valid is True
+
+    def test_id_51_chars_fails(self):
+        """51文字の id はバリデーション失敗"""
+        data = _valid_question_data()
+        data["id"] = "a" * 51
+        result = validate_question(data)
+        assert result.is_valid is False
+        assert any("id" in e for e in result.errors)
+
+    # --- ehime_trivia 文字数境界値テスト ---
+
+    def test_ehime_trivia_200_chars_passes(self):
+        """200文字の ehime_trivia はバリデーション通過"""
+        data = _valid_question_data()
+        data["ehime_trivia"] = "あ" * 200
+        result = validate_question(data)
+        assert result.is_valid is True
+
+    def test_ehime_trivia_201_chars_fails(self):
+        """201文字の ehime_trivia はバリデーション失敗"""
+        data = _valid_question_data()
+        data["ehime_trivia"] = "あ" * 201
+        result = validate_question(data)
+        assert result.is_valid is False
+        assert any("ehime_trivia" in e for e in result.errors)
+
+    # --- choice フィールド200文字境界値テスト ---
+
+    def test_choice_200_chars_passes(self):
+        """200文字の choice はバリデーション通過"""
+        data = _valid_question_data()
+        data["choice_1"] = "あ" * 200
+        result = validate_question(data)
+        assert result.is_valid is True
+
+    def test_choice_201_chars_fails(self):
+        """201文字の choice はバリデーション失敗"""
+        data = _valid_question_data()
+        data["choice_1"] = "あ" * 201
+        result = validate_question(data)
+        assert result.is_valid is False
+        assert any("choice_1" in e for e in result.errors)
 
 
 class TestValidationResult:

@@ -192,7 +192,7 @@ class TestGetQuestionsByDomain:
 
         data2 = _valid_question_data()
         data2["id"] = "q-security-1"
-        data2["exam_domain"] = "Security"
+        data2["exam_domain"] = "Security and Compliance"
         repo.create_question(data2)
 
         results = repo.get_questions_by_domain("Cloud Concepts")

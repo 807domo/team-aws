@@ -9,7 +9,7 @@ from hypothesis import given, settings
 from hypothesis import strategies as st
 
 from app.domain.models import Difficulty
-from app.domain.question_validator import validate_question
+from app.domain.question_validator import validate_question, VALID_EXAM_DOMAINS
 
 
 # =============================================================================
@@ -22,9 +22,13 @@ VALID_DIFFICULTIES = [d.value for d in Difficulty]  # ["基礎", "中級", "上�
 # Strategy for non-empty strings (valid text fields)
 non_empty_text = st.text(min_size=1, max_size=200).filter(lambda s: s.strip() != "")
 
+# Strategy for valid id (non-empty, max 50 chars)
+valid_id = st.text(min_size=1, max_size=50).filter(lambda s: s.strip() != "")
+
 # Strategy for valid question data
 valid_question_strategy = st.fixed_dictionaries(
     {
+        "id": valid_id,
         "text": non_empty_text,
         "choice_1": non_empty_text,
         "choice_2": non_empty_text,
@@ -35,6 +39,7 @@ valid_question_strategy = st.fixed_dictionaries(
         "aws_ai_explanation": non_empty_text,
         "course_id": non_empty_text,
         "difficulty": st.sampled_from(VALID_DIFFICULTIES),
+        "exam_domain": st.sampled_from(sorted(VALID_EXAM_DOMAINS)),
     }
 )
 
@@ -266,6 +271,7 @@ def _create_in_memory_session():
 # Strategy for valid question data used in repository tests
 valid_question_for_repo = st.fixed_dictionaries(
     {
+        "id": valid_id,
         "text": non_empty_text,
         "choice_1": non_empty_text,
         "choice_2": non_empty_text,
@@ -347,9 +353,10 @@ def test_question_id_uniqueness(question_data_list: list[dict]):
         repo = QuestionRepository(session)
         created_ids: list[str] = []
 
-        for qdata in question_data_list:
-            # IDを自動生成させる（idキーを含めない）
-            created = repo.create_question(qdata)
+        for i, qdata in enumerate(question_data_list):
+            # 一意のIDを付与して重複を防ぐ
+            qdata_with_unique_id = {**qdata, "id": f"q-test-{uuid.uuid4().hex[:8]}-{i}"}
+            created = repo.create_question(qdata_with_unique_id)
             created_ids.append(created.id)
 
         # 全IDが一意であることを検証
@@ -358,3 +365,60 @@ def test_question_id_uniqueness(question_data_list: list[dict]):
         )
     finally:
         session.close()
+
+
+# =============================================================================
+# Property 4: Exam domain value validation
+# =============================================================================
+
+
+@settings(max_examples=100)
+@given(
+    valid_data=valid_question_strategy,
+    valid_domain=st.sampled_from(sorted(VALID_EXAM_DOMAINS)),
+)
+def test_valid_exam_domain_is_accepted(valid_data: dict, valid_domain: str):
+    """
+    Feature: aws-question-expansion, Property 4: Exam domain value validation
+
+    For any Question_Entry, valid exam_domain values (one of the 7 defined values)
+    SHALL be accepted by validate_question.
+
+    Validates: Requirements 9.6
+    """
+    question_data = {**valid_data, "exam_domain": valid_domain}
+    result = validate_question(question_data)
+
+    # The exam_domain should not cause validation failure
+    assert not any("exam_domain" in error for error in result.errors), (
+        f"Valid exam_domain '{valid_domain}' was incorrectly rejected. "
+        f"Errors: {result.errors}"
+    )
+
+
+@settings(max_examples=100)
+@given(
+    valid_data=valid_question_strategy,
+    invalid_domain=st.text(min_size=1, max_size=50).filter(
+        lambda s: s.strip() != "" and s not in VALID_EXAM_DOMAINS
+    ),
+)
+def test_invalid_exam_domain_is_rejected(valid_data: dict, invalid_domain: str):
+    """
+    Feature: aws-question-expansion, Property 4: Exam domain value validation
+
+    For any question data with an exam_domain value not in the set of 7 valid values,
+    validate_question() SHALL return is_valid=False with an error identifying
+    the exam_domain field.
+
+    Validates: Requirements 9.6
+    """
+    question_data = {**valid_data, "exam_domain": invalid_domain}
+    result = validate_question(question_data)
+
+    assert not result.is_valid, (
+        f"Invalid exam_domain '{invalid_domain}' was incorrectly accepted"
+    )
+    assert any("exam_domain" in error for error in result.errors), (
+        f"Error message does not identify 'exam_domain'. Errors: {result.errors}"
+    )

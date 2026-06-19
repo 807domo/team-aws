@@ -22,6 +22,17 @@ class ValidationResult:
 # 有効な難易度の値セット
 _VALID_DIFFICULTIES = {d.value for d in Difficulty}
 
+# 有効な exam_domain 値セット
+VALID_EXAM_DOMAINS = {
+    "Cloud Concepts",
+    "Security and Compliance",
+    "Cloud Technology and Services",
+    "Billing Pricing and Support",
+    "AI and ML Fundamentals",
+    "Generative AI",
+    "Responsible AI",
+}
+
 # 選択肢フィールド名
 _CHOICE_FIELDS = ["choice_1", "choice_2", "choice_3", "choice_4"]
 
@@ -47,6 +58,13 @@ def validate_question(question_data: dict) -> ValidationResult:
     """
     errors: list[str] = []
 
+    # id の検証
+    question_id = question_data.get("id")
+    if not question_id or not isinstance(question_id, str) or not question_id.strip():
+        errors.append("id: 問題IDは空にできません")
+    elif len(question_id) > 50:
+        errors.append("id: 問題IDは50文字以内である必要があります")
+
     # テキストの検証
     text = question_data.get("text")
     if not text or not isinstance(text, str) or not text.strip():
@@ -57,6 +75,8 @@ def validate_question(question_data: dict) -> ValidationResult:
         value = question_data.get(field_name)
         if not value or not isinstance(value, str) or not value.strip():
             errors.append(f"{field_name}: 選択肢は空にできません")
+        elif len(value) > 200:
+            errors.append(f"{field_name}: 選択肢は200文字以内である必要があります")
 
     # correct_choice_index の検証
     correct_choice_index = question_data.get("correct_choice_index")
@@ -71,6 +91,8 @@ def validate_question(question_data: dict) -> ValidationResult:
     ehime_trivia = question_data.get("ehime_trivia")
     if not ehime_trivia or not isinstance(ehime_trivia, str) or not ehime_trivia.strip():
         errors.append("ehime_trivia: 愛媛トリビアは空にできません")
+    elif len(ehime_trivia) > 200:
+        errors.append("ehime_trivia: 愛媛トリビアは200文字以内である必要があります")
 
     # aws_ai_explanation の検証
     aws_ai_explanation = question_data.get("aws_ai_explanation")
@@ -90,5 +112,12 @@ def validate_question(question_data: dict) -> ValidationResult:
         errors.append(
             f"difficulty: 難易度は {', '.join(sorted(_VALID_DIFFICULTIES))} のいずれかである必要があります"
         )
+
+    # exam_domain の検証
+    exam_domain = question_data.get("exam_domain")
+    if not exam_domain or not isinstance(exam_domain, str):
+        errors.append("exam_domain: 試験ドメインは必須です")
+    elif exam_domain not in VALID_EXAM_DOMAINS:
+        errors.append(f"exam_domain: 試験ドメインは {VALID_EXAM_DOMAINS} のいずれかである必要があります")
 
     return ValidationResult(is_valid=len(errors) == 0, errors=errors)
