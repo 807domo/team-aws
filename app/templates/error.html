@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}エラー | 愛媛探索AIクイズ{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto text-center py-12">
+    <div class="bg-white rounded-lg shadow-md p-8">
+        <div class="text-5xl mb-4">⚠️</div>
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">{{ error_title | default("エラーが発生しました") }}</h1>
+        <p class="text-gray-600 mb-6">{{ error_message | default("予期しないエラーが発生しました。") }}</p>
+
+        {% if retry_url %}
+        <div class="space-y-3">
+            <a href="{{ retry_url }}" class="inline-block bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-colors">
+                🔄 再試行する
+            </a>
+        </div>
+        {% endif %}
+
+        <div class="mt-6">
+            <a href="/" class="text-orange-600 hover:text-orange-800 underline">トップページに戻る</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
