@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import logging
 import uuid
 from datetime import datetime
 from typing import Optional
@@ -29,6 +30,10 @@ from app.domain.models import (
     SessionStatus,
 )
 from app.domain.scoring import calculate_accuracy_rate, calculate_grade
+from app.domain.xp_calculator import add_xp, calculate_xp_award
+from app.domain.level_calculator import calculate_level
+
+logger = logging.getLogger(__name__)
 
 
 class QuizService:
@@ -268,6 +273,9 @@ class QuizService:
         accuracy_rate = calculate_accuracy_rate(correct_count, total_count)
         grade = calculate_grade(accuracy_rate)
 
+        # XP付与ロジック
+        self._award_xp(db_session.user_id, correct_count, total_count)
+
         return CourseSummary(
             course_id=db_session.course_id,
             course_name=course_name,
@@ -310,6 +318,41 @@ class QuizService:
     # =========================================================================
     # ヘルパーメソッド
     # =========================================================================
+
+    def _award_xp(self, user_id: str, correct_count: int, total_count: int) -> None:
+        """コース完了時にXPを付与し、レベルを更新する。
+
+        XP算出→加算→レベル計算→永続化の一連のフローを実行する。
+        永続化失敗時はエラーをログに記録するが、例外は送出しない。
+
+        Args:
+            user_id: ユーザーID
+            correct_count: 正解数
+            total_count: 総問題数
+        """
+        try:
+            # 1. XP獲得量を算出
+            xp_award = calculate_xp_award(correct_count, total_count)
+
+            # 2. 現在のXPを取得
+            user_xp_data = self._user_record_repo.get_user_xp(user_id)
+            current_xp = user_xp_data["total_xp"]
+
+            # 3. 累計XPを計算
+            new_total_xp = add_xp(current_xp, xp_award)
+
+            # 4. 新レベルを算出
+            new_level = calculate_level(new_total_xp)
+
+            # 5. 永続化
+            self._user_record_repo.update_user_xp_and_level(
+                user_id, new_total_xp, new_level
+            )
+        except Exception as e:
+            # XP永続化失敗時はエラーメッセージを記録するがアプリはクラッシュさせない
+            logger.error(
+                "経験値の保存に失敗しました (user_id=%s): %s", user_id, str(e)
+            )
 
     def _to_course_info(self, course: Course) -> CourseInfo:
         """Course ドメインモデルを CourseInfo レスポンスモデルに変換する。"""
