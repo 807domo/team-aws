@@ -69,8 +69,8 @@ def test_app():
     app.dependency_overrides[get_db] = override_get_db
 
     # テンプレートキャッシュの無効化（Jinja2 LRUCache のハッシュ問題を回避）
-    from app.presentation.routers import course_router, quiz_router, mock_exam_router, results_router
-    for router_module in [course_router, quiz_router, mock_exam_router, results_router]:
+    from app.presentation.routers import course_router, quiz_router, mock_exam_router, results_router, top_router
+    for router_module in [course_router, quiz_router, mock_exam_router, results_router, top_router]:
         if hasattr(router_module, 'templates'):
             router_module.templates.env.cache = None  # type: ignore
 
@@ -108,13 +108,13 @@ def client(test_app):
 
 
 class TestCourseSelect:
-    """GET / コース選択画面のテスト"""
+    """GET / RPGトップ画面のテスト"""
 
-    def test_returns_200_with_course_data(self, client: TestClient):
-        """コース選択画面が200で返り、コースデータを含む"""
+    def test_returns_200_with_rpg_top(self, client: TestClient):
+        """RPGトップ画面が200で返り、ステータスとマップを含む"""
         response = client.get("/")
         assert response.status_code == 200
-        assert "コースを選択してください" in response.text
+        assert "コース一覧" in response.text
 
     def test_displays_all_three_regions(self, client: TestClient):
         """3地域（中予・南予・東予）がすべて表示される"""
@@ -124,13 +124,11 @@ class TestCourseSelect:
         assert "南予" in response.text
         assert "東予" in response.text
 
-    def test_displays_course_names(self, client: TestClient):
-        """シードデータのコース名が表示される"""
+    def test_displays_default_region_course_names(self, client: TestClient):
+        """デフォルト選択地域（中予）のコース名が表示される"""
         response = client.get("/")
         assert response.status_code == 200
         assert "松山城コース（基礎）" in response.text
-        assert "宇和島コース（中級）" in response.text
-        assert "しまなみ海道コース（上級）" in response.text
 
 
 # =============================================================================

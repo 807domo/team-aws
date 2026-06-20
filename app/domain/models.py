@@ -233,3 +233,31 @@ class AttemptRecord:
     accuracy_rate: float
     grade: Grade
     completed_at: datetime
+
+
+# =============================================================================
+# RPGトップ画面モデル
+# =============================================================================
+
+
+@dataclass
+class UserStatus:
+    """RPGステータス表示用データ"""
+
+    display_name: str
+    level: int
+    title: str
+    total_xp: int
+    xp_gauge_percentage: float  # 0.0〜100.0
+    current_level_xp: int  # 現レベルから貯めたXP
+    required_xp: int  # 次レベルまでの必要XP
+
+
+@dataclass
+class RegionMapData:
+    """マップ描画用地域データ"""
+
+    region: Region
+    progress_status: str  # "未着手" | "進行中" | "コンプリート"
+    fill_color: str  # CSS色コード
+    courses: list[CourseInfo]

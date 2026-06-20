@@ -16,6 +16,7 @@ from fastapi.templating import Jinja2Templates
 
 from app.data.database import DatabaseConnectionError, SessionLocal, create_tables
 from app.data.seed_data import seed_database
+from migrations.runner import run_migrations
 
 logger = logging.getLogger(__name__)
 
@@ -28,6 +29,13 @@ async def lifespan(app: FastAPI):
     """
     # 起動時: テーブル作成
     create_tables()
+
+    # 起動時: マイグレーション実行（既存テーブルへのカラム追加等）
+    db = SessionLocal()
+    try:
+        run_migrations(db)
+    finally:
+        db.close()
 
     # 起動時: シードデータ投入（データが空の場合のみ）
     db = SessionLocal()
@@ -121,6 +129,10 @@ async def database_connection_error_handler(
 # =============================================================================
 # ルーター登録
 # =============================================================================
+
+from app.presentation.routers.top_router import router as top_router
+
+app.include_router(top_router)
 
 from app.presentation.routers.course_router import router as course_router
 from app.presentation.routers.results_router import router as results_router

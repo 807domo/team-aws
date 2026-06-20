@@ -310,3 +310,74 @@ class TestGetCumulativeAccuracy:
 
         accuracy = repo.get_cumulative_accuracy("user-1")
         assert accuracy == 100.0
+
+
+class TestGetUserXp:
+    """get_user_xp のテスト"""
+
+    def test_returns_default_xp_for_existing_user(self, repo: UserRecordRepository):
+        """新規ユーザーはデフォルト値（total_xp=0, level=1）を返す"""
+        result = repo.get_user_xp("user-1")
+        assert result == {"total_xp": 0, "level": 1}
+
+    def test_returns_fallback_for_unknown_user(self, repo: UserRecordRepository):
+        """存在しないユーザーはフォールバック値を返す"""
+        result = repo.get_user_xp("unknown-user")
+        assert result == {"total_xp": 0, "level": 1}
+
+    def test_returns_updated_xp_after_update(
+        self, repo: UserRecordRepository
+    ):
+        """XP更新後に正しい値を返す"""
+        repo.update_user_xp_and_level("user-1", 500, 3)
+        result = repo.get_user_xp("user-1")
+        assert result == {"total_xp": 500, "level": 3}
+
+
+class TestUpdateUserXpAndLevel:
+    """update_user_xp_and_level のテスト"""
+
+    def test_updates_xp_and_level(
+        self, repo: UserRecordRepository, session: Session
+    ):
+        """XPとレベルを正しく永続化する"""
+        repo.update_user_xp_and_level("user-1", 250, 2)
+
+        user = session.query(UserModel).filter(UserModel.id == "user-1").first()
+        assert user.total_xp == 250
+        assert user.level == 2
+
+    def test_raises_on_negative_xp(self, repo: UserRecordRepository):
+        """total_xp が負の場合 ValueError を送出"""
+        with pytest.raises(ValueError, match="total_xp must be non-negative"):
+            repo.update_user_xp_and_level("user-1", -10, 1)
+
+    def test_raises_on_level_below_one(self, repo: UserRecordRepository):
+        """level が1未満の場合 ValueError を送出"""
+        with pytest.raises(ValueError, match="level must be at least 1"):
+            repo.update_user_xp_and_level("user-1", 100, 0)
+
+    def test_does_nothing_for_unknown_user(
+        self, repo: UserRecordRepository, session: Session
+    ):
+        """存在しないユーザーの場合は何もしない"""
+        # Should not raise
+        repo.update_user_xp_and_level("unknown-user", 100, 2)
+
+        user = (
+            session.query(UserModel)
+            .filter(UserModel.id == "unknown-user")
+            .first()
+        )
+        assert user is None
+
+    def test_updates_to_zero_xp(
+        self, repo: UserRecordRepository, session: Session
+    ):
+        """XP=0 への更新が可能"""
+        repo.update_user_xp_and_level("user-1", 500, 3)
+        repo.update_user_xp_and_level("user-1", 0, 1)
+
+        user = session.query(UserModel).filter(UserModel.id == "user-1").first()
+        assert user.total_xp == 0
+        assert user.level == 1

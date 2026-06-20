@@ -7,7 +7,7 @@ SQLAlchemy 2.0 スタイル（mapped_column）を使用。
 
 from datetime import datetime
 
-from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Text, func
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Text, func, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.data.database import Base
@@ -66,6 +66,12 @@ class UserModel(Base):
     display_name: Mapped[str] = mapped_column(String(200), nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()
+    )
+    total_xp: Mapped[int] = mapped_column(
+        Integer, nullable=False, server_default=text("0")
+    )
+    level: Mapped[int] = mapped_column(
+        Integer, nullable=False, server_default=text("1")
     )
 
     # リレーション
