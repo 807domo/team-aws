@@ -33,6 +33,12 @@ async def dashboard(
     """
     dashboard_data = results_service.get_dashboard_data(DEFAULT_USER_ID)
 
+    # 弱点領域を取得
+    weak_areas = results_service.get_weak_areas(DEFAULT_USER_ID)
+
+    # おすすめコースを取得
+    recommended_courses = results_service.get_recommended_courses(DEFAULT_USER_ID)
+
     # レーダーチャート用データをテンプレートに渡せる形式に変換
     radar_labels = list(dashboard_data.radar_chart.domain_accuracy.keys())
     radar_values = list(dashboard_data.radar_chart.domain_accuracy.values())
@@ -60,6 +66,21 @@ async def dashboard(
             "exploration_rate": dashboard_data.exploration_rate,
             "attempt_history": attempt_history,
             "has_history": dashboard_data.has_history,
+            "weak_areas": [
+                {"domain": w.domain, "incorrect_rate": w.incorrect_rate}
+                for w in weak_areas
+            ],
+            "recommended_courses": [
+                {
+                    "id": c.id,
+                    "name": c.name,
+                    "region": c.region.value,
+                    "difficulty": c.difficulty.value,
+                    "description": c.description,
+                    "question_count": c.question_count,
+                }
+                for c in recommended_courses
+            ],
         },
     )
 

@@ -22,7 +22,7 @@ router = APIRouter(prefix="/quiz", tags=["quiz"])
 templates = Jinja2Templates(directory="app/templates")
 
 # 暫定ユーザーID（認証機能実装前）
-DEFAULT_USER_ID = "default-user"
+DEFAULT_USER_ID = "default_user"
 
 
 @router.post("/start/{course_id}", response_class=HTMLResponse)
