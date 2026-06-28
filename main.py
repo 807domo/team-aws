@@ -66,6 +66,44 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 
 # =============================================================================
+# 認証コンテキストミドルウェア
+# =============================================================================
+
+from starlette.middleware.base import BaseHTTPMiddleware
+
+from app.domain.auth_service import AuthService
+
+
+class AuthContextMiddleware(BaseHTTPMiddleware):
+    """リクエストスコープでログインユーザー名をrequest.stateに設定するミドルウェア。"""
+
+    async def dispatch(self, request, call_next):
+        token = request.cookies.get("session_token")
+        user_id = AuthService.get_user_id_from_session(token)
+
+        request.state.current_user_name = None
+
+        if user_id:
+            try:
+                from app.data.database import SessionLocal
+                from app.data.models import UserModel
+
+                db = SessionLocal()
+                user = db.query(UserModel).filter(UserModel.id == user_id).first()
+                if user:
+                    request.state.current_user_name = user.display_name
+                db.close()
+            except Exception:
+                pass
+
+        response = await call_next(request)
+        return response
+
+
+app.add_middleware(AuthContextMiddleware)
+
+
+# =============================================================================
 # グローバルエラーハンドラー
 # =============================================================================
 
@@ -113,6 +151,17 @@ async def database_connection_error_handler(
     )
 
 
+from app.presentation.dependencies import RequiresLoginException
+
+
+@app.exception_handler(RequiresLoginException)
+async def requires_login_handler(request: Request, exc: RequiresLoginException):
+    """未ログイン時にログイン画面へリダイレクトする。"""
+    from fastapi.responses import RedirectResponse
+
+    return RedirectResponse(url="/auth/login", status_code=303)
+
+
 # 注意: 汎用Exceptionハンドラーはデバッグ中は無効化
 # @app.exception_handler(Exception)
 # async def unhandled_exception_handler(
@@ -133,6 +182,10 @@ async def database_connection_error_handler(
 from app.presentation.routers.top_router import router as top_router
 
 app.include_router(top_router)
+
+from app.presentation.routers.auth_router import router as auth_router
+
+app.include_router(auth_router)
 
 from app.presentation.routers.course_router import router as course_router
 from app.presentation.routers.results_router import router as results_router

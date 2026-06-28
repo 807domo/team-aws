@@ -8,16 +8,46 @@ FastAPI の Depends() で使用する依存性注入関数を定義する。
 
 from collections.abc import Generator
 
-from fastapi import Depends
+from fastapi import Depends, Request
 from sqlalchemy.orm import Session
 
 from app.data.course_repository import CourseRepository
 from app.data.database import get_db
 from app.data.question_repository import QuestionRepository
 from app.data.user_record_repository import UserRecordRepository
+from app.domain.auth_service import AuthService
 from app.domain.mock_exam_engine import MockExamEngine
 from app.domain.quiz_service import QuizService
 from app.domain.results_service import ResultsService
+
+# Cookieからセッションを読み取るためのCookie名
+SESSION_COOKIE_NAME = "session_token"
+
+
+# =============================================================================
+# 認証関連の依存性注入
+# =============================================================================
+
+
+def get_current_user_id(request: Request) -> str:
+    """現在ログイン中のユーザーIDを取得する。
+
+    Cookieのセッショントークンからユーザーを特定する。
+    未ログインの場合はログイン画面にリダイレクトする。
+
+    Raises:
+        RedirectResponse: 未ログイン時にログイン画面へリダイレクト
+    """
+    token = request.cookies.get(SESSION_COOKIE_NAME)
+    user_id = AuthService.get_user_id_from_session(token)
+    if user_id is None:
+        raise RequiresLoginException()
+    return user_id
+
+
+class RequiresLoginException(Exception):
+    """未ログイン時に発生する例外。ログイン画面へのリダイレクトをトリガーする。"""
+    pass
 
 
 # =============================================================================
