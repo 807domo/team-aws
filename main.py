@@ -31,6 +31,13 @@ async def lifespan(app: FastAPI):
     # 起動時: テーブル作成
     create_tables()
 
+    # 起動時: マイグレーション実行（既存テーブルへのカラム追加等）
+    db = SessionLocal()
+    try:
+        run_migrations(db)
+    finally:
+        db.close()
+
     # 起動時: シードデータ投入（データが空の場合のみ）
     db = SessionLocal()
     try:
