@@ -17,15 +17,12 @@ from fastapi.templating import Jinja2Templates
 from app.data.question_repository import QuestionRepository
 from app.domain.models import Question
 from app.domain.quiz_service import QuizService
-from app.presentation.dependencies import get_question_repository, get_quiz_service
+from app.presentation.dependencies import get_current_user_id, get_question_repository, get_quiz_service
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/quiz", tags=["quiz"])
 templates = Jinja2Templates(directory="app/templates")
-
-# 暫定ユーザーID（認証機能実装前）
-DEFAULT_USER_ID = "default_user"
 
 
 def _shuffle_questions(questions: list[Question], session_id: str) -> list[Question]:
@@ -44,6 +41,7 @@ async def start_quiz(
     course_id: str,
     request: Request,
     quiz_service: QuizService = Depends(get_quiz_service),
+    user_id: str = Depends(get_current_user_id),
 ):
     """コースのクイズを開始または再開する。
 
@@ -54,7 +52,7 @@ async def start_quiz(
         course_id: 開始するコースのID
     """
     try:
-        session, questions = quiz_service.start_course(DEFAULT_USER_ID, course_id)
+        session, questions = quiz_service.start_course(user_id, course_id)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
 

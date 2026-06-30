@@ -19,6 +19,7 @@ AI ドメイン:
 from sqlalchemy.orm import Session
 
 from app.data.models import CourseModel, QuestionModel
+from app.data.seed_data_extra import EXTRA_QUESTIONS, EXTRA_QUESTIONS_2
 
 
 # =============================================================================
@@ -1757,6 +1758,24 @@ def seed_database(db_session: Session) -> bool:
 
     # 問題の投入
     for question_data in QUESTIONS:
+        question = QuestionModel(
+            id=question_data["id"],
+            course_id=question_data["course_id"],
+            text=question_data["text"],
+            choice_1=question_data["choice_1"],
+            choice_2=question_data["choice_2"],
+            choice_3=question_data["choice_3"],
+            choice_4=question_data["choice_4"],
+            correct_choice_index=question_data["correct_choice_index"],
+            ehime_trivia=question_data["ehime_trivia"],
+            aws_ai_explanation=question_data["aws_ai_explanation"],
+            difficulty=question_data["difficulty"],
+            exam_domain=question_data["exam_domain"],
+        )
+        db_session.add(question)
+
+    # 追加問題の投入（模擬試験65問確保用）
+    for question_data in EXTRA_QUESTIONS + EXTRA_QUESTIONS_2:
         question = QuestionModel(
             id=question_data["id"],
             course_id=question_data["course_id"],

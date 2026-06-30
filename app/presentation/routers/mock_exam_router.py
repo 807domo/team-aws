@@ -14,13 +14,10 @@ from fastapi.templating import Jinja2Templates
 
 from app.domain.mock_exam_engine import MockExamEngine
 from app.domain.models import ExamType
-from app.presentation.dependencies import get_mock_exam_engine
+from app.presentation.dependencies import get_current_user_id, get_mock_exam_engine
 
 router = APIRouter(prefix="/mock-exam", tags=["mock-exam"])
 templates = Jinja2Templates(directory="app/templates")
-
-# 仮ユーザーID（認証機能実装前のプレースホルダー）
-DEFAULT_USER_ID = "user-001"
 
 
 @router.get("/select", response_class=HTMLResponse)
@@ -63,6 +60,7 @@ async def mock_exam_start(
     request: Request,
     exam_type: str = Form(...),
     engine: MockExamEngine = Depends(get_mock_exam_engine),
+    user_id: str = Depends(get_current_user_id),
 ):
     """模擬試験を開始する。
 
@@ -72,7 +70,7 @@ async def mock_exam_start(
     # exam_type 文字列を ExamType enum に変換
     selected_type = ExamType(exam_type)
 
-    session = engine.start_exam(user_id=DEFAULT_USER_ID, exam_type=selected_type)
+    session = engine.start_exam(user_id=user_id, exam_type=selected_type)
 
     return RedirectResponse(
         url=f"/mock-exam/{session.id}/question/0",

@@ -20,6 +20,7 @@ from app.domain.models import CourseInfo, Region, RegionMapData, UserStatus
 from app.domain.progress_calculator import ProgressStatus, calculate_region_progress
 from app.domain.quiz_service import QuizService
 from app.domain.title_master import get_title
+from app.presentation.dependencies import get_current_user_id
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
@@ -145,6 +146,7 @@ def _get_region_map_data(
 async def rpg_top_screen(
     request: Request,
     db: Session = Depends(get_db),
+    user_id: str = Depends(get_current_user_id),
 ):
     """RPG風トップ画面を表示する。
 
@@ -224,6 +226,7 @@ async def get_region_courses(
     request: Request,
     region: str,
     db: Session = Depends(get_db),
+    user_id: str = Depends(get_current_user_id),
 ):
     """HTMX用: 指定難易度のコースパネルHTMLフラグメントを返す。
 
@@ -237,6 +240,7 @@ async def get_region_courses(
     user_id = "default_user"
 
     # Region enumに変換（不正な値の場合はデフォルトで初級を使用）
+    # Region enumに変換（不正な値の場合はデフォルトで中予を使用）
     try:
         region_enum = Region[region]
     except KeyError:
@@ -289,8 +293,10 @@ async def get_region_courses(
 
 @router.get("/api/region-summary/{region}")
 async def get_region_summary(
+    request: Request,
     region: str,
     db: Session = Depends(get_db),
+    user_id: str = Depends(get_current_user_id),
 ):
     """ツールチップ用: 難易度のコース数と完了数をJSON形式で返す。
 
@@ -305,6 +311,7 @@ async def get_region_summary(
     user_id = "default_user"
 
     # Region enumに変換（不正な値の場合はデフォルトで初級を使用）
+    # Region enumに変換（不正な値の場合はデフォルトで中予を使用）
     try:
         region_enum = Region[region]
     except KeyError:
