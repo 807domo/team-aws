@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}AI練習 - 問題 {{ question_index + 1 }} / {{ total_questions }}{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <!-- ヘッダー -->
+    <div class="flex items-center justify-between mb-4">
+        <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-3 py-1 rounded-full">
+            🤖 AI生成問題
+        </span>
+        <span class="text-sm text-gray-500">{{ question.exam_domain }}</span>
+    </div>
+
+    <!-- 進捗バー -->
+    <div class="mb-6">
+        <div class="flex justify-between text-sm text-gray-600 mb-1">
+            <span>問題 {{ question_index + 1 }} / {{ total_questions }}</span>
+            <span>{{ progress_percent }}%</span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-3">
+            <div class="bg-purple-500 h-3 rounded-full transition-all duration-300"
+                 style="width: {{ progress_percent }}%"></div>
+        </div>
+    </div>
+
+    <!-- 問題カード -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-lg font-semibold text-gray-800 leading-relaxed mb-6">
+            {{ question.text }}
+        </h2>
+
+        <form method="post" action="/ai-practice/{{ session_id }}/answer">
+            <div class="space-y-3">
+                {% for choice in choices %}
+                <label class="block cursor-pointer">
+                    <input type="radio" name="choice_index" value="{{ loop.index0 }}"
+                           class="hidden peer" required>
+                    <div class="border-2 border-gray-200 rounded-lg p-4
+                                peer-checked:border-purple-500 peer-checked:bg-purple-50
+                                hover:border-purple-300 transition-all duration-200">
+                        <div class="flex items-center">
+                            <span class="inline-flex items-center justify-center w-8 h-8
+                                         rounded-full bg-gray-100 text-gray-600 font-bold mr-3">
+                                {{ ['A', 'B', 'C', 'D'][loop.index0] }}
+                            </span>
+                            <span class="text-gray-700">{{ choice }}</span>
+                        </div>
+                    </div>
+                </label>
+                {% endfor %}
+            </div>
+
+            <div class="mt-6">
+                <button type="submit" id="submit-btn" disabled
+                        class="w-full bg-purple-600 text-white py-3 px-6 rounded-lg
+                               font-semibold hover:bg-purple-700
+                               disabled:bg-gray-300 disabled:cursor-not-allowed
+                               transition-colors duration-200">
+                    回答する
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.querySelectorAll('input[name="choice_index"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        document.getElementById('submit-btn').disabled = false;
+    });
+});
+</script>
+{% endblock %}

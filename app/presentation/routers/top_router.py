@@ -3,7 +3,7 @@
 
 GET / でRPG風トップ画面を表示する。
 GET /courses/{region} でHTMX用コースパネルHTMLフラグメントを返す。
-GET /api/region-summary/{region} でツールチップ用地域サマリーJSONを返す。
+GET /api/region-summary/{region} でツールチップ用難易度サマリーJSONを返す。
 """
 
 from fastapi import APIRouter, Depends, Request
@@ -18,7 +18,9 @@ from app.data.user_record_repository import UserRecordRepository
 from app.domain.level_calculator import calculate_level, calculate_xp_gauge
 from app.domain.models import CourseInfo, Region, RegionMapData, UserStatus
 from app.domain.progress_calculator import ProgressStatus, calculate_region_progress
+from app.domain.quiz_service import QuizService
 from app.domain.title_master import get_title
+from app.presentation.dependencies import get_current_user_id
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
@@ -80,9 +82,17 @@ def _get_region_map_data(
     question_repo: QuestionRepository,
     user_record_repo: UserRecordRepository,
     user_id: str,
+    suspended_sessions: dict[str, int] | None = None,
 ) -> RegionMapData:
-    """指定地域のマップ描画用データを構築する。"""
+    """指定地域のマップ描画用データを構築する。
+
+    Args:
+        suspended_sessions: {course_id: answered_count} 中断中セッションの回答済み数
+    """
     from app.domain.models import Course
+
+    if suspended_sessions is None:
+        suspended_sessions = {}
 
     # 地域のコースを取得
     courses = course_repo.get_courses_by_region(region)
@@ -109,6 +119,8 @@ def _get_region_map_data(
     course_infos = []
     for course in courses:
         questions = question_repo.get_questions_by_course(course.id)
+        is_suspended = course.id in suspended_sessions
+        answered_count = suspended_sessions.get(course.id, 0)
         course_infos.append(
             CourseInfo(
                 id=course.id,
@@ -117,6 +129,8 @@ def _get_region_map_data(
                 difficulty=course.difficulty,
                 description=course.description,
                 question_count=len(questions),
+                is_suspended=is_suspended,
+                answered_count=answered_count,
             )
         )
 
@@ -132,6 +146,7 @@ def _get_region_map_data(
 async def rpg_top_screen(
     request: Request,
     db: Session = Depends(get_db),
+    user_id: str = Depends(get_current_user_id),
 ):
     """RPG風トップ画面を表示する。
 
@@ -141,8 +156,39 @@ async def rpg_top_screen(
     # TODO: 認証システム導入後に実ユーザーIDに置き換え
     user_id = "default_user"
 
+    # クイズ画面から離脱した場合、進行中セッションを中断扱いにする
+    quiz_service = QuizService(db)
+    quiz_service.complete_in_progress_sessions(user_id)
+
     # ユーザーステータスを安全に取得
     user_status = _safe_get_user_status(user_id, db)
+
+    # 中断中セッションの情報を取得
+    from app.data.models import QuizSessionModel
+    from app.domain.models import SessionStatus
+
+    suspended_sessions_raw = (
+        db.query(QuizSessionModel)
+        .filter(
+            QuizSessionModel.user_id == user_id,
+            QuizSessionModel.status == SessionStatus.SUSPENDED.value,
+        )
+        .all()
+    )
+    # {course_id: answered_count} を構築
+    suspended_sessions: dict[str, int] = {}
+    for sess in suspended_sessions_raw:
+        from app.data.models import AnswerRecordModel
+        answered = (
+            db.query(AnswerRecordModel)
+            .filter(
+                AnswerRecordModel.user_id == user_id,
+                AnswerRecordModel.course_id == sess.course_id,
+                AnswerRecordModel.answered_at >= sess.started_at,
+            )
+            .count()
+        )
+        suspended_sessions[sess.course_id] = answered
 
     # 各地域のマップデータを構築
     course_repo = CourseRepository(db)
@@ -152,12 +198,16 @@ async def rpg_top_screen(
     regions = []
     for region in Region:
         region_data = _get_region_map_data(
-            region, course_repo, question_repo, user_record_repo, user_id
+            region, course_repo, question_repo, user_record_repo, user_id,
+            suspended_sessions=suspended_sessions,
         )
         regions.append(region_data)
 
+    # 全地域コンプリート判定
+    all_complete = all(r.progress_status == "コンプリート" for r in regions)
+
     # デフォルト選択地域
-    selected_region = Region.CHUYO.name
+    selected_region = Region.NANYO.name
 
     return templates.TemplateResponse(
         request,
@@ -166,6 +216,7 @@ async def rpg_top_screen(
             "user_status": user_status,
             "regions": regions,
             "selected_region": selected_region,
+            "all_complete": all_complete,
         },
     )
 
@@ -175,31 +226,59 @@ async def get_region_courses(
     request: Request,
     region: str,
     db: Session = Depends(get_db),
+    user_id: str = Depends(get_current_user_id),
 ):
-    """HTMX用: 指定地域のコースパネルHTMLフラグメントを返す。
+    """HTMX用: 指定難易度のコースパネルHTMLフラグメントを返す。
 
     マップクリック時にHTMXがこのエンドポイントを呼び出し、
     コースパネル部分のみを差し替える。
 
     Args:
-        region: 地域名（"CHUYO", "NANYO", "TOYO"）
+        region: 難易度名（"CHUYO", "NANYO", "TOYO"）
     """
     # TODO: 認証システム導入後に実ユーザーIDに置き換え
     user_id = "default_user"
 
+    # Region enumに変換（不正な値の場合はデフォルトで初級を使用）
     # Region enumに変換（不正な値の場合はデフォルトで中予を使用）
     try:
         region_enum = Region[region]
     except KeyError:
-        region_enum = Region.CHUYO
+        region_enum = Region.NANYO
 
     # 地域のマップデータを構築
     course_repo = CourseRepository(db)
     question_repo = QuestionRepository(db)
     user_record_repo = UserRecordRepository(db)
 
+    # 中断中セッション情報を取得
+    from app.data.models import AnswerRecordModel, QuizSessionModel
+    from app.domain.models import SessionStatus
+
+    suspended_sessions_raw = (
+        db.query(QuizSessionModel)
+        .filter(
+            QuizSessionModel.user_id == user_id,
+            QuizSessionModel.status == SessionStatus.SUSPENDED.value,
+        )
+        .all()
+    )
+    suspended_sessions: dict[str, int] = {}
+    for sess in suspended_sessions_raw:
+        answered = (
+            db.query(AnswerRecordModel)
+            .filter(
+                AnswerRecordModel.user_id == user_id,
+                AnswerRecordModel.course_id == sess.course_id,
+                AnswerRecordModel.answered_at >= sess.started_at,
+            )
+            .count()
+        )
+        suspended_sessions[sess.course_id] = answered
+
     region_data = _get_region_map_data(
-        region_enum, course_repo, question_repo, user_record_repo, user_id
+        region_enum, course_repo, question_repo, user_record_repo, user_id,
+        suspended_sessions=suspended_sessions,
     )
 
     # 部分HTMLテンプレートをレンダリングして返す
@@ -214,26 +293,29 @@ async def get_region_courses(
 
 @router.get("/api/region-summary/{region}")
 async def get_region_summary(
+    request: Request,
     region: str,
     db: Session = Depends(get_db),
+    user_id: str = Depends(get_current_user_id),
 ):
-    """ツールチップ用: 地域のコース数と完了数をJSON形式で返す。
+    """ツールチップ用: 難易度のコース数と完了数をJSON形式で返す。
 
     Args:
-        region: 地域名（"CHUYO", "NANYO", "TOYO"）。
-                不正な値の場合はデフォルトで中予にフォールバック。
+        region: 難易度名（"CHUYO", "NANYO", "TOYO"）。
+                不正な値の場合はデフォルトで初級にフォールバック。
 
     Returns:
-        {"region_name": "中予", "total_count": N, "completed_count": M}
+        {"region_name": "初級", "total_count": N, "completed_count": M}
     """
     # TODO: 認証システム導入後に実ユーザーIDに置き換え
     user_id = "default_user"
 
+    # Region enumに変換（不正な値の場合はデフォルトで初級を使用）
     # Region enumに変換（不正な値の場合はデフォルトで中予を使用）
     try:
         region_enum = Region[region]
     except KeyError:
-        region_enum = Region.CHUYO
+        region_enum = Region.NANYO
 
     # リポジトリの準備
     course_repo = CourseRepository(db)

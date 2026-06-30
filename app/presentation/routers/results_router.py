@@ -8,22 +8,24 @@ GET /results/radar-chart でレーダーチャートデータをJSON形式で返
 from fastapi import APIRouter, Depends, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
+from sqlalchemy.orm import Session
 
+from app.data.database import get_db
 from app.domain.models import ExamType
+from app.domain.quiz_service import QuizService
 from app.domain.results_service import ResultsService
-from app.presentation.dependencies import get_results_service
+from app.presentation.dependencies import get_current_user_id, get_results_service
 
 router = APIRouter(prefix="/results", tags=["results"])
 templates = Jinja2Templates(directory="app/templates")
-
-# 仮ユーザーID（認証実装前の暫定値）
-DEFAULT_USER_ID = "default_user"
 
 
 @router.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(
     request: Request,
+    db: Session = Depends(get_db),
     results_service: ResultsService = Depends(get_results_service),
+    user_id: str = Depends(get_current_user_id),
 ):
     """結果ダッシュボード画面を表示する。
 
@@ -31,7 +33,18 @@ async def dashboard(
     愛媛探索率、学習履歴を表示する。
     学習履歴がない場合は「まだ学習履歴がありません」メッセージを表示する。
     """
+    # クイズ画面から離脱した場合、進行中セッションを中断扱いにする
+    quiz_service = QuizService(db)
+    quiz_service.complete_in_progress_sessions(DEFAULT_USER_ID)
+
     dashboard_data = results_service.get_dashboard_data(DEFAULT_USER_ID)
+    dashboard_data = results_service.get_dashboard_data(user_id)
+
+    # 弱点領域を取得
+    weak_areas = results_service.get_weak_areas(user_id)
+
+    # おすすめコースを取得
+    recommended_courses = results_service.get_recommended_courses(user_id)
 
     # レーダーチャート用データをテンプレートに渡せる形式に変換
     radar_labels = list(dashboard_data.radar_chart.domain_accuracy.keys())
@@ -66,11 +79,13 @@ async def dashboard(
 
 @router.get("/radar-chart")
 async def radar_chart_data(
+    request: Request,
     exam_type: str = Query(
         default=ExamType.CLOUD_PRACTITIONER.value,
         description="試験タイプ（Cloud Practitioner / AI Practitioner）",
     ),
     results_service: ResultsService = Depends(get_results_service),
+    user_id: str = Depends(get_current_user_id),
 ) -> JSONResponse:
     """レーダーチャート用のドメイン別正答率をJSON形式で返す。
 
@@ -82,7 +97,7 @@ async def radar_chart_data(
     else:
         selected_exam_type = ExamType.CLOUD_PRACTITIONER
 
-    radar_data = results_service.get_radar_chart_data(DEFAULT_USER_ID, selected_exam_type)
+    radar_data = results_service.get_radar_chart_data(user_id, selected_exam_type)
 
     return JSONResponse(
         content={

@@ -104,9 +104,11 @@ class QuizService:
     # =========================================================================
 
     def start_course(self, user_id: str, course_id: str) -> tuple[QuizSession, list[Question]]:
-        """コースを開始し、クイズセッションと問題リストを返す。
+        """コースを開始または再開し、クイズセッションと問題リストを返す。
 
-        新しい QuizSession を作成し、コースに紐づく問題一覧を取得する。
+        同じコースに中断（SUSPENDED）または進行中（IN_PROGRESS）のセッションがある場合は
+        そのセッションを再開する。ない場合は新しいセッションを作成する。
+        他のコースの未完了セッションは中断扱いにする。
 
         Args:
             user_id: ユーザーID
@@ -122,6 +124,95 @@ class QuizService:
         course = self._course_repo.get_course_by_id(course_id)
         if course is None:
             raise ValueError(f"コースが見つかりません: {course_id}")
+
+        # 他のコースの未完了セッションを中断扱いにする
+        self._suspend_other_sessions(user_id, course_id)
+
+        # 同じコースで再開可能なセッションを探す
+        resumable_session = (
+            self._db.query(QuizSessionModel)
+            .filter(
+                QuizSessionModel.user_id == user_id,
+                QuizSessionModel.course_id == course_id,
+                QuizSessionModel.status.in_([
+                    SessionStatus.IN_PROGRESS.value,
+                    SessionStatus.SUSPENDED.value,
+                ]),
+            )
+            .order_by(QuizSessionModel.started_at.desc())
+            .first()
+        )
+
+        if resumable_session:
+            # セッションを再開（IN_PROGRESSに戻す）
+            resumable_session.status = SessionStatus.IN_PROGRESS.value
+            self._db.commit()
+
+            quiz_session = QuizSession(
+                id=resumable_session.id,
+                user_id=resumable_session.user_id,
+                course_id=resumable_session.course_id,
+                started_at=resumable_session.started_at,
+                completed_at=None,
+                status=SessionStatus.IN_PROGRESS,
+            )
+        else:
+            # 新しいセッションを作成
+            session_id = str(uuid.uuid4())
+            now = datetime.now()
+
+            db_session = QuizSessionModel(
+                id=session_id,
+                user_id=user_id,
+                course_id=course_id,
+                started_at=now,
+                completed_at=None,
+                status=SessionStatus.IN_PROGRESS.value,
+            )
+            self._db.add(db_session)
+            self._db.commit()
+
+            quiz_session = QuizSession(
+                id=session_id,
+                user_id=user_id,
+                course_id=course_id,
+                started_at=now,
+                completed_at=None,
+                status=SessionStatus.IN_PROGRESS,
+            )
+
+        # コースの問題一覧を取得
+        questions = self._question_repo.get_questions_by_course(course_id)
+
+        return quiz_session, questions
+
+    def get_answered_count(self, session_id: str) -> int:
+        """セッション内の回答済み問題数を返す。
+
+        Args:
+            session_id: クイズセッションID
+
+        Returns:
+            回答済み問題数
+        """
+        db_session = (
+            self._db.query(QuizSessionModel)
+            .filter(QuizSessionModel.id == session_id)
+            .first()
+        )
+        if db_session is None:
+            return 0
+
+        records = self._user_record_repo.get_records_by_user_and_course(
+            db_session.user_id, db_session.course_id
+        )
+
+        # このセッション開始後の回答のみカウント
+        session_started_at = db_session.started_at
+        session_records = [
+            r for r in records if r.answered_at >= session_started_at
+        ]
+        return len(session_records)
 
         # セッション作成
         session_id = str(uuid.uuid4())
@@ -284,6 +375,116 @@ class QuizService:
             accuracy_rate=accuracy_rate,
             grade=grade,
         )
+
+    def abort_course(self, session_id: str) -> CourseSummary:
+        """コースを途中中断し、それまでの回答を元にサマリーを返す。
+
+        セッションのステータスを SUSPENDED に更新する。
+        再開可能な状態を維持する。
+
+        Args:
+            session_id: クイズセッションID
+
+        Returns:
+            CourseSummary（コース名、正解数、回答済み問題数、正答率、グレード）
+
+        Raises:
+            ValueError: セッションが見つからない場合、
+                       セッションが進行中でない場合
+        """
+        # セッション取得
+        db_session = (
+            self._db.query(QuizSessionModel)
+            .filter(QuizSessionModel.id == session_id)
+            .first()
+        )
+        if db_session is None:
+            raise ValueError(f"セッションが見つかりません: {session_id}")
+
+        if db_session.status != SessionStatus.IN_PROGRESS.value:
+            raise ValueError(f"セッションは既に終了しています: {session_id}")
+
+        # セッションを中断状態に更新（再開可能）
+        db_session.status = SessionStatus.SUSPENDED.value
+        self._db.commit()
+
+        # コース名取得
+        course = self._course_repo.get_course_by_id(db_session.course_id)
+        course_name = course.name if course else "不明なコース"
+
+        # セッション中の回答記録を取得
+        records = self._user_record_repo.get_records_by_user_and_course(
+            db_session.user_id, db_session.course_id
+        )
+
+        # セッション開始後の回答のみをフィルタ
+        session_started_at = db_session.started_at
+        session_records = [
+            r for r in records if r.answered_at >= session_started_at
+        ]
+
+        # 正解数・回答済み問題数を集計
+        total_count = len(session_records)
+        correct_count = sum(1 for r in session_records if r.is_correct)
+
+        # 正答率とグレード計算
+        accuracy_rate = calculate_accuracy_rate(correct_count, total_count)
+        grade = calculate_grade(accuracy_rate)
+
+        return CourseSummary(
+            course_id=db_session.course_id,
+            course_name=course_name,
+            correct_count=correct_count,
+            total_count=total_count,
+            accuracy_rate=accuracy_rate,
+            grade=grade,
+        )
+
+    def complete_in_progress_sessions(self, user_id: str) -> None:
+        """ユーザーの未完了セッションをすべて中断状態にする。
+
+        Args:
+            user_id: ユーザーID
+        """
+        in_progress_sessions = (
+            self._db.query(QuizSessionModel)
+            .filter(
+                QuizSessionModel.user_id == user_id,
+                QuizSessionModel.status == SessionStatus.IN_PROGRESS.value,
+            )
+            .all()
+        )
+
+        for session in in_progress_sessions:
+            session.status = SessionStatus.SUSPENDED.value
+
+        if in_progress_sessions:
+            self._db.commit()
+
+    def _suspend_other_sessions(self, user_id: str, current_course_id: str) -> None:
+        """指定コース以外の未完了セッションを中断状態にする。
+
+        別のコースを開始する際に、他コースのIN_PROGRESSセッションを中断する。
+
+        Args:
+            user_id: ユーザーID
+            current_course_id: 現在開始するコースID（これは中断しない）
+        """
+        other_sessions = (
+            self._db.query(QuizSessionModel)
+            .filter(
+                QuizSessionModel.user_id == user_id,
+                QuizSessionModel.course_id != current_course_id,
+                QuizSessionModel.status == SessionStatus.IN_PROGRESS.value,
+            )
+            .all()
+        )
+
+        for session in other_sessions:
+            session.status = SessionStatus.SUSPENDED.value
+
+        if other_sessions:
+            self._db.commit()
 
     # =========================================================================
     # セッション取得
