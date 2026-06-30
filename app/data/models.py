@@ -157,3 +157,13 @@ class MockExamSessionModel(Base):
 
     # リレーション
     user: Mapped["UserModel"] = relationship(back_populates="mock_exam_sessions")
+
+class GlossaryTermModel(Base):
+    """用語集テーブル"""
+    __tablename__ = "glossary_terms"
+
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    category: Mapped[str] = mapped_column(String(100), nullable=False)
+    term: Mapped[str] = mapped_column(String(200), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    sort_order: Mapped[int] = mapped_column(Integer, nullable=False, default=0)

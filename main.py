@@ -16,6 +16,7 @@ from fastapi.templating import Jinja2Templates
 
 from app.data.database import DatabaseConnectionError, SessionLocal, create_tables
 from app.data.seed_data import seed_database
+from app.data.glossary_seed import seed_glossary
 from migrations.runner import run_migrations
 
 logger = logging.getLogger(__name__)
@@ -30,19 +31,21 @@ async def lifespan(app: FastAPI):
     # 起動時: テーブル作成
     create_tables()
 
-    # 起動時: マイグレーション実行（既存テーブルへのカラム追加等）
-    db = SessionLocal()
-    try:
-        run_migrations(db)
-    finally:
-        db.close()
-
     # 起動時: シードデータ投入（データが空の場合のみ）
     db = SessionLocal()
     try:
         seeded = seed_database(db)
         if seeded:
             logger.info("シードデータを投入しました（33問）")
+    finally:
+        db.close()
+
+    # 起動時: 用語集シードデータ投入（データが空の場合のみ）
+    db = SessionLocal()
+    try:
+        seeded = seed_glossary(db)
+        if seeded:
+            logger.info("用語集シードデータを投入しました")
     finally:
         db.close()
 
@@ -147,3 +150,6 @@ app.include_router(quiz_router)
 from app.presentation.routers.mock_exam_router import router as mock_exam_router
 
 app.include_router(mock_exam_router)
+
+from app.presentation.routers.study_router import router as study_router
+app.include_router(study_router)
