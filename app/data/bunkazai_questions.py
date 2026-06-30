@@ -452,7 +452,7 @@ BUNKAZAI_QUESTIONS_EXTRA = [
         "correct_choice_index": 0,
         "ehime_trivia": "四国西予ジオパークは2013年に日本ジオパークに認定。4億年以上の地質遺産を有し、黒瀬川構造帯の露頭など地球の歴史を学べる貴重なエリアです。",
         "aws_ai_explanation": "Amazon CloudWatchはAWSリソースとアプリケーションのメトリクス・ログ・アラームを一元管理する監視サービスです。ダッシュボードで稼働状況を可視化できます。",
-        "difficulty": "基礎",
+        "difficulty": "中級",
         "exam_domain": "Cloud Technology and Services",
     },
     # 南予文化財コース（中級）追加
@@ -467,7 +467,7 @@ BUNKAZAI_QUESTIONS_EXTRA = [
         "correct_choice_index": 0,
         "ehime_trivia": "多賀神社は宇和島市にある神社で、延命長寿の神として信仰を集めています。本殿は江戸時代後期の建築で県指定有形文化財に指定されています。",
         "aws_ai_explanation": "AWS Direct ConnectはオンプレミスのデータセンターとAWSを専用ネットワーク回線で接続するサービスです。インターネットを経由しないため安定した低レイテンシー通信を実現します。",
-        "difficulty": "基礎",
+        "difficulty": "中級",
         "exam_domain": "Cloud Technology and Services",
     },
     # 南予文化財コース（上級）追加
@@ -482,7 +482,7 @@ BUNKAZAI_QUESTIONS_EXTRA = [
         "correct_choice_index": 0,
         "ehime_trivia": "四国カルストは愛媛・高知県境にまたがる標高約1,400mの石灰岩台地で、日本三大カルストの一つ。放牧牛と白い石灰岩が点在する草原の景観が特徴的です。",
         "aws_ai_explanation": "Amazon ECS with FargateはDockerコンテナをサーバーレスで実行するサービスです。インフラ管理が不要で、コンテナの起動・停止・スケーリングをAWSが自動管理します。",
-        "difficulty": "基礎",
+        "difficulty": "中級",
         "exam_domain": "Cloud Technology and Services",
     },
     # 東予文化財コース（基礎）追加
