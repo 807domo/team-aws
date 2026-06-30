@@ -12,7 +12,6 @@ from app.data.question_repository import QuestionRepository
 from app.data.user_record_repository import UserRecordRepository
 from app.domain.models import (
     AttemptRecord,
-    CourseInfo,
     DashboardData,
     ExamType,
     ExplorationRate,
@@ -20,13 +19,11 @@ from app.domain.models import (
     RadarChartData,
     Region,
     SessionStatus,
-    WeakArea,
 )
 from app.domain.scoring import (
     calculate_accuracy_rate,
     calculate_domain_accuracy,
     calculate_grade,
-    identify_weak_areas,
 )
 
 
@@ -145,7 +142,7 @@ class ResultsService:
         """愛媛探索率を計算する。
 
         完了コース数/全コース数のパーセンテージと、
-        少なくとも1コース完了した地域の数を返す。
+        少なくとも1コース完了した難易度の数を返す。
 
         Args:
             user_id: ユーザーID
@@ -257,107 +254,6 @@ class ResultsService:
         attempts.sort(key=lambda a: a.completed_at)
 
         return attempts
-
-    def get_weak_areas(self, user_id: str) -> list[WeakArea]:
-        """ユーザーの弱点ドメインを特定する。
-
-        全回答記録から誤答率50%以上のドメインを弱点として返す。
-        回答がない場合は空リストを返す。
-
-        Args:
-            user_id: ユーザーID
-
-        Returns:
-            弱点領域リスト（誤答率の高い順）
-        """
-        answer_records = self._user_record_repo.get_records_by_user(user_id)
-
-        if not answer_records:
-            return []
-
-        # 問題IDからドメインへのマッピングを構築
-        question_domains = self._build_question_domain_map(answer_records)
-
-        # 弱点特定（閾値50%）
-        weak_areas = identify_weak_areas(
-            answer_records=answer_records,
-            question_domains=question_domains,
-            threshold=0.5,
-        )
-
-        # 誤答率の高い順にソート
-        weak_areas.sort(key=lambda w: w.incorrect_rate, reverse=True)
-
-        return weak_areas
-
-    def get_recommended_courses(self, user_id: str) -> list[CourseInfo]:
-        """弱点ドメインに基づいておすすめコースを返す。
-
-        弱点ドメインに属する問題を持つコースの中から、
-        ユーザーがまだ十分に学習していないコースを優先的に返す。
-        弱点がない場合は未挑戦のコースを返す。
-
-        Args:
-            user_id: ユーザーID
-
-        Returns:
-            おすすめコース一覧（最大3件）
-        """
-        weak_areas = self.get_weak_areas(user_id)
-        all_courses = self._course_repo.get_all_courses()
-        answer_records = self._user_record_repo.get_records_by_user(user_id)
-
-        # ユーザーが回答済みのコースIDを収集
-        attempted_course_ids: set[str] = set()
-        for record in answer_records:
-            attempted_course_ids.add(record.course_id)
-
-        if weak_areas:
-            # 弱点ドメインに属する問題を持つコースを探す
-            weak_domains = {w.domain for w in weak_areas}
-            recommended: list[CourseInfo] = []
-
-            for course in all_courses:
-                # コースに含まれる問題のドメインを確認
-                questions = self._question_repo.get_questions_by_course(course.id)
-                course_domains = {q.exam_domain for q in questions}
-
-                # 弱点ドメインと重なるコースを推薦
-                if course_domains & weak_domains:
-                    question_count = len(questions)
-                    recommended.append(
-                        CourseInfo(
-                            id=course.id,
-                            name=course.name,
-                            region=course.region,
-                            difficulty=course.difficulty,
-                            description=course.description,
-                            question_count=question_count,
-                        )
-                    )
-
-            # 未挑戦のコースを優先してソート
-            recommended.sort(
-                key=lambda c: (c.id in attempted_course_ids, c.id)
-            )
-            return recommended[:3]
-        else:
-            # 弱点がない場合: まだ挑戦していないコースをおすすめ
-            unattempted: list[CourseInfo] = []
-            for course in all_courses:
-                if course.id not in attempted_course_ids:
-                    questions = self._question_repo.get_questions_by_course(course.id)
-                    unattempted.append(
-                        CourseInfo(
-                            id=course.id,
-                            name=course.name,
-                            region=course.region,
-                            difficulty=course.difficulty,
-                            description=course.description,
-                            question_count=len(questions),
-                        )
-                    )
-            return unattempted[:3]
 
     def _build_question_domain_map(self, answer_records: list) -> dict[str, str]:
         """回答記録に含まれる問題IDからドメインへのマッピングを構築する。

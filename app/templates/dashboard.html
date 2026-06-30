@@ -77,67 +77,8 @@
             </div>
             <div class="text-center p-4 bg-orange-50 rounded-lg">
                 <p class="text-3xl font-bold text-orange-600">{{ exploration_rate.completed_region_count }}/3</p>
-                <p class="text-sm text-gray-600 mt-1">地域探索済み</p>
+                <p class="text-sm text-gray-600 mt-1">難易度クリア</p>
             </div>
-        </div>
-    </div>
-
-    <!-- 弱点分析 & おすすめコースセクション -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <!-- 弱点ドメイン -->
-        <div class="bg-white rounded-lg shadow p-6">
-            <h2 class="text-lg font-semibold text-gray-800 mb-4">⚠️ 弱点ドメイン</h2>
-            {% if weak_areas %}
-            <div class="space-y-3">
-                {% for area in weak_areas %}
-                <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg">
-                    <span class="text-sm font-medium text-gray-800">{{ area.domain }}</span>
-                    <span class="text-sm font-bold text-red-600">誤答率 {{ "%.1f"|format(area.incorrect_rate) }}%</span>
-                </div>
-                {% endfor %}
-            </div>
-            <p class="text-xs text-gray-500 mt-3">※ 誤答率50%以上のドメインを表示しています</p>
-            {% else %}
-            <div class="text-center py-4">
-                <p class="text-gray-500">🎉 弱点ドメインはありません！</p>
-                <p class="text-xs text-gray-400 mt-1">全ドメインでバランスよく正解できています</p>
-            </div>
-            {% endif %}
-        </div>
-
-        <!-- おすすめコース -->
-        <div class="bg-white rounded-lg shadow p-6">
-            <h2 class="text-lg font-semibold text-gray-800 mb-4">📚 おすすめコース</h2>
-            {% if recommended_courses %}
-            <div class="space-y-3">
-                {% for course in recommended_courses %}
-                <div class="p-3 bg-blue-50 rounded-lg">
-                    <div class="flex items-center justify-between mb-1">
-                        <span class="text-sm font-semibold text-gray-800">{{ course.name }}</span>
-                        <span class="text-xs px-2 py-0.5 rounded-full
-                            {% if course.difficulty == '基礎' %}bg-green-100 text-green-700
-                            {% elif course.difficulty == '中級' %}bg-yellow-100 text-yellow-700
-                            {% else %}bg-red-100 text-red-700{% endif %}
-                        ">{{ course.difficulty }}</span>
-                    </div>
-                    <p class="text-xs text-gray-600">{{ course.description }}</p>
-                    <div class="flex items-center justify-between mt-2">
-                        <span class="text-xs text-gray-500">{{ course.region }} / {{ course.question_count }}問</span>
-                        <form action="/quiz/start/{{ course.id }}" method="post">
-                            <button type="submit" class="text-xs bg-orange-600 text-white px-3 py-1 rounded hover:bg-orange-700 transition">
-                                挑戦する
-                            </button>
-                        </form>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            {% else %}
-            <div class="text-center py-4">
-                <p class="text-gray-500">✅ すべてのコースに挑戦済みです！</p>
-                <p class="text-xs text-gray-400 mt-1">復習やレベルアップに挑戦しましょう</p>
-            </div>
-            {% endif %}
         </div>
     </div>
 

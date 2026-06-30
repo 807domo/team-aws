@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}AI練習問題 - 愛媛探索AIクイズ{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto text-center">
+    <div class="bg-white rounded-lg shadow-md p-8">
+        {% if reason == "not_enough_data" %}
+        <span class="text-5xl">📊</span>
+        <h1 class="text-2xl font-bold text-gray-800 mt-4 mb-3">学習データが不足しています</h1>
+        <p class="text-gray-600 mb-4">
+            AI問題生成には最低{{ required_count }}問の回答が必要です。<br>
+            現在の回答数: <strong>{{ current_count }}問</strong>
+        </p>
+        <p class="text-sm text-gray-500 mb-6">コースの問題をもう少し解いてから再挑戦してください。</p>
+
+        {% elif reason == "no_weak_areas" %}
+        <span class="text-5xl">🎉</span>
+        <h1 class="text-2xl font-bold text-gray-800 mt-4 mb-3">弱点が見つかりません！</h1>
+        <p class="text-gray-600 mb-4">
+            すべてのドメインで良い成績を収めています。<br>
+            この調子で学習を続けましょう！
+        </p>
+
+        {% elif reason == "api_unavailable" %}
+        <span class="text-5xl">🔑</span>
+        <h1 class="text-2xl font-bold text-gray-800 mt-4 mb-3">APIキーが未設定です</h1>
+        <p class="text-gray-600 mb-4">
+            AI問題生成にはGoogle Gemini APIキーが必要です。<br>
+            環境変数 <code class="bg-gray-100 px-2 py-1 rounded">GEMINI_API_KEY</code> を設定してください。
+        </p>
+        {% if weak_areas %}
+        <div class="text-left bg-yellow-50 rounded-lg p-4 mt-4 mb-6">
+            <h3 class="font-semibold text-yellow-800 mb-2">検出された弱点ドメイン:</h3>
+            <ul class="text-sm text-yellow-700 space-y-1">
+                {% for area in weak_areas %}
+                <li>• {{ area.domain }}（誤答率: {{ "%.1f"|format(area.incorrect_rate) }}%）</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% elif reason == "generation_failed" %}
+        <span class="text-5xl">⚠️</span>
+        <h1 class="text-2xl font-bold text-gray-800 mt-4 mb-3">問題の生成に失敗しました</h1>
+        <p class="text-gray-600 mb-4">
+            AIサービスとの通信でエラーが発生しました。<br>
+            しばらくしてから再試行してください。
+        </p>
+        {% endif %}
+
+        <a href="/"
+           class="inline-block bg-orange-600 text-white py-3 px-6 rounded-lg
+                  font-semibold hover:bg-orange-700 transition-colors">
+            トップに戻る
+        </a>
+    </div>
+</div>
+{% endblock %}
