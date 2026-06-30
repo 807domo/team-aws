@@ -100,127 +100,127 @@ COURSES = [
     {
         "id": "toyo-stage-01",
         "name": "ステージ1：東予産業コース",
-        "region": "中級",
-        "difficulty": "中級",
+        "region": "上級",
+        "difficulty": "上級",
         "description": "中級レベルのAWS学習コース（ステージ1）",
     },
     {
         "id": "toyo-stage-02",
         "name": "ステージ2：しまなみ海道コース",
-        "region": "中級",
-        "difficulty": "中級",
+        "region": "上級",
+        "difficulty": "上級",
         "description": "中級レベルのAWS学習コース（ステージ2）",
     },
     {
         "id": "toyo-stage-03",
         "name": "ステージ3：東予文化財コース",
-        "region": "中級",
-        "difficulty": "中級",
+        "region": "上級",
+        "difficulty": "上級",
         "description": "中級レベルのAWS学習コース（ステージ3）",
     },
     {
         "id": "toyo-stage-04",
         "name": "ステージ4：東予技術コース",
-        "region": "中級",
-        "difficulty": "中級",
+        "region": "上級",
+        "difficulty": "上級",
         "description": "中級レベルのAWS学習コース（ステージ4）",
     },
     {
         "id": "toyo-stage-05",
         "name": "ステージ5：東予産業コース",
-        "region": "中級",
-        "difficulty": "中級",
+        "region": "上級",
+        "difficulty": "上級",
         "description": "中級レベルのAWS学習コース（ステージ5）",
     },
     {
         "id": "toyo-stage-06",
         "name": "ステージ6：しまなみ海道コース",
-        "region": "中級",
-        "difficulty": "中級",
+        "region": "上級",
+        "difficulty": "上級",
         "description": "中級レベルのAWS学習コース（ステージ6）",
     },
     {
         "id": "toyo-stage-07",
         "name": "ステージ7：東予文化財コース",
-        "region": "中級",
-        "difficulty": "中級",
+        "region": "上級",
+        "difficulty": "上級",
         "description": "中級レベルのAWS学習コース（ステージ7）",
     },
     {
         "id": "toyo-stage-08",
         "name": "ステージ8：東予技術コース",
-        "region": "中級",
-        "difficulty": "中級",
+        "region": "上級",
+        "difficulty": "上級",
         "description": "中級レベルのAWS学習コース（ステージ8）",
     },
     {
         "id": "toyo-stage-09",
         "name": "ステージ9：東予産業コース",
-        "region": "中級",
-        "difficulty": "中級",
+        "region": "上級",
+        "difficulty": "上級",
         "description": "中級レベルのAWS学習コース（ステージ9）",
     },
     {
         "id": "toyo-stage-10",
         "name": "ステージ10：しまなみ海道コース",
-        "region": "中級",
-        "difficulty": "中級",
+        "region": "上級",
+        "difficulty": "上級",
         "description": "中級レベルのAWS学習コース（ステージ10）",
     },
     {
         "id": "chuyo-stage-01",
         "name": "ステージ1：松山城コース",
-        "region": "上級",
-        "difficulty": "上級",
+        "region": "中級",
+        "difficulty": "中級",
         "description": "上級レベルのAWS学習コース（ステージ1）",
     },
     {
         "id": "chuyo-stage-02",
         "name": "ステージ2：道後温泉コース",
-        "region": "上級",
-        "difficulty": "上級",
+        "region": "中級",
+        "difficulty": "中級",
         "description": "上級レベルのAWS学習コース（ステージ2）",
     },
     {
         "id": "chuyo-stage-03",
         "name": "ステージ3：中予文化財コース",
-        "region": "上級",
-        "difficulty": "上級",
+        "region": "中級",
+        "difficulty": "中級",
         "description": "上級レベルのAWS学習コース（ステージ3）",
     },
     {
         "id": "chuyo-stage-04",
         "name": "ステージ4：中予先端コース",
-        "region": "上級",
-        "difficulty": "上級",
+        "region": "中級",
+        "difficulty": "中級",
         "description": "上級レベルのAWS学習コース（ステージ4）",
     },
     {
         "id": "chuyo-stage-05",
         "name": "ステージ5：松山城コース",
-        "region": "上級",
-        "difficulty": "上級",
+        "region": "中級",
+        "difficulty": "中級",
         "description": "上級レベルのAWS学習コース（ステージ5）",
     },
     {
         "id": "chuyo-stage-06",
         "name": "ステージ6：道後温泉コース",
-        "region": "上級",
-        "difficulty": "上級",
+        "region": "中級",
+        "difficulty": "中級",
         "description": "上級レベルのAWS学習コース（ステージ6）",
     },
     {
         "id": "chuyo-stage-07",
         "name": "ステージ7：中予文化財コース",
-        "region": "上級",
-        "difficulty": "上級",
+        "region": "中級",
+        "difficulty": "中級",
         "description": "上級レベルのAWS学習コース（ステージ7）",
     },
     {
         "id": "chuyo-stage-08",
         "name": "ステージ8：中予先端コース",
-        "region": "上級",
-        "difficulty": "上級",
+        "region": "中級",
+        "difficulty": "中級",
         "description": "上級レベルのAWS学習コース（ステージ8）",
     },
 ]
@@ -245,7 +245,7 @@ QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "松山城は加藤嘉明が1602年に築城を開始し、日本で12しかない現存天守の一つ。標高132mからは松山平野と瀬戸内海を一望できます。",
         "aws_ai_explanation": "クラウドコンピューティングの本質は「オンデマンド・セルフサービス」です。AWS では必要な時に必要なだけリソースを即座に調達でき、物理的なサーバー管理は不要です。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Concepts",
     },
     {
@@ -273,7 +273,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "愛媛県は柑橘類の生産量日本一。温州みかんの収穫量は年間約12万トンで、全国シェアの約20%を占めています。",
         "aws_ai_explanation": "従量課金（Pay-as-you-go）はクラウドの基本原則の一つ。使った分だけ支払うため、初期投資を最小化しながら必要に応じてスケールできます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Concepts",
     },
     {
@@ -287,7 +287,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "坊っちゃん列車は、夏目漱石の小説に登場する汽車を復元したもの。松山市内の路面電車路線を走り、道後温泉まで観光客を運びます。",
         "aws_ai_explanation": "AWSリージョンは地理的に独立したエリアで、各リージョンは2つ以上のアベイラビリティゾーン（AZ）を持ちます。AZは独立した電源・ネットワークを持つデータセンター群です。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Concepts",
     },
     {
@@ -301,7 +301,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "宇和島城は藤堂高虎が1601年に築城。現存12天守の一つで、独立式層塔型の天守が特徴。城山からは宇和海を望めます。",
         "aws_ai_explanation": "疎結合アーキテクチャでは、コンポーネント間の依存性を最小化します。Amazon SQSやSNSを使うことで、一部の障害が全体に影響しにくい耐障害性の高いシステムを構築できます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Concepts",
     },
     # --- Cloud Concepts 追加問題（q-cc-006 〜 q-cc-015） ---
@@ -316,7 +316,7 @@ QUESTIONS = [
         "correct_choice_index": 2,
         "ehime_trivia": "道後温泉本館は2019年から段階的に保存修理工事を実施。営業を続けながらの大規模改修は「動態保存」と呼ばれ、全国的にも珍しい手法です。",
         "aws_ai_explanation": "クラウド移行の6R戦略はRehost、Replatform、Refactor、Repurchase、Retain、Retireの6つです。ワークロードの特性に応じて最適な移行方式を選択します。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Concepts",
     },
     {
@@ -344,7 +344,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "新居浜市は住友グループ発祥の地で、別子銅山の操業以来400年の産業史を持ちます。現在も住友化学など大企業の工場が立地する四国有数の工業都市です。",
         "aws_ai_explanation": "コスト最適化の柱は消費モデルの採用、全体効率の測定、不要支出の排除を推奨します。AWS Cost ExplorerやRightSizingレコメンデーションで最適なリソース選定を支援します。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Concepts",
     },
     {
@@ -372,7 +372,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "西条市は臨海部に工業団地が集積し、アサヒビールやクラレなど大手企業の工場が立地。「うちぬき」の豊富な地下水を工業用水としても活用しています。",
         "aws_ai_explanation": "規模の経済（Economies of Scale）により、AWSは大量のインフラ投資コストを多数の利用者で分散します。結果として個々の利用者は従量課金で低コストにサービスを利用できます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Concepts",
     },
     {
@@ -386,7 +386,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "松山市には愛媛大学発のスタートアップやIT企業が集積。サイボウズの創業者は愛媛出身で、松山市もIT産業の振興に力を入れています。",
         "aws_ai_explanation": "クラウドの俊敏性とは、リソースを数分で世界中にデプロイし、失敗コストを低く抑えながら迅速に実験・イテレーションできることです。イノベーションスピードを大幅に向上させます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Concepts",
     },
     {
@@ -400,7 +400,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "来島海峡大橋は世界初の三連吊橋で全長約4km。今治市と大島を結び、しまなみ海道の愛媛県側の玄関口として年間約500万台の車両が通行します。",
         "aws_ai_explanation": "Well-Architected Frameworkの6本の柱は、オペレーショナルエクセレンス、セキュリティ、信頼性、パフォーマンス効率、コスト最適化、持続可能性です。設計レビューの指針として活用します。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Concepts",
     },
     {
@@ -428,7 +428,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "松山空港は国内線で東京・大阪・福岡等と結ばれ、国際線は韓国・台湾路線も就航。四国の空の玄関口として愛媛の観光・ビジネスを支えています。",
         "aws_ai_explanation": "マルチリージョンアーキテクチャは地理的冗長性による災害復旧（DR）と、各地域ユーザーへの低レイテンシー提供を実現します。RPO/RTO要件に基づいてDR戦略を設計します。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Concepts",
     },
     {
@@ -473,7 +473,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "愛媛県宇和島市は真珠養殖が盛んで、宇和海のリアス式海岸で良質な真珠が生産されています。全国有数の真珠産地です。",
         "aws_ai_explanation": "IAMポリシーは認可（Authorization）を制御します。JSON形式でどのリソースにどのアクションを許可/拒否するかを定義し、最小権限の原則を実現します。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Security and Compliance",
     },
     {
@@ -487,7 +487,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "今治タオルは独自の品質基準をクリアした製品だけがブランドマークを使用可能。5秒ルール（水に浮かべて5秒以内に沈む吸水性）が有名です。",
         "aws_ai_explanation": "AWSはISO 27001、SOC 1/2/3、PCI DSSなど多数の認証を取得。AWS Artifactから認証レポートをダウンロードでき、利用者の監査対応をサポートします。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Security and Compliance",
     },
     {
@@ -529,7 +529,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "松山城の石垣は「登り石垣」という珍しい構造を持ち、山麓から山頂まで石垣が連なります。城の管理は松山市が行い、訪問者はルールを守って観覧します。",
         "aws_ai_explanation": "共有責任モデルではAWSがクラウド「の」セキュリティ（物理インフラ・ハイパーバイザー等）を担当し、利用者がクラウド「内の」セキュリティ（データ・アクセス管理等）を担当します。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Security and Compliance",
     },
     {
@@ -543,7 +543,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "別子銅山は1691年から283年間操業した日本有数の銅山。新居浜市の別子銅山記念館では住友の歴史と鉱山技術が展示されています。",
         "aws_ai_explanation": "多要素認証（MFA）はパスワードに加えて物理デバイスや仮想アプリによるワンタイムコードを要求します。IAMユーザーやルートアカウントに設定し、不正ログインを防止します。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Security and Compliance",
     },
     {
@@ -557,7 +557,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "道後温泉本館は木造三層楼の重要文化財。男女別の浴室に分かれており、神の湯と霊の湯の2種類の浴室があることで知られています。",
         "aws_ai_explanation": "セキュリティグループはEC2インスタンスの仮想ファイアウォールとして機能し、インバウンド・アウトバウンドのトラフィックを制御します。ステートフルで許可ルールのみ設定します。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Security and Compliance",
     },
     {
@@ -599,7 +599,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "石鎚山は西日本最高峰（1,982m）で、試しの鎖・一の鎖・二の鎖・三の鎖と4箇所の鎖場があり、それぞれ難易度が異なります。修験道の霊山としても有名です。",
         "aws_ai_explanation": "最小権限の原則ではタスクに必要な最小限の権限のみを付与します。IAMロールとポリシーを組み合わせ、Action・Resource・Conditionで細かく制御することがベストプラクティスです。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Security and Compliance",
     },
     {
@@ -613,7 +613,7 @@ QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "来島海峡大橋は全長約4kmの世界初の三連吊橋。来島海峡は日本三大急潮の一つで、橋の通行は風速や潮流の状況に応じて規制されることがあります。",
         "aws_ai_explanation": "NACLはサブネットレベルのステートレスフィルターで許可・拒否ルールを持ちます。セキュリティグループはインスタンスレベルのステートフルフィルターで許可ルールのみ設定可能です。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Security and Compliance",
     },
     {
@@ -641,7 +641,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "松山市はIT企業の誘致に力を入れ、サテライトオフィスの整備を推進しています。坂の上の雲ミュージアム周辺にはコワーキングスペースも増えています。",
         "aws_ai_explanation": "転送時の暗号化ではTLS/SSLプロトコルを使用し、通信経路上のデータを保護します。AWS Certificate ManagerでSSL証明書を管理し、ELBやCloudFrontでHTTPS通信を強制できます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Security and Compliance",
     },
     {
@@ -655,7 +655,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "今治造船は国内最大手の造船会社で、年間建造量は日本一。ISO 9001やISO 14001を取得し、品質と環境の国際基準を満たした造船を行っています。",
         "aws_ai_explanation": "アクセスキー管理のベストプラクティスは定期的なローテーション、未使用キーの削除、IAMロールの優先使用です。AWS Secrets Managerで自動ローテーションを実現できます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Security and Compliance",
     },
     # =========================================================================
@@ -672,7 +672,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "松山空港は愛媛県の空の玄関口で、東京・大阪・福岡等への路線があります。市街地から車で約20分とアクセスが良いのが特徴です。",
         "aws_ai_explanation": "Elastic Load Balancing（ELB）は、受信トラフィックを複数のターゲット（EC2インスタンスなど）に自動的に分散します。可用性と耐障害性を高める重要なサービスです。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -686,7 +686,7 @@ QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "松山市の路面電車（伊予鉄道）は1895年開業で日本最古級。市内を5路線で結び、市民の重要な足です。夏目漱石が乗った汽車のモデルでもあります。",
         "aws_ai_explanation": "Amazon RDSはMySQL、PostgreSQL、Oracleなどのリレーショナルデータベースをマネージドで提供します。バックアップ、パッチ適用、スケーリングをAWSが管理してくれます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -700,7 +700,7 @@ QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "しまなみ海道は愛媛県今治市と広島県尾道市を結ぶ全長約60kmの自動車道。6つの島を7つの橋で結び、サイクリングロードとしても世界的に有名です。",
         "aws_ai_explanation": "Amazon SQSはフルマネージドのメッセージキューサービスで、マイクロサービス間の非同期通信に使われます。疎結合アーキテクチャを実現し、各サービスを独立してスケールできます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -728,7 +728,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "村上海賊ミュージアムは今治市宮窪町にあり、戦国時代に瀬戸内海を支配した村上水軍の資料を展示。2014年に「日本遺産」第一号に認定されました。",
         "aws_ai_explanation": "Amazon S3 Glacierはアーカイブデータの長期保存に最適な低コストストレージです。アクセス頻度の低いデータを安価に保管でき、データ取り出しには時間がかかります。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Technology and Services",
     },
     # --- Cloud Technology and Services 追加問題（q-ct-006 〜 q-ct-022） ---
@@ -743,7 +743,7 @@ QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "松山城ロープウェイは山麓駅から長者ヶ平駅まで約3分で到着。リフトも併設されており、松山城への主要なアクセス手段として年間約50万人が利用します。",
         "aws_ai_explanation": "Amazon EC2（Elastic Compute Cloud）は仮想サーバーを提供するサービスで、インスタンスタイプやOS、ストレージを自由に選択できます。従量課金で必要なときに起動・停止が可能です。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -757,7 +757,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "道後温泉本館の入浴券は自動券売機で購入できます。神の湯と霊の湯で料金が異なり、2024年の改修後は電子決済にも対応しました。",
         "aws_ai_explanation": "AWS Lambdaはサーバーレスコンピューティングサービスで、コードをイベント駆動で実行します。サーバーの管理が不要で、実行時間に対してのみ課金される仕組みです。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -785,7 +785,7 @@ QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "今治市のタオル工場では製品を品質別に仕分けしてコンテナで全国へ出荷。今治タオルは年間生産額約400億円を誇る愛媛の主力産業の一つです。",
         "aws_ai_explanation": "Amazon ECSはDockerコンテナを実行・管理するフルマネージドサービスです。Fargateと組み合わせればサーバーの管理も不要で、コンテナのスケーリングも自動化できます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -799,7 +799,7 @@ QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "西条市のうちぬきは地下水が自噴する全国的にも珍しい現象で、市内に約3,000本の自噴井があります。日本名水百選にも選ばれた清らかな水です。",
         "aws_ai_explanation": "Amazon EBSはEC2インスタンスに接続する高性能ブロックストレージです。SSD型やHDD型を選択でき、スナップショットによるバックアップやボリュームの暗号化にも対応しています。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -827,7 +827,7 @@ QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "しまなみ海道は年間約500万人が訪れる国際的なサイクリングルート。CNNの「世界で最も素晴らしい7つのサイクリングコース」にも選ばれています。",
         "aws_ai_explanation": "Amazon CloudFrontはグローバルCDN（コンテンツ配信ネットワーク）で、世界中のエッジロケーションからコンテンツを低レイテンシーで配信します。S3やEC2と統合してWebサイトを高速化できます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -855,7 +855,7 @@ QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "新居浜太鼓祭りは毎年10月に開催される四国三大祭りの一つ。重さ約3トンの太鼓台を150人以上で担ぎ、市内を練り歩く勇壮な祭りです。",
         "aws_ai_explanation": "Amazon SNSはPub/Sub型のメッセージ配信サービスで、1つのメッセージを複数のサブスクライバー（SQS、Lambda、メール等）に同時配信できます。イベント通知やアラートに最適です。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -883,7 +883,7 @@ QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "伊予鉄道は路面電車・郊外電車・バスを運行する松山市の主要交通機関。ICカード「い〜カード」で乗降データを収集し、ダイヤ改善に活用しています。",
         "aws_ai_explanation": "Amazon CloudWatchはAWSリソースとアプリケーションのモニタリングサービスです。メトリクス収集、ログ管理、アラーム設定が可能で、異常検知時に自動アクションをトリガーできます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -911,7 +911,7 @@ QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "今治造船は設計から進水まで多数の工程を厳密な順序で管理します。鋼材切断、ブロック組立、搭載、進水と各工程の連携が高品質な船舶を生み出します。",
         "aws_ai_explanation": "AWS Step Functionsはサーバーレスのワークフローオーケストレーションサービスです。Lambda関数やAWSサービスを視覚的にステートマシンとして定義し、複雑な処理フローを管理できます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -925,7 +925,7 @@ QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "松山市にはSTNetのデータセンターがあり、四国のIT基盤を支えています。愛媛県はデジタル化推進の一環で高速ネットワークの整備を進めています。",
         "aws_ai_explanation": "AWS Direct Connectはオンプレミス環境とAWSを専用ネットワーク接続するサービスです。インターネットを経由しないため、安定した帯域幅と低レイテンシーを実現できます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -953,7 +953,7 @@ QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "愛媛大学は松山市に本部を置く四国最大の総合大学。宇宙物理学や植物工場研究など先端分野でペタバイト級のデータ解析に取り組んでいます。",
         "aws_ai_explanation": "Amazon Redshiftはペタバイト規模のデータウェアハウスサービスです。列指向ストレージと大規模並列処理（MPP）により、複雑な分析クエリを高速に実行できます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -998,7 +998,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "伊予鉄グループは愛媛県最大の私鉄。路面電車・郊外電車・バスを運行し、松山市の公共交通の要です。ICカード「い〜カード」も発行しています。",
         "aws_ai_explanation": "リザーブドインスタンスやSavings Plansは1年〜3年の利用をコミットすることで最大72%の割引を受けられます。安定した利用が見込めるワークロードに最適です。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Billing Pricing and Support",
     },
     {
@@ -1040,7 +1040,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "西条市の「うちぬき」は自噴する地下水で、市内に約3,000本の自噴井があります。「日本の名水百選」に選ばれた良質な軟水が無料で汲めます。",
         "aws_ai_explanation": "AWS無料利用枠は3種類あります。12ヶ月無料（EC2 t2.micro等）、常に無料（Lambda月100万リクエスト等）、トライアル（一部サービスの短期無料）です。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Billing Pricing and Support",
     },
     {
@@ -1054,7 +1054,7 @@ QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "今治市はタオル生産量日本一を誇り、「今治タオル」ブランドは厳しい品質基準を満たした製品のみに与えられます。タオル美術館では製造工程も見学できます。",
         "aws_ai_explanation": "AWS Pricing Calculatorは、AWSサービスの利用料金を事前に見積もるための無料ツールです。EC2やS3など各サービスの構成を入力し、月額コストをシミュレーションできます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Billing Pricing and Support",
     },
     {
@@ -1068,7 +1068,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "松山市の伊予鉄道路面電車は1895年開業で四国初の鉄道。市内を走る路面電車は1乗車180円均一で、坊っちゃん列車も観光客に人気です。",
         "aws_ai_explanation": "オンデマンド料金はAWSの基本的な課金モデルで、使用した分だけ従量課金されます。初期費用や長期契約が不要で、需要が予測しにくいワークロードに適しています。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Billing Pricing and Support",
     },
     {
@@ -1096,7 +1096,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "松山市はIT関連企業の集積地として四国随一。愛媛県は「デジタル田園都市国家構想」の推進拠点として、サテライトオフィスの誘致にも力を入れています。",
         "aws_ai_explanation": "AWS Budgetsはカスタム予算を設定し、コストや使用量が閾値を超えた際にアラート通知を送信します。さらにIAMポリシーやService Control Policyと連携した自動アクションで予算超過を防止できます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Billing Pricing and Support",
     },
     {
@@ -1110,7 +1110,7 @@ QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "しまなみ海道は今治市と広島県尾道市を結ぶ全長約60kmの自動車道。サイクリングの聖地としても知られ、自転車歩行者専用道路が併設されています。",
         "aws_ai_explanation": "Savings Plansは時間あたりの利用金額をコミットする柔軟な割引モデルです。Compute Savings Planはリージョン・インスタンスファミリー・OS・テナンシーを問わず適用でき、RIより柔軟にコスト削減が可能です。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Billing Pricing and Support",
     },
     {
@@ -1138,7 +1138,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "愛媛大学は松山市に本部を置く四国最大の総合大学。「紙産業イノベーションセンター」など地域産業と連携した研究が盛んで、データサイエンス教育にも注力しています。",
         "aws_ai_explanation": "AWS OrganizationsのSCP（サービスコントロールポリシー）は、組織単位（OU）やアカウントに対して許可されるAPIアクションの上限を定義します。IAMポリシーと異なり、権限の天井を設定する役割を持ちます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Billing Pricing and Support",
     },
     # =========================================================================
@@ -1155,7 +1155,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "道後温泉は3000年以上の歴史を持つ日本最古の温泉の一つ。聖徳太子も入浴したと伝わり、年間約80万人が訪れる松山市最大の観光スポットです。",
         "aws_ai_explanation": "機械学習は大量のデータからパターンを自動的に学習し、予測モデルを構築する技術です。Amazon SageMakerを使えば、MLモデルの構築・訓練・デプロイが容易に行えます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "AI and ML Fundamentals",
     },
     {
@@ -1169,7 +1169,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "愛媛のみかん選果場では光センサーで糖度・酸度を計測し、自動で等級分けを行います。甘さを数値化する技術で高品質なみかんを出荷しています。",
         "aws_ai_explanation": "分類はデータを事前定義されたカテゴリに振り分ける教師あり学習タスクです。スパム判定、画像認識、感情分析などに使われます。Amazon Comprehendは文書分類を提供します。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "AI and ML Fundamentals",
     },
     {
@@ -1197,7 +1197,7 @@ QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "今治タオルの製造では、織り上がったタオルを一枚一枚検品します。近年はAI画像認識を活用した自動検品システムの導入も進んでいます。",
         "aws_ai_explanation": "Amazon Rekognitionは画像・動画分析サービスで、物体検出、顔認識、テキスト検出などが可能です。製造業での不良品検出や品質管理にも活用されています。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "AI and ML Fundamentals",
     },
     {
@@ -1226,7 +1226,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "松山市は四国最大の都市で人口約50万人。道後温泉周辺や市中心部の不動産需要は高く、城下町の風情を残しつつ都市開発が進んでいます。",
         "aws_ai_explanation": "回帰は連続的な数値を予測する教師あり学習タスクです。住宅価格予測、売上予測などに使われ、SageMakerの組み込みアルゴリズムで容易に実装できます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "AI and ML Fundamentals",
     },
     {
@@ -1240,7 +1240,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "西条市の「うちぬき」は自噴する地下水で、日本名水百選に選ばれています。市内約3,000本の井戸から湧き出す水は生活用水や農業用水として利用されています。",
         "aws_ai_explanation": "クラスタリングは教師なし学習の代表的手法で、ラベルのないデータを類似性に基づいてグループ化します。顧客セグメンテーションや異常検知に活用されます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "AI and ML Fundamentals",
     },
     {
@@ -1268,7 +1268,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "新居浜市は住友グループ発祥の地で、別子銅山の操業以来400年の産業史を持ちます。現在も化学・機械工業が盛んな四国有数の工業都市です。",
         "aws_ai_explanation": "特徴量エンジニアリングは生データをモデルが学習しやすい形に変換する工程です。SageMaker Data WranglerやProcessingジョブで効率的にデータ前処理を行えます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "AI and ML Fundamentals",
     },
     {
@@ -1296,7 +1296,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "今治造船は国内最大手の造船会社で、年間建造量日本一を誇ります。大量の設計図や技術文書の管理にデジタル化を推進しています。",
         "aws_ai_explanation": "Amazon Comprehendは自然言語処理サービスで、テキストからキーフレーズ抽出、感情分析、エンティティ認識、トピックモデリングなどを提供します。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "AI and ML Fundamentals",
     },
     {
@@ -1324,7 +1324,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "しまなみ海道沿いの島々では高齢化が進み、行政手続きのデジタル化が課題です。今治市は電子申請の拡充など自治体DXを推進しています。",
         "aws_ai_explanation": "Amazon Textractは機械学習を使ってスキャン文書からテキスト、手書き文字、テーブル、フォームデータを自動抽出するOCRサービスです。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "AI and ML Fundamentals",
     },
     {
@@ -1338,7 +1338,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "愛媛大学は松山市にある四国最大規模の国立大学。データサイエンスやAI研究にも力を入れており、地域産業との連携プロジェクトも多数実施しています。",
         "aws_ai_explanation": "Amazon SageMakerはMLモデルの構築・訓練・デプロイを一貫して行えるフルマネージドサービスです。Jupyter Notebook、組み込みアルゴリズム、自動モデルチューニング機能を提供します。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "AI and ML Fundamentals",
     },
     {
@@ -1369,7 +1369,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "松山市は正岡子規の出身地として「俳句の都」と呼ばれ、市内約90箇所に俳句ポストが設置されています。毎年「俳句甲子園」も開催されます。",
         "aws_ai_explanation": "生成AIは新しいコンテンツ（テキスト、画像、コード等）を生成する技術です。Amazon Bedrockは複数の基盤モデル（Claude、Titan等）へのAPIアクセスを提供します。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Generative AI",
     },
     {
@@ -1383,7 +1383,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "夏目漱石は松山中学の英語教師として1895年に赴任。この経験を基に『坊っちゃん』を執筆し、松山は文学の街として知られるようになりました。",
         "aws_ai_explanation": "大規模言語モデル（LLM）は膨大なテキストデータで訓練された基盤モデルです。Amazon Bedrockでは Claude、Amazon Titan 等のLLMを API経由で利用できます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Generative AI",
     },
     {
@@ -1397,7 +1397,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "今治市は2023年からAIを活用した観光案内の実証実験を行っています。しまなみ海道のサイクリング情報や今治城の歴史をAIが多言語で案内する取り組みです。",
         "aws_ai_explanation": "RAGは外部知識ベースの情報を検索し、基盤モデルの回答に組み込む手法です。Amazon Bedrock Knowledge Basesを使えば、独自データを活用した正確なAI応答を実現できます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Generative AI",
     },
     {
@@ -1411,7 +1411,7 @@ QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "伊予弁は「〜やけん（だから）」「〜ぞなもし（ですよ）」などが特徴的。地域によって中予弁・南予弁・東予弁に分かれ、それぞれ微妙に異なります。",
         "aws_ai_explanation": "ファインチューニングは事前訓練済みモデルを特定のドメインやタスクに合わせて追加訓練する手法です。Amazon Bedrockではカスタムモデルの作成が可能で、独自データで精度を向上できます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Generative AI",
     },
     {
@@ -1425,7 +1425,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "松山市は外国人観光客も増加中で、道後温泉・松山城の多言語案内が進んでいます。2023年は年間約15万人の外国人観光客が愛媛を訪れました。",
         "aws_ai_explanation": "プロンプトエンジニアリングでは、明確な指示、具体的な出力形式、適切なコンテキスト提供が重要です。Few-shot例の提示やシステムプロンプトの活用で応答品質を向上させます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Generative AI",
     },
     # --- Generative AI 追加問題（q-ga-006 〜 q-ga-015） ---
@@ -1454,7 +1454,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "道後温泉では2019年から手塚治虫キャラクターとコラボした限定浴衣を提供。火の鳥や鉄腕アトムが描かれたデザインは観光客に大人気です。",
         "aws_ai_explanation": "Stable DiffusionはテキストプロンプトからAI画像を生成するモデルで、Amazon Bedrockから利用可能です。Amazon Titanにも画像生成モデルがあり、商用利用に適した画像を生成できます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Generative AI",
     },
     {
@@ -1482,7 +1482,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "今治造船は3DCADと独自の設計システムを活用し、年間約60隻を建造する国内最大の造船会社。デジタル技術を積極的に取り入れた効率的な生産体制を築いています。",
         "aws_ai_explanation": "Amazon CodeWhisperer（現Amazon Q Developer）はAIによるコード生成ツールで、コメントや既存コードのコンテキストから適切なコードを提案します。開発者の生産性を大幅に向上させます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Generative AI",
     },
     {
@@ -1510,7 +1510,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "西条市は「うちぬき」と呼ばれる自噴水が市内約3,000箇所から湧出する水の都。環境省の名水百選に選ばれ、生活用水としても広く利用されています。",
         "aws_ai_explanation": "コンテキストウィンドウはLLMが一度に処理できるトークン数の上限です。Claude 3は最大200Kトークンを処理可能で、長文の分析や大量の情報を含むプロンプトに対応できます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Generative AI",
     },
     {
@@ -1538,7 +1538,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "松山市はスタートアップ支援に力を入れ、愛媛大学周辺にインキュベーション施設を整備しています。AI関連の新興企業も増加し、地方からのイノベーション創出を目指しています。",
         "aws_ai_explanation": "Few-shotプロンプティングは入出力の具体例を数個提示して期待する応答形式を示す手法です。Chain-of-Thoughtは「ステップごとに考えて」と指示し、推論過程を明示させることで複雑な問題の精度を向上させます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Generative AI",
     },
     {
@@ -1566,7 +1566,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "しまなみ海道の橋梁は定期的に点検が行われ、塩害や疲労に対する維持管理が重要課題です。近年はドローンやAIを活用した効率的な点検技術の導入が進んでいます。",
         "aws_ai_explanation": "Amazon Bedrockガードレールは生成AIの入出力をフィルタリングし、有害コンテンツの生成防止、PII検出、トピック制限等を設定できます。安全で信頼性の高いAIアプリケーション構築に不可欠な機能です。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Generative AI",
     },
     # =========================================================================
@@ -1597,7 +1597,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "愛媛のみかん農家ではAIによる病害虫の早期発見の研究が進んでいます。かいよう病やそうか病などの柑橘類の病気を画像から自動検出する技術です。",
         "aws_ai_explanation": "説明可能性はAIの判断根拠を人間が理解できることを指します。重要な判断には Human-in-the-Loop（人間による監視）を組み込み、AIの誤りを検出・修正する仕組みが必要です。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Responsible AI",
     },
     {
@@ -1611,7 +1611,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "道後温泉は年間約80万人が利用。入浴客の動向データは観光戦略に活用されていますが、個人が特定されないよう統計データとして処理されています。",
         "aws_ai_explanation": "責任あるAIではデータプライバシーが最重要原則の一つ。利用者の同意取得、データの匿名化・最小化、目的外利用の禁止が基本です。AWSではAmazon Macie等でデータ保護を支援します。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Responsible AI",
     },
     # --- Responsible AI 追加問題（q-ra-004 〜 q-ra-010） ---
@@ -1626,7 +1626,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "今治タオルの品質検査では独自の「5秒ルール」を含む厳格な基準があり、近年はAI画像検査の導入で微細な欠陥も検出可能になっています。",
         "aws_ai_explanation": "透明性・解釈可能性とは、AIの判断プロセスを利用者が理解できる状態にすることです。Amazon SageMaker ClarifyはSHAP値を用いて特徴量の寄与度を可視化し、モデルの判断根拠を説明します。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Responsible AI",
     },
     {
@@ -1654,7 +1654,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "新居浜市は住友化学や住友金属鉱山など重化学工業が集積する工業都市。工場の設備保全にはIoTとAIを活用したスマートファクトリー化が進んでいます。",
         "aws_ai_explanation": "AIセキュリティ・ロバスト性は敵対的攻撃やデータ汚染からモデルを守ることを指します。AWS PrivateLinkで推論エンドポイントを保護し、入力バリデーションとモデル監視で異常を検出します。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Responsible AI",
     },
     {
@@ -1682,7 +1682,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "西条市は「うちぬき」の地下水を活かした農業が盛ん。スマート農業の実証実験ではAIによる水管理や施肥の最適化を進め、農家の判断を支援しています。",
         "aws_ai_explanation": "Human-in-the-Loopは重要な意思決定にAIの判断だけでなく人間のレビューを組み込む原則です。Amazon A2I（Augmented AI）はMLの予測結果に人間レビューワークフローを簡単に組み込めます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Responsible AI",
     },
     {
@@ -1710,7 +1710,7 @@ QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "松山市は道後温泉や松山城など年間約600万人の観光客が訪れる四国最大の観光都市。多言語対応のAI観光案内サービスの実証実験も行われています。",
         "aws_ai_explanation": "AIガバナンスではAI生成コンテンツの透明性確保が重要です。利用者にAIが応答していることを明示し、Amazon Bedrockのガードレール機能で不適切な出力を防止することが推奨されます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Responsible AI",
     },
     # =========================================================================

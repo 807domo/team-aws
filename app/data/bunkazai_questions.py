@@ -162,7 +162,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "大山祇神社（おおやまづみじんじゃ）は今治市大三島にある神社で、国宝の甲冑・刀剣を全国の8割所蔵。源頼朝・義経の鎧など貴重な武具が奉納されています。",
         "aws_ai_explanation": "AWS KMS（Key Management Service）は暗号鍵の作成・管理・ローテーションを行うサービスです。国宝級のデジタルデータを暗号化して保護する際の鍵管理に使用します。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Security and Compliance",
     },
     {
@@ -176,7 +176,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "西条祭りは毎年10月に開催され、約150台のだんじり・みこし・太鼓台が市内を練り歩きます。加茂川での「川入り」は祭りのクライマックスとして知られています。",
         "aws_ai_explanation": "AWS Lambdaはイベント駆動型のサーバーレスコンピューティングサービスです。HTTPリクエストやファイルアップロードなどのイベントをトリガーにコードが自動実行されます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -190,7 +190,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "石鎚山（いしづちさん・標高1,982m）は西日本最高峰で、古くから修験道の霊山として信仰を集めています。毎年7月のお山開きには数万人の登山者が訪れます。",
         "aws_ai_explanation": "AWSリージョンは世界各地に配置された独立したデータセンター群で、各リージョンは2つ以上のAZ（アベイラビリティゾーン）で構成されます。ユーザーに近いリージョンを選ぶことでレイテンシーを低減できます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Concepts",
     },
     {
@@ -204,7 +204,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "今治城は1602年に藤堂高虎が築城。堀に海水を引き入れた日本屈指の海城で、日本三大水城の一つに数えられます。",
         "aws_ai_explanation": "共有責任モデルではAWSがクラウド「の」セキュリティ（物理インフラ、ネットワーク）を担当し、利用者がクラウド「内の」セキュリティ（データ、アクセス管理、暗号化）を担当します。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Security and Compliance",
     },
     # --- 東予文化財コース（中級）---
@@ -219,7 +219,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "別子銅山は1691年から1973年まで283年間操業した銅山で、東洋のマチュピチュと呼ばれる東平地区など多数の遺構が近代化産業遺産に認定されています。",
         "aws_ai_explanation": "VPC Flow LogsはVPC内のネットワークインターフェースを通過するIPトラフィック情報をキャプチャするサービスです。セキュリティ監視やネットワーク問題の診断に活用します。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Security and Compliance",
     },
     {
@@ -233,7 +233,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "旧広瀬邸は別子銅山の近代化に貢献した広瀬宰平の邸宅で、明治10年建築の和風建築。庭園と合わせて国の重要文化財に指定されています。",
         "aws_ai_explanation": "Amazon DynamoDBはフルマネージドのNoSQLデータベースで、キーバリュー型データを1桁ミリ秒のレイテンシーで読み書きします。自動スケーリングで大規模アクセスにも対応可能です。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -247,7 +247,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "新居浜太鼓祭りは四国三大祭りの一つで、重さ約3トンの太鼓台を約150人で担ぐ勇壮な祭り。金糸銀糸で飾られた太鼓台の刺繍飾幕は有形民俗文化財に指定されています。",
         "aws_ai_explanation": "Amazon SNS（Simple Notification Service）はPub/Sub型のメッセージサービスで、1つのメッセージを複数のサブスクライバー（SQS、Lambda、メール等）に同時配信できます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -261,7 +261,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "村上海賊ミュージアムは今治市宮窪町にあり、戦国時代に瀬戸内海を支配した村上水軍の歴史資料を展示。「村上海賊」の記憶は2014年に日本遺産第一号に認定されました。",
         "aws_ai_explanation": "データレイクはS3にデータを集約し、AWS Glueでカタログ化・ETL処理、Amazon Athenaでサーバーレスにクエリ分析する構成が基本パターンです。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Technology and Services",
     },
     # --- 東予文化財コース（上級）---
@@ -276,7 +276,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "大山祇神社の宝物館には源義経奉納と伝わる赤糸威胴丸鎧をはじめ、国宝8件・国の重要文化財76件の武具が収蔵され、全国の国宝甲冑の約8割を占めています。",
         "aws_ai_explanation": "AWS WAF（Web Application Firewall）はWebアプリを悪意あるリクエストから保護します。SQLインジェクション、XSS、レートベース制限等のルールで攻撃をブロックします。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Security and Compliance",
     },
     {
@@ -290,7 +290,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "しまなみ海道の島々には大山祇神社をはじめ、耕三寺（西の日光）、亀老山展望台付近の石仏群など、古くからの信仰の跡が数多く残されています。",
         "aws_ai_explanation": "AWS OrganizationsとControl Towerを組み合わせることで、複数アカウントのガバナンス・セキュリティポリシー・コンプライアンスを一元管理できます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Security and Compliance",
     },
     # --- 中予文化財コース（基礎）---
@@ -305,7 +305,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "道後温泉本館は1894年（明治27年）建築の公衆浴場で、木造三層楼の重厚な建築が国の重要文化財に指定。3000年の歴史を持つ日本最古の温泉です。",
         "aws_ai_explanation": "高可用性はリソースを複数のAZ（アベイラビリティゾーン）に分散配置することで実現します。一つのAZに障害が発生しても他のAZでサービスを継続できます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Concepts",
     },
     {
@@ -319,7 +319,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "松山城天守は1854年に再建された三重三階地下一階の層塔型天守で、21棟の建造物が国の重要文化財。連立式天守群は日本三大連立式平山城の一つです。",
         "aws_ai_explanation": "Amazon EC2（Elastic Compute Cloud）は仮想サーバーを数分で起動でき、OS・CPU・メモリを自由に選択できるIaaSサービスです。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -333,7 +333,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 1,
         "ehime_trivia": "石手寺は松山市にある真言宗の寺院で、二王門（国宝）、本堂・三重塔（重要文化財）など多数の文化財を有します。遍路の元祖とされる衛門三郎伝説の地です。",
         "aws_ai_explanation": "クラウドの俊敏性（Agility）とは、リソースを数分で世界中にデプロイし、迅速に実験・拡張・縮小できることです。物理インフラの調達を待つ必要がありません。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Concepts",
     },
     {
@@ -347,7 +347,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "伊佐爾波神社（いさにわじんじゃ）は道後温泉近くの小高い丘に鎮座する神社で、全国に3例しかない八幡造の社殿が国の重要文化財に指定されています。",
         "aws_ai_explanation": "Amazon GuardDutyは機械学習を使ってAWSアカウント内の脅威を自動検知するサービスです。不正なAPIコール、暗号通貨マイニング、不審なネットワーク通信などを検出します。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Security and Compliance",
     },
     # --- 中予文化財コース（中級）---
@@ -362,7 +362,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "萬翠荘（ばんすいそう）は松山市にある1922年建築のフランス・ルネサンス風洋館。旧松山藩主の子孫・久松定謨伯爵の別邸として建てられ、国の重要文化財です。",
         "aws_ai_explanation": "AWS Certificate Manager（ACM）はSSL/TLS証明書のプロビジョニング・管理・デプロイを行うサービスです。ELBやCloudFrontと統合しHTTPS通信を設定できます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Security and Compliance",
     },
     {
@@ -376,7 +376,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "太山寺（たいさんじ）は松山市にある真言宗の寺院で、本堂は1305年建築の入母屋造で国宝に指定。愛媛県内の建造物で唯一の国宝です。",
         "aws_ai_explanation": "AWS X-Rayは分散アプリケーションのリクエストを追跡し、パフォーマンスボトルネックを視覚化するサービスです。マイクロサービス間のレイテンシーやエラー率を特定できます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -390,7 +390,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "砥部焼は砥部町で約240年の歴史を持つ磁器で、厚手の白磁に呉須（藍色）の手描き模様が特徴。1976年に国の伝統的工芸品に指定されました。",
         "aws_ai_explanation": "Amazon ECR（Elastic Container Registry）はDockerコンテナイメージを保存・管理するフルマネージドレジストリです。ECSやEKSと統合しバージョン管理や脆弱性スキャンを提供します。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Technology and Services",
     },
     {
@@ -404,7 +404,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "岩屋寺は久万高原町の標高700mにある寺院で、巨大な岩壁に囲まれた境内が特徴。大師堂は国の重要文化財に指定され、険しい参道は修行の場として知られています。",
         "aws_ai_explanation": "Amazon API GatewayはREST/HTTP/WebSocket APIを作成・管理するサービスです。Lambda関数と組み合わせることで、サーバー管理なしでAPIバックエンドを構築できます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Technology and Services",
     },
     # --- 中予文化財コース（上級）---
@@ -419,7 +419,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "石手寺二王門は1318年建築の楼門で国宝に指定。三間一戸の二重門で高さ約7m、均整の取れた鎌倉時代後期の代表的な建築として評価されています。",
         "aws_ai_explanation": "AWS Shield AdvancedはDDoS攻撃に対する高度な保護を提供します。リアルタイム攻撃検知、自動緩和、24/7のDDoSレスポンスチームへのアクセスを含みます。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Security and Compliance",
     },
     {
@@ -433,7 +433,7 @@ BUNKAZAI_QUESTIONS = [
         "correct_choice_index": 0,
         "ehime_trivia": "湯築城跡は道後公園として整備された中世の城跡で、河野氏が約250年間本拠とした城。二重の堀や土塁が良好に残り、2002年に国の史跡に指定されました。",
         "aws_ai_explanation": "Amazon EventBridgeはサーバーレスのイベントバスで、AWSサービス・SaaS・カスタムアプリからのイベントをルールベースでフィルタリングし、適切なターゲットにルーティングします。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Technology and Services",
     },
 ]
@@ -497,7 +497,7 @@ BUNKAZAI_QUESTIONS_EXTRA = [
         "correct_choice_index": 0,
         "ehime_trivia": "四国中央市は「紙のまち」として知られ、製紙業の出荷額日本一。江戸時代から続く手漉き和紙の技術は県の無形文化財に指定されています。",
         "aws_ai_explanation": "Amazon EFS（Elastic File System）は複数のEC2インスタンスから同時にアクセスできるフルマネージドのNFSファイルシステムです。共有ストレージが必要な場面に最適です。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Technology and Services",
     },
     # 東予文化財コース（中級）追加
@@ -512,7 +512,7 @@ BUNKAZAI_QUESTIONS_EXTRA = [
         "correct_choice_index": 0,
         "ehime_trivia": "伊予国分寺は西条市にある真言宗の寺院で、741年の聖武天皇の詔により建立。現在の本堂は1730年に再建されたもので、県指定有形文化財です。",
         "aws_ai_explanation": "Amazon Route 53は高可用性のDNSサービスで、ドメイン名のルーティングやヘルスチェック、フェイルオーバーを提供します。レイテンシーベースルーティングで最適なエンドポイントに誘導できます。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Technology and Services",
     },
     # 東予文化財コース（上級）追加
@@ -527,7 +527,7 @@ BUNKAZAI_QUESTIONS_EXTRA = [
         "correct_choice_index": 1,
         "ehime_trivia": "四国中央市の手漉き和紙は、原料の楮（こうぞ）から複数工程を経て完成する精緻な工芸品。この多段階プロセスは数百年の伝統を持ちます。",
         "aws_ai_explanation": "AWS Step Functionsはサーバーレスワークフローオーケストレーションサービスで、Lambda、ECS、SageMaker等を視覚的にフローとして連携させ、複雑なビジネスロジックを管理します。",
-        "difficulty": "中級",
+        "difficulty": "上級",
         "exam_domain": "Cloud Technology and Services",
     },
     # 中予文化財コース（基礎）追加
@@ -542,7 +542,7 @@ BUNKAZAI_QUESTIONS_EXTRA = [
         "correct_choice_index": 0,
         "ehime_trivia": "子規堂は松山市にある正岡子規の旧居を復元した記念堂で、子規が17歳まで過ごした家の間取りを再現。子規の遺品や直筆原稿が展示されています。",
         "aws_ai_explanation": "Amazon CloudWatch Logsはアプリケーションやシステムのログを収集・保存・検索するサービスです。ログインサイト機能でパターン分析や異常検知も可能です。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Technology and Services",
     },
     # 中予文化財コース（中級）追加
@@ -557,7 +557,7 @@ BUNKAZAI_QUESTIONS_EXTRA = [
         "correct_choice_index": 0,
         "ehime_trivia": "興居島（ごごしま）は松山市沖に浮かぶ島で、船踊りは江戸時代から伝わる舟上での踊り。秋祭りに船上で舞う勇壮な踊りが県の無形民俗文化財に指定されています。",
         "aws_ai_explanation": "Amazon SQS FIFOキューはメッセージの送信順序を厳密に保証するキューです。重複排除機能も備え、金融取引や順序が重要なワークフローに適しています。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Cloud Technology and Services",
     },
     # 中予文化財コース（上級）追加
@@ -572,7 +572,7 @@ BUNKAZAI_QUESTIONS_EXTRA = [
         "correct_choice_index": 0,
         "ehime_trivia": "久米官衙遺跡群は松山市で発見された7世紀の古代官衙（役所）跡で、国の史跡に指定。奈良時代の地方行政の実態を示す貴重な遺跡です。",
         "aws_ai_explanation": "エンベロープ暗号化はデータキーでデータを暗号化し、CMK（カスタマーマスターキー）でデータキーを暗号化する方式です。大量データを効率的に暗号化しつつ鍵の安全性を確保します。",
-        "difficulty": "上級",
+        "difficulty": "中級",
         "exam_domain": "Security and Compliance",
     },
 ]
