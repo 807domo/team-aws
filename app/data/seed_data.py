@@ -223,6 +223,90 @@ COURSES = [
         "difficulty": "中級",
         "description": "中級レベルのAWS学習コース（ステージ8）",
     },
+    {
+        "id": "nanyo-stage-11",
+        "name": "ステージ11：南予基礎コース",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "初級レベルのAWS学習コース（ステージ11）",
+    },
+    {
+        "id": "nanyo-stage-12",
+        "name": "ステージ12：南予基礎コース",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "初級レベルのAWS学習コース（ステージ12）",
+    },
+    {
+        "id": "nanyo-stage-13",
+        "name": "ステージ13：南予基礎コース",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "初級レベルのAWS学習コース（ステージ13）",
+    },
+    {
+        "id": "nanyo-stage-14",
+        "name": "ステージ14：南予基礎コース",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "初級レベルのAWS学習コース（ステージ14）",
+    },
+    {
+        "id": "chuyo-stage-09",
+        "name": "ステージ9：中予ネットワークコース",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "中級レベルのAWS学習コース（ステージ9）",
+    },
+    {
+        "id": "chuyo-stage-10",
+        "name": "ステージ10：中予サーバーレスコース",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "中級レベルのAWS学習コース（ステージ10）",
+    },
+    {
+        "id": "chuyo-stage-11",
+        "name": "ステージ11：中予運用管理コース",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "中級レベルのAWS学習コース（ステージ11）",
+    },
+    {
+        "id": "chuyo-stage-12",
+        "name": "ステージ12：中予IaCコース",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "中級レベルのAWS学習コース（ステージ12）",
+    },
+    {
+        "id": "toyo-stage-11",
+        "name": "ステージ11：東予DR・CI/CDコース",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "上級レベルのAWS学習コース（ステージ11）",
+    },
+    {
+        "id": "toyo-stage-12",
+        "name": "ステージ12：東予セキュリティ・データコース",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "上級レベルのAWS学習コース（ステージ12）",
+    },
+    {
+        "id": "toyo-stage-13",
+        "name": "ステージ13：東予アーキテクチャコース",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "上級レベルのAWS学習コース（ステージ13）",
+    },
+    {
+        "id": "toyo-stage-14",
+        "name": "ステージ14：東予DevOpsコース",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "上級レベルのAWS学習コース（ステージ14）",
+    },
 ]
 
 
@@ -1722,6 +1806,9 @@ QUESTIONS = [
 from app.data.bunkazai_questions import BUNKAZAI_QUESTIONS  # noqa: E402
 
 QUESTIONS.extend(BUNKAZAI_QUESTIONS)
+
+from app.data.extra_questions import EXTRA_QUESTIONS  # noqa: E402
+QUESTIONS.extend(EXTRA_QUESTIONS)
 
 # =============================================================================
 # シーディング関数
