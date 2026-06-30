@@ -1,0 +1,28 @@
+# データベース
+*.db
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# 環境
+.env
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+$null
+Thumbs.db
+.DS_Store
+
+# テスト生成物
+.hypothesis/
+.pytest_cache/
+test_integration.db

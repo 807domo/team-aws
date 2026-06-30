@@ -1,0 +1,648 @@
+/* =============================================================================
+   RPG風マップトップ画面 - スタイルシート
+   Requirements: 5.5, 6.1, 6.2, 6.3, 6.5
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   CSS Variables (RPG Map specific)
+   ----------------------------------------------------------------------------- */
+:root {
+    --map-transition-duration: 150ms;
+    --map-hover-opacity-increase: 0.2;
+    --map-hover-shadow-blur: 4px;
+    --map-selected-border-width: 3px;
+    --map-focus-outline-width: 2px;
+    --map-focus-outline-color: #1a73e8;
+
+    /* Progress status colors */
+    --color-not-started: #D1D5DB;
+    --color-in-progress: #FED7AA;
+    --color-complete: #F97316;
+
+    /* XP Gauge */
+    --xp-gauge-bg: #e0e0e0;
+    --xp-gauge-fill: linear-gradient(90deg, #f59e0b, #f97316);
+    --xp-gauge-height: 12px;
+    --xp-gauge-radius: 6px;
+}
+
+/* -----------------------------------------------------------------------------
+   1. SVG Map Container - Responsive, aspect ratio maintained
+   ----------------------------------------------------------------------------- */
+.rpg-map-container {
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+    overflow: hidden; /* No horizontal scroll */
+}
+
+.rpg-map-container svg {
+    display: block;
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    max-width: 100%;
+}
+
+/* -----------------------------------------------------------------------------
+   2. .map-area class - Interactive region elements
+   ----------------------------------------------------------------------------- */
+.map-area {
+    cursor: pointer;
+    transition: fill-opacity var(--map-transition-duration) ease,
+                filter var(--map-transition-duration) ease,
+                stroke var(--map-transition-duration) ease,
+                stroke-width var(--map-transition-duration) ease;
+}
+
+/* Default fill-opacity for map areas */
+.map-area path,
+.map-area polygon,
+.map-area rect {
+    transition: fill-opacity var(--map-transition-duration) ease,
+                filter var(--map-transition-duration) ease,
+                stroke var(--map-transition-duration) ease,
+                stroke-width var(--map-transition-duration) ease;
+}
+
+/* 地域境界線 - 各地域グループにdrop-shadowで境界を表示 */
+.map-area {
+    filter: drop-shadow(0 0 2px #1f2937) drop-shadow(0 0 1px #1f2937);
+}
+
+/* --- Hover state (non-selected only) --- */
+/* Requirement 6.1: fill-opacity +20%, drop-shadow 4px blur, transition 150ms */
+.map-area:hover:not(.selected):not([aria-pressed="true"]) {
+    filter: drop-shadow(0 0 2px #1f2937) drop-shadow(0 0 1px #1f2937) drop-shadow(0 0 var(--map-hover-shadow-blur) rgba(0, 0, 0, 0.4));
+}
+
+.map-area:hover:not(.selected):not([aria-pressed="true"]) path,
+.map-area:hover:not(.selected):not([aria-pressed="true"]) polygon,
+.map-area:hover:not(.selected):not([aria-pressed="true"]) rect {
+    fill-opacity: calc(var(--base-opacity, 0.8) + var(--map-hover-opacity-increase));
+}
+
+/* Fallback for browsers that don't support calc with custom properties on fill-opacity */
+.map-area:hover:not(.selected):not([aria-pressed="true"]) {
+    opacity: 1;
+    filter: drop-shadow(0 0 var(--map-hover-shadow-blur) rgba(0, 0, 0, 0.4));
+}
+
+/* --- Selected state --- */
+/* Region outer border only (not individual municipality borders) */
+/* Uses drop-shadow on the group to create outline effect on the region silhouette */
+.map-area.selected,
+.map-area[aria-pressed="true"] {
+    filter: drop-shadow(0 0 3px #1f2937) drop-shadow(0 0 2px #1f2937) drop-shadow(0 0 1px #1f2937);
+}
+
+/* Municipality paths have no stroke - region outline is achieved via drop-shadow */
+.map-area.selected path,
+.map-area.selected polygon,
+.map-area.selected rect,
+.map-area[aria-pressed="true"] path,
+.map-area[aria-pressed="true"] polygon,
+.map-area[aria-pressed="true"] rect {
+    stroke: none;
+}
+
+/* --- Selected + Hover: maintain selected state, no hover effect --- */
+/* Requirement 6.5: selected state maintained, hover effects NOT applied */
+.map-area.selected:hover,
+.map-area[aria-pressed="true"]:hover {
+    filter: drop-shadow(0 0 3px #1f2937) drop-shadow(0 0 2px #1f2937) drop-shadow(0 0 1px #1f2937);
+}
+
+.map-area.selected:hover path,
+.map-area.selected:hover polygon,
+.map-area.selected:hover rect,
+.map-area[aria-pressed="true"]:hover path,
+.map-area[aria-pressed="true"]:hover polygon,
+.map-area[aria-pressed="true"]:hover rect {
+    fill-opacity: var(--base-opacity, 0.8);
+}
+
+/* --- Focus-visible state --- */
+/* Requirement 6.4: 2px+ outline for keyboard navigation */
+.map-area:focus-visible {
+    outline: var(--map-focus-outline-width) solid var(--map-focus-outline-color);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Fallback for older browsers */
+.map-area:focus {
+    outline: var(--map-focus-outline-width) solid var(--map-focus-outline-color);
+    outline-offset: 2px;
+}
+
+.map-area:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* --- Map area text labels --- */
+.map-area text {
+    pointer-events: none;
+    user-select: none;
+    font-weight: 600;
+    font-size: 14px;
+    fill: #1f2937;
+}
+
+/* -----------------------------------------------------------------------------
+   3. Responsive rules - 320px to 1920px, aspect ratio, no horizontal scroll
+   ----------------------------------------------------------------------------- */
+/* Requirement 5.5 */
+@media (min-width: 320px) {
+    .rpg-map-container {
+        width: 100%;
+        padding: 0;
+    }
+
+    .rpg-map-container svg {
+        min-width: 280px;
+    }
+}
+
+@media (min-width: 768px) {
+    .rpg-map-container {
+        width: 80%;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 1200px) {
+    .rpg-map-container {
+        width: 60%;
+        max-width: 900px;
+    }
+}
+
+/* Ensure no horizontal scroll at any viewport */
+html, body {
+    overflow-x: hidden;
+}
+
+/* -----------------------------------------------------------------------------
+   4. XP Gauge / Progress Bar
+   ----------------------------------------------------------------------------- */
+.xp-gauge-container {
+    width: 100%;
+    margin: 0.5rem 0;
+}
+
+.xp-gauge-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--color-text-light, #666);
+    margin-bottom: 0.25rem;
+}
+
+.xp-gauge-bar {
+    width: 100%;
+    height: var(--xp-gauge-height);
+    background-color: var(--xp-gauge-bg);
+    border-radius: var(--xp-gauge-radius);
+    overflow: hidden;
+    position: relative;
+}
+
+.xp-gauge-fill {
+    height: 100%;
+    background: var(--xp-gauge-fill);
+    border-radius: var(--xp-gauge-radius);
+    transition: width 0.4s ease;
+    min-width: 0;
+}
+
+.xp-gauge-text {
+    font-size: 0.75rem;
+    color: var(--color-text-light, #666);
+    margin-top: 0.25rem;
+    text-align: right;
+}
+
+/* -----------------------------------------------------------------------------
+   5. Status Panel
+   ----------------------------------------------------------------------------- */
+.rpg-status-panel {
+    background: white;
+    border: 1px solid var(--color-border, #e0e0e0);
+    border-radius: var(--radius, 8px);
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow, 0 2px 8px rgba(0, 0, 0, 0.08));
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+}
+
+.rpg-status-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary, #e67e22), var(--color-primary-dark, #d35400));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.rpg-status-info {
+    flex: 1;
+    min-width: 200px;
+}
+
+.rpg-status-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text, #333);
+    margin-bottom: 0.15rem;
+}
+
+.rpg-status-title {
+    font-size: 0.85rem;
+    color: var(--color-primary, #e67e22);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.rpg-status-level {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: var(--color-bg-alt, #f9f9f9);
+    border: 1px solid var(--color-border, #e0e0e0);
+    border-radius: 999px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text, #333);
+}
+
+.rpg-status-level-number {
+    color: var(--color-primary, #e67e22);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+/* Responsive status panel */
+@media (max-width: 600px) {
+    .rpg-status-panel {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+    }
+
+    .rpg-status-info {
+        min-width: 100%;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   6. Course Cards (RPG styled)
+   ----------------------------------------------------------------------------- */
+.rpg-course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+}
+
+.rpg-course-card {
+    background: white;
+    border: 2px solid var(--color-border, #e0e0e0);
+    border-radius: var(--radius, 8px);
+    padding: 1.25rem;
+    box-shadow: var(--shadow, 0 2px 8px rgba(0, 0, 0, 0.08));
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.rpg-course-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--color-border, #e0e0e0);
+    transition: background 0.25s ease;
+}
+
+.rpg-course-card--complete::before {
+    background: var(--color-complete);
+}
+
+.rpg-course-card--in-progress::before {
+    background: var(--color-in-progress);
+}
+
+.rpg-course-card:hover {
+    border-color: var(--color-primary, #e67e22);
+    box-shadow: 0 6px 20px rgba(230, 126, 34, 0.15);
+    transform: translateY(-2px);
+}
+
+.rpg-course-card-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-text, #333);
+}
+
+.rpg-course-card-description {
+    font-size: 0.85rem;
+    color: var(--color-text-light, #666);
+    flex: 1;
+    margin-bottom: 0.75rem;
+}
+
+.rpg-course-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--color-text-light, #666);
+}
+
+.rpg-course-card-xp {
+    font-weight: 600;
+    color: var(--color-primary, #e67e22);
+}
+
+/* Responsive course grid */
+@media (max-width: 600px) {
+    .rpg-course-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   7. Region Tabs (RPG styled)
+   ----------------------------------------------------------------------------- */
+.rpg-region-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.rpg-region-tab {
+    padding: 0.6rem 1.2rem;
+    border: 2px solid var(--color-border, #e0e0e0);
+    background: var(--color-bg-alt, #f9f9f9);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text-light, #666);
+    cursor: pointer;
+    border-radius: var(--radius, 8px);
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.rpg-region-tab:hover {
+    color: var(--color-primary, #e67e22);
+    background: #fff3e0;
+    border-color: var(--color-primary, #e67e22);
+}
+
+.rpg-region-tab.active,
+.rpg-region-tab[aria-selected="true"] {
+    color: white;
+    background: var(--color-primary, #e67e22);
+    border-color: var(--color-primary, #e67e22);
+    box-shadow: 0 3px 8px rgba(230, 126, 34, 0.3);
+}
+
+.rpg-region-tab-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.rpg-region-tab-indicator--not-started {
+    background-color: var(--color-not-started);
+}
+
+.rpg-region-tab-indicator--in-progress {
+    background-color: var(--color-in-progress);
+}
+
+.rpg-region-tab-indicator--complete {
+    background-color: var(--color-complete);
+}
+
+/* Responsive region tabs */
+@media (max-width: 600px) {
+    .rpg-region-tabs {
+        gap: 0.4rem;
+    }
+
+    .rpg-region-tab {
+        padding: 0.5rem 0.9rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   8. Course Panel Container
+   ----------------------------------------------------------------------------- */
+.rpg-course-panel {
+    min-height: 200px;
+    transition: opacity 0.2s ease;
+}
+
+.rpg-course-panel[aria-busy="true"] {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Empty state for regions with no courses */
+.rpg-empty-region {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: var(--color-bg-alt, #f9f9f9);
+    border-radius: var(--radius, 8px);
+    border: 1px dashed var(--color-border, #e0e0e0);
+}
+
+.rpg-empty-region-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.rpg-empty-region-text {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text, #333);
+}
+
+/* -----------------------------------------------------------------------------
+   9. SVG Fallback (text links when SVG fails to render)
+   ----------------------------------------------------------------------------- */
+.rpg-map-fallback {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    padding: 1.5rem;
+    background: var(--color-bg-alt, #f9f9f9);
+    border-radius: var(--radius, 8px);
+    border: 1px solid var(--color-border, #e0e0e0);
+}
+
+.rpg-map-fallback-link {
+    padding: 0.75rem 1.5rem;
+    background: white;
+    border: 2px solid var(--color-border, #e0e0e0);
+    border-radius: var(--radius, 8px);
+    font-weight: 600;
+    color: var(--color-text, #333);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.rpg-map-fallback-link:hover {
+    border-color: var(--color-primary, #e67e22);
+    color: var(--color-primary, #e67e22);
+}
+
+/* -----------------------------------------------------------------------------
+   10. RPG Top Page Layout
+   ----------------------------------------------------------------------------- */
+.rpg-top-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+@media (min-width: 768px) {
+    .rpg-top-layout {
+        padding: 0 2rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .rpg-top-layout {
+        padding: 0 3rem;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   11. Responsive Side-by-Side Layout (Map + Course Panel)
+   Requirements: 2.1, 2.3, 2.4, 2.6
+   ----------------------------------------------------------------------------- */
+
+/* Default: single column stacked layout (mobile / narrow screens) */
+.rpg-main-layout {
+    display: block;
+}
+
+/* Wide screens (≥1024px): 2-column grid layout */
+@media (min-width: 1024px) {
+    .rpg-main-layout {
+        display: grid;
+        grid-template-columns: 45% 1fr;
+        gap: 2rem;
+        align-items: start;
+    }
+
+    .rpg-map-column {
+        position: sticky;
+        top: 80px;
+    }
+
+    .rpg-map-column .rpg-map-container {
+        width: 100%;
+        max-width: none;
+    }
+
+    .rpg-course-column {
+        max-height: calc(100vh - 160px);
+        overflow-y: auto;
+    }
+}
+
+/* Smooth scroll target offset for course section */
+#course-section {
+    scroll-margin-top: 80px;
+}
+
+/* -----------------------------------------------------------------------------
+   12. Click Feedback Animations
+   Requirements: 5.1, 5.2, 5.4, 5.5
+   ----------------------------------------------------------------------------- */
+
+/* Pulse animation - plays on click to give immediate visual feedback */
+@keyframes map-pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+.map-area--pulsing {
+  animation: map-pulse 200ms ease-out;
+  transform-origin: center;
+}
+
+/* Non-selected area dimming - reduces visibility of unselected regions */
+.map-area--dimmed {
+  opacity: 0.5;
+  transition: opacity 150ms ease;
+}
+
+/* Loading indicator - pulsing opacity while HTMX request is in flight */
+@keyframes map-loading-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.6; }
+}
+
+.map-area--loading {
+  animation: map-loading-pulse 800ms ease-in-out infinite;
+}
+
+/* -----------------------------------------------------------------------------
+   13. Map Tooltip
+   Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6
+   ----------------------------------------------------------------------------- */
+
+.map-tooltip {
+  position: fixed;
+  z-index: 9999;
+  background: #1f2937;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 150ms ease;
+  max-width: 300px;
+}
+
+/* Touch devices: disable tooltip entirely */
+@media (hover: none) {
+  .map-tooltip {
+    display: none !important;
+  }
+}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}模擬試験 - 試験タイプ選択 | 愛媛探索AIクイズ{% endblock %}
+
+{% block content %}
+<section class="mock-exam-select">
+    <h2>📝 模擬試験モード</h2>
+    <p class="section-description">
+        AWS認定資格の本番形式で模擬試験に挑戦しましょう。<br>
+        65問・90分のタイマー付き試験です。
+    </p>
+
+    {% if error %}
+    <div class="alert alert-error" role="alert">
+        <p>{{ error }}</p>
+    </div>
+    {% endif %}
+
+    <div class="exam-type-cards">
+        {% for exam in exam_types %}
+        <div class="exam-type-card">
+            <div class="exam-type-header">
+                <span class="exam-badge">{{ exam.short_label }}</span>
+                <h3>{{ exam.label }}</h3>
+            </div>
+            <p class="exam-type-description">{{ exam.description }}</p>
+            <div class="exam-type-info">
+                <span class="info-item">📋 {{ exam.questions }}問</span>
+                <span class="info-item">⏱️ {{ exam.duration }}分</span>
+            </div>
+            <form method="post" action="/mock-exam/start">
+                <input type="hidden" name="exam_type" value="{{ exam.value }}">
+                <button type="submit" class="btn btn-primary btn-start-exam">
+                    この試験を開始する
+                </button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="back-link">
+        <a href="/">← コース選択に戻る</a>
+    </div>
+</section>
+{% endblock %}
