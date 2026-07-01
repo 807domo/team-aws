@@ -32,280 +32,280 @@ COURSES = [
         "name": "ステージ1：南予探索コース",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "初級レベルのAWS学習コース（ステージ1）",
+        "description": "クラウドの基礎概念とWell-Architected Frameworkを学ぶ",
     },
     {
         "id": "nanyo-stage-02",
         "name": "ステージ2：宇和島コース",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "初級レベルのAWS学習コース（ステージ2）",
+        "description": "認証・認可の基礎とIAMの仕組みを学ぶ",
     },
     {
         "id": "nanyo-stage-03",
         "name": "ステージ3：南予文化財コース",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "初級レベルのAWS学習コース（ステージ3）",
+        "description": "S3やELBなど基本サービスの使い分けを学ぶ",
     },
     {
         "id": "nanyo-stage-04",
         "name": "ステージ4：南予自然コース",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "初級レベルのAWS学習コース（ステージ4）",
+        "description": "従量課金やリージョンなどクラウドの基本原則を学ぶ",
     },
     {
         "id": "nanyo-stage-05",
         "name": "ステージ5：南予探索コース",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "初級レベルのAWS学習コース（ステージ5）",
+        "description": "EC2・Lambda・コンテナの基礎を学ぶ",
     },
     {
         "id": "nanyo-stage-06",
         "name": "ステージ6：宇和島コース",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "初級レベルのAWS学習コース（ステージ6）",
+        "description": "セキュリティグループやMFAなどアクセス制御を学ぶ",
     },
     {
         "id": "nanyo-stage-07",
         "name": "ステージ7：南予文化財コース",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "初級レベルのAWS学習コース（ステージ7）",
+        "description": "RDS・DynamoDB・CloudFrontの基礎を学ぶ",
     },
     {
         "id": "nanyo-stage-08",
         "name": "ステージ8：南予自然コース",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "初級レベルのAWS学習コース（ステージ8）",
+        "description": "暗号化とデータ保護の基礎を学ぶ",
     },
     {
         "id": "nanyo-stage-09",
         "name": "ステージ9：南予探索コース",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "初級レベルのAWS学習コース（ステージ9）",
+        "description": "CloudTrail・Config・コンプライアンスを学ぶ",
     },
     {
         "id": "nanyo-stage-10",
         "name": "ステージ10：宇和島コース",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "初級レベルのAWS学習コース（ステージ10）",
+        "description": "AWS料金モデルとサポートプランを学ぶ",
     },
     {
         "id": "toyo-stage-01",
         "name": "ステージ1：東予産業コース",
         "region": "上級",
         "difficulty": "上級",
-        "description": "上級レベルのAWS学習コース（ステージ1）",
+        "description": "マルチリージョンDRとRPO/RTOを学ぶ",
     },
     {
         "id": "toyo-stage-02",
         "name": "ステージ2：しまなみ海道コース",
         "region": "上級",
         "difficulty": "上級",
-        "description": "上級レベルのAWS学習コース（ステージ2）",
+        "description": "ECS/Fargate・コンテナオーケストレーションを学ぶ",
     },
     {
         "id": "toyo-stage-03",
         "name": "ステージ3：東予文化財コース",
         "region": "上級",
         "difficulty": "上級",
-        "description": "上級レベルのAWS学習コース（ステージ3）",
+        "description": "WAF・Shield・DDoS防御を学ぶ",
     },
     {
         "id": "toyo-stage-04",
         "name": "ステージ4：東予技術コース",
         "region": "上級",
         "difficulty": "上級",
-        "description": "上級レベルのAWS学習コース（ステージ4）",
+        "description": "Step Functions・ワークフローオーケストレーションを学ぶ",
     },
     {
         "id": "toyo-stage-05",
         "name": "ステージ5：東予産業コース",
         "region": "上級",
         "difficulty": "上級",
-        "description": "上級レベルのAWS学習コース（ステージ5）",
+        "description": "データレイクとAthena/Glueによる分析基盤を学ぶ",
     },
     {
         "id": "toyo-stage-06",
         "name": "ステージ6：しまなみ海道コース",
         "region": "上級",
         "difficulty": "上級",
-        "description": "上級レベルのAWS学習コース（ステージ6）",
+        "description": "Organizations・Control Tower・ガバナンスを学ぶ",
     },
     {
         "id": "toyo-stage-07",
         "name": "ステージ7：東予文化財コース",
         "region": "上級",
         "difficulty": "上級",
-        "description": "上級レベルのAWS学習コース（ステージ7）",
+        "description": "Aurora Global DB・高度なDB設計を学ぶ",
     },
     {
         "id": "toyo-stage-08",
         "name": "ステージ8：東予技術コース",
         "region": "上級",
         "difficulty": "上級",
-        "description": "上級レベルのAWS学習コース（ステージ8）",
+        "description": "Kinesis・リアルタイムデータ処理を学ぶ",
     },
     {
         "id": "toyo-stage-09",
         "name": "ステージ9：東予産業コース",
         "region": "上級",
         "difficulty": "上級",
-        "description": "上級レベルのAWS学習コース（ステージ9）",
+        "description": "App Mesh・サービスメッシュ設計を学ぶ",
     },
     {
         "id": "toyo-stage-10",
         "name": "ステージ10：しまなみ海道コース",
         "region": "上級",
         "difficulty": "上級",
-        "description": "上級レベルのAWS学習コース（ステージ10）",
+        "description": "CDK・Infrastructure as Codeの応用を学ぶ",
     },
     {
         "id": "chuyo-stage-01",
         "name": "ステージ1：松山城コース",
         "region": "中級",
         "difficulty": "中級",
-        "description": "中級レベルのAWS学習コース（ステージ1）",
+        "description": "VPC設計とサブネット分離の実践を学ぶ",
     },
     {
         "id": "chuyo-stage-02",
         "name": "ステージ2：道後温泉コース",
         "region": "中級",
         "difficulty": "中級",
-        "description": "中級レベルのAWS学習コース（ステージ2）",
+        "description": "Auto ScalingとCloudWatch監視を学ぶ",
     },
     {
         "id": "chuyo-stage-03",
         "name": "ステージ3：中予文化財コース",
         "region": "中級",
         "difficulty": "中級",
-        "description": "中級レベルのAWS学習コース（ステージ3）",
+        "description": "RDSマルチAZとCloudFormationを学ぶ",
     },
     {
         "id": "chuyo-stage-04",
         "name": "ステージ4：中予先端コース",
         "region": "中級",
         "difficulty": "中級",
-        "description": "中級レベルのAWS学習コース（ステージ4）",
+        "description": "Lambda・API Gateway・サーバーレス設計を学ぶ",
     },
     {
         "id": "chuyo-stage-05",
         "name": "ステージ5：松山城コース",
         "region": "中級",
         "difficulty": "中級",
-        "description": "中級レベルのAWS学習コース（ステージ5）",
+        "description": "S3ライフサイクルとIAMロールを学ぶ",
     },
     {
         "id": "chuyo-stage-06",
         "name": "ステージ6：道後温泉コース",
         "region": "中級",
         "difficulty": "中級",
-        "description": "中級レベルのAWS学習コース（ステージ6）",
+        "description": "X-Ray・ECR・コンテナ運用を学ぶ",
     },
     {
         "id": "chuyo-stage-07",
         "name": "ステージ7：中予文化財コース",
         "region": "中級",
         "difficulty": "中級",
-        "description": "中級レベルのAWS学習コース（ステージ7）",
+        "description": "VPCエンドポイントとALBルーティングを学ぶ",
     },
     {
         "id": "chuyo-stage-08",
         "name": "ステージ8：中予先端コース",
         "region": "中級",
         "difficulty": "中級",
-        "description": "中級レベルのAWS学習コース（ステージ8）",
+        "description": "ACM・Certificate Manager・HTTPS設計を学ぶ",
     },
     {
         "id": "nanyo-stage-11",
         "name": "ステージ11：南予基礎コース",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "初級レベルのAWS学習コース（ステージ11）",
+        "description": "S3・EC2・リージョンの基礎を総復習",
     },
     {
         "id": "nanyo-stage-12",
         "name": "ステージ12：南予基礎コース",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "初級レベルのAWS学習コース（ステージ12）",
+        "description": "IAM・RDS・Route 53の活用方法を学ぶ",
     },
     {
         "id": "nanyo-stage-13",
         "name": "ステージ13：南予基礎コース",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "初級レベルのAWS学習コース（ステージ13）",
+        "description": "Lambda・Well-Architected・バージョニングを学ぶ",
     },
     {
         "id": "nanyo-stage-14",
         "name": "ステージ14：南予基礎コース",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "初級レベルのAWS学習コース（ステージ14）",
+        "description": "ELB・VPC・SNS・コスト管理を学ぶ",
     },
     {
         "id": "chuyo-stage-09",
         "name": "ステージ9：中予ネットワークコース",
         "region": "中級",
         "difficulty": "中級",
-        "description": "中級レベルのAWS学習コース（ステージ9）",
+        "description": "NATゲートウェイとVPCピアリングを学ぶ",
     },
     {
         "id": "chuyo-stage-10",
         "name": "ステージ10：中予サーバーレスコース",
         "region": "中級",
         "difficulty": "中級",
-        "description": "中級レベルのAWS学習コース（ステージ10）",
+        "description": "EventBridgeとサーバーレスイベント設計を学ぶ",
     },
     {
         "id": "chuyo-stage-11",
         "name": "ステージ11：中予運用管理コース",
         "region": "中級",
         "difficulty": "中級",
-        "description": "中級レベルのAWS学習コース（ステージ11）",
+        "description": "CloudWatch LogsとParameter Storeを学ぶ",
     },
     {
         "id": "chuyo-stage-12",
         "name": "ステージ12：中予IaCコース",
         "region": "中級",
         "difficulty": "中級",
-        "description": "中級レベルのAWS学習コース（ステージ12）",
+        "description": "CloudFormation変更セットとIaC実践を学ぶ",
     },
     {
         "id": "toyo-stage-11",
         "name": "ステージ11：東予DR・CI/CDコース",
         "region": "上級",
         "difficulty": "上級",
-        "description": "上級レベルのAWS学習コース（ステージ11）",
+        "description": "Blue/Greenデプロイ・CodeDeployを学ぶ",
     },
     {
         "id": "toyo-stage-12",
         "name": "ステージ12：東予セキュリティ・データコース",
         "region": "上級",
         "difficulty": "上級",
-        "description": "上級レベルのAWS学習コース（ステージ12）",
+        "description": "Lake Formation・データガバナンスを学ぶ",
     },
     {
         "id": "toyo-stage-13",
         "name": "ステージ13：東予アーキテクチャコース",
         "region": "上級",
         "difficulty": "上級",
-        "description": "上級レベルのAWS学習コース（ステージ13）",
+        "description": "GuardDuty・Security Hubで脅威検出を学ぶ",
     },
     {
         "id": "toyo-stage-14",
         "name": "ステージ14：東予DevOpsコース",
         "region": "上級",
         "difficulty": "上級",
-        "description": "上級レベルのAWS学習コース（ステージ14）",
+        "description": "GitOps・SCP・DevSecOpsを学ぶ",
     },
 ]
 
@@ -1807,8 +1807,8 @@ from app.data.bunkazai_questions import BUNKAZAI_QUESTIONS  # noqa: E402
 
 QUESTIONS.extend(BUNKAZAI_QUESTIONS)
 
-from app.data.extra_questions import EXTRA_QUESTIONS  # noqa: E402
-QUESTIONS.extend(EXTRA_QUESTIONS)
+from app.data.extra_questions import EXTRA_QUESTIONS as EXTRA_QUESTIONS_3  # noqa: E402
+QUESTIONS.extend(EXTRA_QUESTIONS_3)
 
 # =============================================================================
 # シーディング関数
@@ -1843,28 +1843,16 @@ def seed_database(db_session: Session) -> bool:
         )
         db_session.add(course)
 
-    # 問題の投入
-    for question_data in QUESTIONS:
+    # 問題の投入（重複IDスキップ）
+    seen_ids: set[str] = set()
+    all_questions = list(QUESTIONS) + list(EXTRA_QUESTIONS) + list(EXTRA_QUESTIONS_2)
+    for question_data in all_questions:
+        qid = question_data["id"]
+        if qid in seen_ids:
+            continue
+        seen_ids.add(qid)
         question = QuestionModel(
-            id=question_data["id"],
-            course_id=question_data["course_id"],
-            text=question_data["text"],
-            choice_1=question_data["choice_1"],
-            choice_2=question_data["choice_2"],
-            choice_3=question_data["choice_3"],
-            choice_4=question_data["choice_4"],
-            correct_choice_index=question_data["correct_choice_index"],
-            ehime_trivia=question_data["ehime_trivia"],
-            aws_ai_explanation=question_data["aws_ai_explanation"],
-            difficulty=question_data["difficulty"],
-            exam_domain=question_data["exam_domain"],
-        )
-        db_session.add(question)
-
-    # 追加問題の投入（模擬試験65問確保用）
-    for question_data in EXTRA_QUESTIONS + EXTRA_QUESTIONS_2:
-        question = QuestionModel(
-            id=question_data["id"],
+            id=qid,
             course_id=question_data["course_id"],
             text=question_data["text"],
             choice_1=question_data["choice_1"],
