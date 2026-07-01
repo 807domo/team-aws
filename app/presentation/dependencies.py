@@ -6,6 +6,8 @@ FastAPI の Depends() で使用する依存性注入関数を定義する。
 プレゼンテーション層からドメイン層・データ層への依存を管理する。
 """
 
+from collections.abc import Generator
+
 from fastapi import Depends, Request
 from sqlalchemy.orm import Session
 
@@ -35,6 +37,7 @@ def get_current_user_id(request: Request) -> str:
 
     Raises:
         RequiresLoginException: 未ログイン時にログイン画面へリダイレクト
+        RedirectResponse: 未ログイン時にログイン画面へリダイレクト
     """
     token = request.cookies.get(SESSION_COOKIE_NAME)
     user_id = AuthService.get_user_id_from_session(token)

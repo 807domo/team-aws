@@ -18,11 +18,11 @@ from typing import Optional
 
 
 class Region(str, Enum):
-    """愛媛県の地域区分"""
+    """難易度による区分（マップ上の地域に対応）"""
 
-    CHUYO = "中予"
-    NANYO = "南予"
-    TOYO = "東予"
+    NANYO = "初級"
+    TOYO = "中級"
+    CHUYO = "上級"
 
 
 class Difficulty(str, Enum):
@@ -55,6 +55,7 @@ class SessionStatus(str, Enum):
 
     IN_PROGRESS = "in_progress"
     COMPLETED = "completed"
+    SUSPENDED = "suspended"
     EXPIRED = "expired"
 
 
@@ -154,6 +155,8 @@ class CourseInfo:
     difficulty: Difficulty
     description: str
     question_count: int = 0
+    is_suspended: bool = False
+    answered_count: int = 0
 
 
 @dataclass

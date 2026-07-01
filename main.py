@@ -19,6 +19,7 @@ from app.data.database import DatabaseConnectionError, SessionLocal, create_tabl
 from app.data.seed_data import seed_database
 from app.domain.auth_service import AuthService
 from app.presentation.dependencies import RequiresLoginException
+from app.data.glossary_seed import seed_glossary
 from migrations.runner import run_migrations
 
 logger = logging.getLogger(__name__)
@@ -49,6 +50,15 @@ async def lifespan(app: FastAPI):
     finally:
         db.close()
 
+    # 起動時: 用語集シードデータ投入（データが空の場合のみ）
+    db = SessionLocal()
+    try:
+        seeded = seed_glossary(db)
+        if seeded:
+            logger.info("用語集シードデータを投入しました")
+    finally:
+        db.close()
+
     yield
     # 終了時: クリーンアップ（必要に応じて追加）
 
@@ -72,6 +82,10 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 # 認証コンテキストミドルウェア
 # =============================================================================
 
+from starlette.middleware.base import BaseHTTPMiddleware
+
+from app.domain.auth_service import AuthService
+
 
 class AuthContextMiddleware(BaseHTTPMiddleware):
     """リクエストスコープでログインユーザー名をrequest.stateに設定するミドルウェア。"""
@@ -84,6 +98,7 @@ class AuthContextMiddleware(BaseHTTPMiddleware):
 
         if user_id:
             try:
+                from app.data.database import SessionLocal
                 from app.data.models import UserModel
 
                 db = SessionLocal()
@@ -153,6 +168,28 @@ async def database_connection_error_handler(
 async def requires_login_handler(request: Request, exc: RequiresLoginException):
     """未ログイン時にログイン画面へリダイレクトする。"""
     return RedirectResponse(url="/auth/login", status_code=303)
+from app.presentation.dependencies import RequiresLoginException
+
+
+@app.exception_handler(RequiresLoginException)
+async def requires_login_handler(request: Request, exc: RequiresLoginException):
+    """未ログイン時にログイン画面へリダイレクトする。"""
+    from fastapi.responses import RedirectResponse
+
+    return RedirectResponse(url="/auth/login", status_code=303)
+
+
+# 注意: 汎用Exceptionハンドラーはデバッグ中は無効化
+# @app.exception_handler(Exception)
+# async def unhandled_exception_handler(
+#     request: Request, exc: Exception
+# ) -> HTMLResponse:
+#     """未処理の例外をキャッチしてユーザーフレンドリーなエラーページを返す。"""
+#     logger.error("未処理の例外: %s: %s", type(exc).__name__, str(exc))
+#     return HTMLResponse(
+#         content=f"<html><body><h1>Error</h1><pre>{type(exc).__name__}: {exc}</pre></body></html>",
+#         status_code=500,
+#     )
 
 
 # =============================================================================
@@ -180,3 +217,6 @@ app.include_router(quiz_router)
 from app.presentation.routers.mock_exam_router import router as mock_exam_router
 
 app.include_router(mock_exam_router)
+
+from app.presentation.routers.study_router import router as study_router
+app.include_router(study_router)

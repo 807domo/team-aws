@@ -8,8 +8,11 @@ GET /results/radar-chart でレーダーチャートデータをJSON形式で返
 from fastapi import APIRouter, Depends, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
+from sqlalchemy.orm import Session
 
+from app.data.database import get_db
 from app.domain.models import ExamType
+from app.domain.quiz_service import QuizService
 from app.domain.results_service import ResultsService
 from app.presentation.dependencies import get_current_user_id, get_results_service
 
@@ -20,6 +23,7 @@ templates = Jinja2Templates(directory="app/templates")
 @router.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(
     request: Request,
+    db: Session = Depends(get_db),
     results_service: ResultsService = Depends(get_results_service),
     user_id: str = Depends(get_current_user_id),
 ):
@@ -30,6 +34,18 @@ async def dashboard(
     学習履歴がない場合は「まだ学習履歴がありません」メッセージを表示する。
     """
     dashboard_data = results_service.get_dashboard_data(user_id)
+    # クイズ画面から離脱した場合、進行中セッションを中断扱いにする
+    quiz_service = QuizService(db)
+    quiz_service.complete_in_progress_sessions(DEFAULT_USER_ID)
+
+    dashboard_data = results_service.get_dashboard_data(DEFAULT_USER_ID)
+    dashboard_data = results_service.get_dashboard_data(user_id)
+
+    # 弱点領域を取得
+    weak_areas = results_service.get_weak_areas(user_id)
+
+    # おすすめコースを取得
+    recommended_courses = results_service.get_recommended_courses(user_id)
 
     # レーダーチャート用データをテンプレートに渡せる形式に変換
     radar_labels = list(dashboard_data.radar_chart.domain_accuracy.keys())

@@ -124,6 +124,8 @@ async def logout(request: Request):
     """ログアウトしてログイン画面にリダイレクトする。"""
     token = request.cookies.get(SESSION_COOKIE_NAME)
     if token:
+        AuthService.get_user_id_from_session(token)
+        # セッション無効化
         from app.domain.auth_service import _active_sessions
         _active_sessions.pop(token, None)
 

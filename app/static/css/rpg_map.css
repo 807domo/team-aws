@@ -64,10 +64,15 @@
                 stroke-width var(--map-transition-duration) ease;
 }
 
+/* 地域境界線 - 各地域グループにdrop-shadowで境界を表示 */
+.map-area {
+    filter: drop-shadow(0 0 2px #1f2937) drop-shadow(0 0 1px #1f2937);
+}
+
 /* --- Hover state (non-selected only) --- */
 /* Requirement 6.1: fill-opacity +20%, drop-shadow 4px blur, transition 150ms */
 .map-area:hover:not(.selected):not([aria-pressed="true"]) {
-    filter: drop-shadow(0 0 var(--map-hover-shadow-blur) rgba(0, 0, 0, 0.4));
+    filter: drop-shadow(0 0 2px #1f2937) drop-shadow(0 0 1px #1f2937) drop-shadow(0 0 var(--map-hover-shadow-blur) rgba(0, 0, 0, 0.4));
 }
 
 .map-area:hover:not(.selected):not([aria-pressed="true"]) path,
@@ -87,7 +92,7 @@
 /* Uses drop-shadow on the group to create outline effect on the region silhouette */
 .map-area.selected,
 .map-area[aria-pressed="true"] {
-    filter: drop-shadow(0 0 3px #1f2937) drop-shadow(0 0 1px #1f2937);
+    filter: drop-shadow(0 0 3px #1f2937) drop-shadow(0 0 2px #1f2937) drop-shadow(0 0 1px #1f2937);
 }
 
 /* Municipality paths have no stroke - region outline is achieved via drop-shadow */
@@ -104,7 +109,7 @@
 /* Requirement 6.5: selected state maintained, hover effects NOT applied */
 .map-area.selected:hover,
 .map-area[aria-pressed="true"]:hover {
-    filter: none;
+    filter: drop-shadow(0 0 3px #1f2937) drop-shadow(0 0 2px #1f2937) drop-shadow(0 0 1px #1f2937);
 }
 
 .map-area.selected:hover path,

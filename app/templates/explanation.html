@@ -121,6 +121,20 @@
         {% endif %}
     </div>
 
+    <!-- 中断ボタン（最終問題以外） -->
+    {% if not is_last_question %}
+    <div class="text-center mt-3">
+        <form method="post" action="/quiz/{{ session_id }}/abort"
+              onsubmit="return confirm('クイズを中断しますか？ここまでの回答は記録されます。');">
+            <button type="submit"
+                    class="inline-block bg-white text-gray-600 border border-gray-300 py-2 px-6 rounded-lg
+                           text-sm hover:bg-gray-50 transition-colors duration-200">
+                ⏸ 中断する
+            </button>
+        </form>
+    </div>
+    {% endif %}
+
     <!-- 進捗表示 -->
     <div class="text-center mt-4 text-sm text-gray-500">
         問題 {{ question_index + 1 }} / {{ total_questions }}
