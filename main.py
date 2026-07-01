@@ -10,12 +10,15 @@ import logging
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.data.database import DatabaseConnectionError, SessionLocal, create_tables
 from app.data.seed_data import seed_database
+from app.domain.auth_service import AuthService
+from app.presentation.dependencies import RequiresLoginException
 from migrations.runner import run_migrations
 
 logger = logging.getLogger(__name__)
@@ -66,6 +69,39 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 
 # =============================================================================
+# 認証コンテキストミドルウェア
+# =============================================================================
+
+
+class AuthContextMiddleware(BaseHTTPMiddleware):
+    """リクエストスコープでログインユーザー名をrequest.stateに設定するミドルウェア。"""
+
+    async def dispatch(self, request, call_next):
+        token = request.cookies.get("session_token")
+        user_id = AuthService.get_user_id_from_session(token)
+
+        request.state.current_user_name = None
+
+        if user_id:
+            try:
+                from app.data.models import UserModel
+
+                db = SessionLocal()
+                user = db.query(UserModel).filter(UserModel.id == user_id).first()
+                if user:
+                    request.state.current_user_name = user.display_name
+                db.close()
+            except Exception:
+                pass
+
+        response = await call_next(request)
+        return response
+
+
+app.add_middleware(AuthContextMiddleware)
+
+
+# =============================================================================
 # グローバルエラーハンドラー
 # =============================================================================
 
@@ -113,17 +149,10 @@ async def database_connection_error_handler(
     )
 
 
-# 注意: 汎用Exceptionハンドラーはデバッグ中は無効化
-# @app.exception_handler(Exception)
-# async def unhandled_exception_handler(
-#     request: Request, exc: Exception
-# ) -> HTMLResponse:
-#     """未処理の例外をキャッチしてユーザーフレンドリーなエラーページを返す。"""
-#     logger.error("未処理の例外: %s: %s", type(exc).__name__, str(exc))
-#     return HTMLResponse(
-#         content=f"<html><body><h1>Error</h1><pre>{type(exc).__name__}: {exc}</pre></body></html>",
-#         status_code=500,
-#     )
+@app.exception_handler(RequiresLoginException)
+async def requires_login_handler(request: Request, exc: RequiresLoginException):
+    """未ログイン時にログイン画面へリダイレクトする。"""
+    return RedirectResponse(url="/auth/login", status_code=303)
 
 
 # =============================================================================
@@ -133,6 +162,10 @@ async def database_connection_error_handler(
 from app.presentation.routers.top_router import router as top_router
 
 app.include_router(top_router)
+
+from app.presentation.routers.auth_router import router as auth_router
+
+app.include_router(auth_router)
 
 from app.presentation.routers.course_router import router as course_router
 from app.presentation.routers.results_router import router as results_router
