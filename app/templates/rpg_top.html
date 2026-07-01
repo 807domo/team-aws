@@ -230,6 +230,9 @@
                 hx-swap="innerHTML"
             >
                 {{ region_data.region.value }}
+                <span class="ml-1 text-xs opacity-75">
+                    {% if region_data.region.name == "NANYO" %}南予{% elif region_data.region.name == "CHUYO" %}中予{% else %}東予{% endif %}
+                </span>
                 <span class="ml-1 text-xs opacity-75">({{ region_data.progress_status }})</span>
             </button>
             {% endfor %}
