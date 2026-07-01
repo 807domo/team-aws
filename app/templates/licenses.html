@@ -1,13 +1,73 @@
 {% extends "base.html" %}
 
-{% block title %}ライセンス - 愛媛探索AIクイズ{% endblock %}
+{% block title %}利用規約・ライセンス - 愛媛探索AIクイズ{% endblock %}
 
 {% block content %}
 <section class="max-w-3xl mx-auto">
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">📜 ライセンス・クレジット</h1>
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">📜 利用規約・ライセンス・クレジット</h1>
 
+    <!-- 利用規約 -->
     <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-        <h2 class="text-lg font-bold text-gray-800 mb-3">愛媛県地図データ</h2>
+        <h2 class="text-lg font-bold text-gray-800 mb-4">📋 利用規約</h2>
+        <div class="text-sm text-gray-700 space-y-4">
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-1">第1条（サービスの目的）</h3>
+                <p>「愛媛探索AIクイズ」（以下「本サービス」）は、愛媛県の大学生・高専生を対象としたAWS認定資格学習支援を目的とした教育用Webアプリケーションです。PBL（Project Based Learning）の成果物として開発されたものであり、商用利用は想定していません。</p>
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-1">第2条（利用資格）</h3>
+                <p>本サービスは、どなたでも無料でご利用いただけます。ユーザー登録時にパスワードを設定していただきますが、個人を特定する情報（メールアドレス等）は収集しません。</p>
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-1">第3条（禁止事項）</h3>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li>本サービスへの不正アクセスや過負荷攻撃</li>
+                    <li>他のユーザーのアカウントへの不正ログイン</li>
+                    <li>問題データの大量スクレイピングや無断転載</li>
+                    <li>本サービスの問題を実際のAWS認定試験の問題として流布する行為</li>
+                    <li>その他、本サービスの運営を妨害する行為</li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-1">第4条（免責事項）</h3>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li>本サービスの問題はAWS認定試験の公式問題ではなく、学習支援を目的としたオリジナル問題です。</li>
+                    <li>本サービスの利用によるAWS認定試験の合否について、開発者は一切の責任を負いません。</li>
+                    <li>本サービスは予告なくサービスを変更・中断・終了する場合があります。</li>
+                    <li>学習データはサーバー再起動時にリセットされる場合があります。</li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-1">第5条（知的財産権）</h3>
+                <p>本サービスに含まれる問題文・解説文・愛媛トリビアの著作権は開発チームに帰属します。愛媛県の文化財・観光情報は愛媛県および各自治体の公開データを参考に作成しています。</p>
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-1">第6条（プライバシー）</h3>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li>本サービスが保存するデータ：表示名、パスワードハッシュ、学習履歴（回答記録・スコア）</li>
+                    <li>メールアドレスや個人を特定する情報は収集しません。</li>
+                    <li>学習データは本サービスの学習進捗表示にのみ使用し、第三者に提供することはありません。</li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-1">第7条（AI生成コンテンツ）</h3>
+                <p>本サービスの一部の問題はAI（Google Gemini等）により自動生成される場合があります。AI生成問題の正確性については最善を尽くしていますが、誤りが含まれる可能性があります。</p>
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-1">第8条（参考資料）</h3>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li>えひめの文化財（愛媛県教育委員会）: <a href="https://www.pref.ehime.jp/site/ehimenotakara/" target="_blank" class="text-orange-600 hover:underline">https://www.pref.ehime.jp/site/ehimenotakara/</a></li>
+                    <li>愛媛県指定文化財一覧（愛媛県教育委員会）: <a href="https://ehime-kyoiku.esnet.ed.jp/bunkazai/shitei-itiran" target="_blank" class="text-orange-600 hover:underline">https://ehime-kyoiku.esnet.ed.jp/bunkazai/shitei-itiran</a></li>
+                    <li>AWS公式ドキュメント: <a href="https://docs.aws.amazon.com/" target="_blank" class="text-orange-600 hover:underline">https://docs.aws.amazon.com/</a></li>
+                </ul>
+            </div>
+            <p class="text-xs text-gray-500 mt-4">最終更新: 2026年7月</p>
+        </div>
+    </div>
+
+    <!-- ライセンス -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-lg font-bold text-gray-800 mb-3">🗺️ 愛媛県地図データ</h2>
         <table class="w-full text-sm">
             <tbody>
                 <tr class="border-b">
@@ -27,23 +87,31 @@
                 </tr>
                 <tr>
                     <td class="py-2 pr-4 font-medium text-gray-600 whitespace-nowrap">改変内容</td>
-                    <td class="py-2 text-gray-800">Modified to group municipalities into Toyo, Chuyo, and Nanyo regions for interactive use</td>
+                    <td class="py-2 text-gray-800">3地域（東予・中予・南予）にグルーピングし、インタラクティブ機能・ステージピンを追加</td>
                 </tr>
             </tbody>
         </table>
-        <p class="mt-4 text-xs text-gray-500">
-            Based on the original work by Lincun, licensed under CC BY-SA 3.0.
-            Modified to group municipalities into Toyo (東予), Chuyo (中予), and Nanyo (南予) regions for interactive use in this application.
-        </p>
     </div>
 
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-lg font-bold text-gray-800 mb-3">その他のライブラリ</h2>
+    <!-- 使用ライブラリ -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-lg font-bold text-gray-800 mb-3">📦 使用ライブラリ・サービス</h2>
         <ul class="space-y-2 text-sm text-gray-700">
+            <li><strong>FastAPI</strong> — <a href="https://fastapi.tiangolo.com/" target="_blank" rel="noopener" class="text-orange-600 hover:underline">fastapi.tiangolo.com</a> (MIT)</li>
+            <li><strong>SQLAlchemy</strong> — <a href="https://www.sqlalchemy.org/" target="_blank" rel="noopener" class="text-orange-600 hover:underline">sqlalchemy.org</a> (MIT)</li>
             <li><strong>HTMX</strong> — <a href="https://htmx.org/" target="_blank" rel="noopener" class="text-orange-600 hover:underline">htmx.org</a> (BSD 2-Clause)</li>
             <li><strong>Tailwind CSS</strong> — <a href="https://tailwindcss.com/" target="_blank" rel="noopener" class="text-orange-600 hover:underline">tailwindcss.com</a> (MIT)</li>
-            <li><strong>FastAPI</strong> — <a href="https://fastapi.tiangolo.com/" target="_blank" rel="noopener" class="text-orange-600 hover:underline">fastapi.tiangolo.com</a> (MIT)</li>
+            <li><strong>Chart.js</strong> — <a href="https://www.chartjs.org/" target="_blank" rel="noopener" class="text-orange-600 hover:underline">chartjs.org</a> (MIT)</li>
+            <li><strong>Google Gemini API</strong> — AI問題自動生成に使用（APIキー設定時のみ）</li>
+            <li><strong>BGM</strong> — Web Audio APIによるプロシージャル生成（外部素材不使用）</li>
         </ul>
+    </div>
+
+    <!-- 開発者情報 -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-lg font-bold text-gray-800 mb-3">👥 開発チーム</h2>
+        <p class="text-sm text-gray-700">本サービスはPBLプロジェクトの一環として開発されました。</p>
+        <p class="text-sm text-gray-500 mt-2">© 2026 愛媛探索AIクイズ開発チーム</p>
     </div>
 
     <div class="mt-6 text-center">
