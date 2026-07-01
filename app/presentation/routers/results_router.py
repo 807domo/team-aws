@@ -98,3 +98,38 @@ async def radar_chart_data(
             "values": list(radar_data.domain_accuracy.values()),
         }
     )
+
+
+@router.get("/mock-exams", response_class=HTMLResponse)
+async def mock_exam_history(
+    request: Request,
+    db: Session = Depends(get_db),
+    user_id: str = Depends(get_current_user_id),
+):
+    """模擬試験の受験履歴を表示する。"""
+    from app.data.models import MockExamResultModel
+
+    results = (
+        db.query(MockExamResultModel)
+        .filter(MockExamResultModel.user_id == user_id)
+        .order_by(MockExamResultModel.completed_at.desc())
+        .all()
+    )
+
+    history = [
+        {
+            "exam_type": r.exam_type,
+            "total_questions": r.total_questions,
+            "correct_count": r.correct_count,
+            "score_percentage": r.score_percentage,
+            "grade": r.grade,
+            "completed_at": r.completed_at.strftime("%Y/%m/%d %H:%M"),
+        }
+        for r in results
+    ]
+
+    return templates.TemplateResponse(
+        request,
+        "mock_exam_history.html",
+        context={"history": history},
+    )
