@@ -20,9 +20,9 @@ from typing import Optional
 class Region(str, Enum):
     """難易度による区分（マップ上の地域に対応）"""
 
-    NANYO = "初級"
-    TOYO = "中級"
-    CHUYO = "上級"
+    NANYO = "初級"    # 南予 - 初級
+    CHUYO = "中級"    # 中予 - 中級
+    TOYO = "上級"     # 東予 - 上級
 
 
 class Difficulty(str, Enum):
