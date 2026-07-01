@@ -20,13 +20,13 @@ from app.data.user_record_repository import UserRecordRepository
 from app.domain.gemini_question_generator import GeminiQuestionGenerator
 from app.domain.models import AnswerRecord, Question, WeakArea
 from app.domain.scoring import identify_weak_areas
+from app.presentation.dependencies import get_current_user_id
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/ai-practice", tags=["ai-practice"])
 templates = Jinja2Templates(directory="app/templates")
 
-DEFAULT_USER_ID = "default_user"
 MIN_ANSWERS_FOR_AI = 5  # AI生成に必要な最低回答数
 
 # シングルトンインスタンス
@@ -44,6 +44,7 @@ def _get_generator() -> GeminiQuestionGenerator:
 async def start_ai_practice(
     request: Request,
     db: Session = Depends(get_db),
+    user_id: str = Depends(get_current_user_id),
 ):
     """AI練習問題を開始する。
 
@@ -54,7 +55,7 @@ async def start_ai_practice(
     generator = _get_generator()
 
     # ユーザーの回答記録を取得
-    records = user_record_repo.get_records_by_user(DEFAULT_USER_ID)
+    records = user_record_repo.get_records_by_user(user_id)
 
     if len(records) < MIN_ANSWERS_FOR_AI:
         return templates.TemplateResponse(
