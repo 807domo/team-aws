@@ -1,13 +1,20 @@
 {% if region_data and region_data.courses %}
 <div class="course-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
     {% for course in region_data.courses %}
-    <div class="course-card bg-white rounded-lg shadow-md p-4 border-l-4"
+    <div class="course-card bg-white rounded-lg shadow-md p-4 border-l-4
+         {% if course.completion_status == 'perfect' %}ring-2 ring-green-400 bg-green-50{% elif course.completion_status == 'in_progress' %}ring-2 ring-yellow-300 bg-yellow-50{% endif %}"
          style="border-left-color: {{ region_data.fill_color }};">
         <div class="flex items-start justify-between mb-2">
             <h3 class="font-bold text-gray-800">{{ course.name }}</h3>
-            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">
-                {{ course.difficulty.value }}
-            </span>
+            <div class="flex items-center gap-1">
+                {% if course.completion_status == 'perfect' %}
+                <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded font-medium">✅ 完全正解</span>
+                {% elif course.completion_status == 'in_progress' %}
+                <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded font-medium">🔶 途中</span>
+                {% else %}
+                <span class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded font-medium">⬜ 未着手</span>
+                {% endif %}
+            </div>
         </div>
         <p class="text-sm text-gray-600 mb-3">{{ course.description }}</p>
         <div class="flex items-center justify-between">

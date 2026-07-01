@@ -121,6 +121,19 @@ def _get_region_map_data(
         questions = question_repo.get_questions_by_course(course.id)
         is_suspended = course.id in suspended_sessions
         answered_count = suspended_sessions.get(course.id, 0)
+
+        # コースごとの完了ステータスを判定
+        question_ids = [q.id for q in questions]
+        course_records = [r for r in user_records if r.course_id == course.id]
+        correct_question_ids = {r.question_id for r in course_records if r.is_correct}
+
+        if len(correct_question_ids) == 0 and not is_suspended:
+            completion_status = "not_started"
+        elif correct_question_ids >= set(question_ids) and len(question_ids) > 0:
+            completion_status = "perfect"
+        else:
+            completion_status = "in_progress"
+
         course_infos.append(
             CourseInfo(
                 id=course.id,
@@ -131,6 +144,7 @@ def _get_region_map_data(
                 question_count=len(questions),
                 is_suspended=is_suspended,
                 answered_count=answered_count,
+                completion_status=completion_status,
             )
         )
 

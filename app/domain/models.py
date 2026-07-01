@@ -157,6 +157,7 @@ class CourseInfo:
     question_count: int = 0
     is_suspended: bool = False
     answered_count: int = 0
+    completion_status: str = "not_started"  # "not_started" | "in_progress" | "perfect"
 
 
 @dataclass
