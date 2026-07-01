@@ -119,8 +119,39 @@ def _get_region_map_data(
     course_infos = []
     for course in courses:
         questions = question_repo.get_questions_by_course(course.id)
+        question_ids = [q.id for q in questions]
         is_suspended = course.id in suspended_sessions
         answered_count = suspended_sessions.get(course.id, 0)
+
+        # ピンの状態を判定
+        pin_status = "not_started"
+        if question_ids:
+            # このコースの回答記録を抽出
+            course_records = [r for r in user_records if r.course_id == course.id]
+            if course_records:
+                correct_ids = {r.question_id for r in course_records if r.is_correct}
+                if correct_ids >= set(question_ids):
+                    # 全問正解の記録があるか確認
+                    all_correct = all(
+                        any(r.question_id == qid and r.is_correct for r in course_records)
+                        for qid in question_ids
+                    )
+                    # 不正解が1つもないか（=満点）
+                    incorrect_exists = any(
+                        r.course_id == course.id and not r.is_correct
+                        for r in course_records
+                    )
+                    if all_correct and not incorrect_exists:
+                        pin_status = "perfect"
+                    elif all_correct:
+                        pin_status = "completed"
+                    else:
+                        pin_status = "in_progress"
+                else:
+                    pin_status = "in_progress"
+        elif is_suspended:
+            pin_status = "in_progress"
+
         course_infos.append(
             CourseInfo(
                 id=course.id,
@@ -131,6 +162,7 @@ def _get_region_map_data(
                 question_count=len(questions),
                 is_suspended=is_suspended,
                 answered_count=answered_count,
+                pin_status=pin_status,
             )
         )
 
