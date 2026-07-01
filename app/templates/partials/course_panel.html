@@ -1,13 +1,25 @@
 {% if region_data and region_data.courses %}
 <div class="course-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
     {% for course in region_data.courses %}
-    <div class="course-card bg-white rounded-lg shadow-md p-4 border-l-4"
-         style="border-left-color: {{ region_data.fill_color }};">
+    <div class="course-card rounded-lg shadow-md p-4 border-l-4
+         {% if course.pin_status == 'perfect' %}bg-yellow-50 border-l-yellow-400
+         {% elif course.pin_status == 'completed' %}bg-green-50 border-l-green-400
+         {% elif course.pin_status == 'in_progress' %}bg-orange-50 border-l-orange-400
+         {% else %}bg-white border-l-gray-300{% endif %}"
+    >
         <div class="flex items-start justify-between mb-2">
             <h3 class="font-bold text-gray-800">{{ course.name }}</h3>
-            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded whitespace-nowrap shrink-0">
-                {{ course.difficulty.value }}
-            </span>
+            <div class="flex items-center gap-1 shrink-0">
+                {% if course.pin_status == 'perfect' %}
+                <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded whitespace-nowrap">🌟 満点</span>
+                {% elif course.pin_status == 'completed' %}
+                <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded whitespace-nowrap">✓ 完了</span>
+                {% elif course.pin_status == 'in_progress' %}
+                <span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded whitespace-nowrap">● 着手中</span>
+                {% else %}
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded whitespace-nowrap">○ 未着手</span>
+                {% endif %}
+            </div>
         </div>
         <p class="text-sm text-gray-600 mb-3">{{ course.description }}</p>
         <div class="flex items-center justify-between">
@@ -17,6 +29,14 @@
                 <span class="text-xs text-yellow-600 font-medium mr-2">⏸ {{ course.answered_count }}/{{ course.question_count }}問目で中断中</span>
                 <button type="submit" class="text-xs bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition-colors">
                     ▶ 再開
+                </button>
+                {% elif course.pin_status == 'perfect' %}
+                <button type="submit" class="text-xs bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition-colors">
+                    🌟 再挑戦
+                </button>
+                {% elif course.pin_status == 'completed' %}
+                <button type="submit" class="text-xs bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition-colors">
+                    ✓ 再挑戦
                 </button>
                 {% else %}
                 <button type="submit" class="text-xs bg-orange-500 text-white px-3 py-1 rounded hover:bg-orange-600 transition-colors">
