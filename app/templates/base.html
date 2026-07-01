@@ -81,13 +81,28 @@
             else { toggleBtn.textContent = '🔊'; }
         }
 
+        function tryAutoPlay() {
+            if (!isMuted) {
+                audio.play().then(function() {
+                    localStorage.setItem('bgm-playing', 'true');
+                    updateIcon();
+                }).catch(function() {
+                    // autoplay blocked — wait for user interaction
+                });
+            }
+        }
+
         toggleBtn.addEventListener('click', function() {
             if (isMuted || audio.paused) {
                 isMuted = false;
-                audio.play().then(updateIcon).catch(function(){});
+                audio.play().then(function() {
+                    localStorage.setItem('bgm-playing', 'true');
+                    updateIcon();
+                });
             } else {
                 isMuted = true;
                 audio.pause();
+                localStorage.setItem('bgm-playing', 'false');
                 updateIcon();
             }
             localStorage.setItem('bgm-muted', isMuted);
@@ -97,18 +112,38 @@
             volume = parseInt(this.value);
             audio.volume = volume / 100;
             localStorage.setItem('bgm-volume', volume);
-            if (volume === 0) { isMuted = true; audio.pause(); }
-            else if (isMuted) { isMuted = false; audio.play(); }
+            if (volume === 0) {
+                isMuted = true;
+                audio.pause();
+                localStorage.setItem('bgm-playing', 'false');
+            } else if (isMuted) {
+                isMuted = false;
+                audio.play();
+                localStorage.setItem('bgm-playing', 'true');
+            }
             localStorage.setItem('bgm-muted', isMuted);
             updateIcon();
         });
 
-        if (!isMuted) {
+        // ページ読み込み時：以前再生中だったなら自動再生を試みる
+        var wasPlaying = localStorage.getItem('bgm-playing');
+        if (wasPlaying === 'true' && !isMuted) {
+            tryAutoPlay();
+        }
+
+        // 初回クリックで再生（autoplay制限対策）
+        if (!isMuted && wasPlaying !== 'false') {
             document.addEventListener('click', function initPlay() {
-                audio.play().then(updateIcon).catch(function(){});
+                if (audio.paused) {
+                    audio.play().then(function() {
+                        localStorage.setItem('bgm-playing', 'true');
+                        updateIcon();
+                    });
+                }
                 document.removeEventListener('click', initPlay);
             }, { once: true });
         }
+
         updateIcon();
     })();
     </script>
