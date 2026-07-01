@@ -1843,8 +1843,18 @@ def seed_database(db_session: Session) -> bool:
         )
         db_session.add(course)
 
-    # 問題の投入（重複IDスキップ）
-    seen_ids: set[str] = set()
+    # 問題の投入（重複IDスキップ — DB上の既存IDも確認）
+    existing_question_ids = set(
+        row[0] for row in db_session.execute(
+            __import__('sqlalchemy').text("SELECT id FROM questions")
+        ).fetchall()
+    ) if db_session.execute(
+        __import__('sqlalchemy').text(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='questions'"
+        )
+    ).fetchone() else set()
+
+    seen_ids: set[str] = set(existing_question_ids)
     all_questions = list(QUESTIONS) + list(EXTRA_QUESTIONS) + list(EXTRA_QUESTIONS_2)
     for question_data in all_questions:
         qid = question_data["id"]

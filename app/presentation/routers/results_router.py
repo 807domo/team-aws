@@ -35,16 +35,9 @@ async def dashboard(
     """
     # クイズ画面から離脱した場合、進行中セッションを中断扱いにする
     quiz_service = QuizService(db)
-    quiz_service.complete_in_progress_sessions(DEFAULT_USER_ID)
+    quiz_service.complete_in_progress_sessions(user_id)
 
-    dashboard_data = results_service.get_dashboard_data(DEFAULT_USER_ID)
     dashboard_data = results_service.get_dashboard_data(user_id)
-
-    # 弱点領域を取得
-    weak_areas = results_service.get_weak_areas(user_id)
-
-    # おすすめコースを取得
-    recommended_courses = results_service.get_recommended_courses(user_id)
 
     # レーダーチャート用データをテンプレートに渡せる形式に変換
     radar_labels = list(dashboard_data.radar_chart.domain_accuracy.keys())
