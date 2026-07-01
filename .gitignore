@@ -26,3 +26,5 @@ Thumbs.db
 .hypothesis/
 .pytest_cache/
 test_integration.db
+# 環境変数（APIキー）
+.env
