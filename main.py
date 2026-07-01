@@ -17,9 +17,9 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.data.database import DatabaseConnectionError, SessionLocal, create_tables
 from app.data.seed_data import seed_database
+from app.data.glossary_seed import seed_glossary
 from app.domain.auth_service import AuthService
 from app.presentation.dependencies import RequiresLoginException
-from app.data.glossary_seed import seed_glossary
 from migrations.runner import run_migrations
 
 logger = logging.getLogger(__name__)
@@ -46,7 +46,7 @@ async def lifespan(app: FastAPI):
     try:
         seeded = seed_database(db)
         if seeded:
-            logger.info("シードデータを投入しました（33問）")
+            logger.info("シードデータを投入しました")
     finally:
         db.close()
 
@@ -82,10 +82,6 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 # 認証コンテキストミドルウェア
 # =============================================================================
 
-from starlette.middleware.base import BaseHTTPMiddleware
-
-from app.domain.auth_service import AuthService
-
 
 class AuthContextMiddleware(BaseHTTPMiddleware):
     """リクエストスコープでログインユーザー名をrequest.stateに設定するミドルウェア。"""
@@ -98,7 +94,6 @@ class AuthContextMiddleware(BaseHTTPMiddleware):
 
         if user_id:
             try:
-                from app.data.database import SessionLocal
                 from app.data.models import UserModel
 
                 db = SessionLocal()
@@ -124,7 +119,6 @@ app.add_middleware(AuthContextMiddleware)
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException) -> HTMLResponse:
     """HTTPException をキャッチしてユーザーフレンドリーなエラーページを返す。"""
-    # ステータスコードに応じた日本語メッセージ
     error_messages = {
         400: "リクエストが正しくありません。",
         404: "お探しのページが見つかりません。",
@@ -168,28 +162,6 @@ async def database_connection_error_handler(
 async def requires_login_handler(request: Request, exc: RequiresLoginException):
     """未ログイン時にログイン画面へリダイレクトする。"""
     return RedirectResponse(url="/auth/login", status_code=303)
-from app.presentation.dependencies import RequiresLoginException
-
-
-@app.exception_handler(RequiresLoginException)
-async def requires_login_handler(request: Request, exc: RequiresLoginException):
-    """未ログイン時にログイン画面へリダイレクトする。"""
-    from fastapi.responses import RedirectResponse
-
-    return RedirectResponse(url="/auth/login", status_code=303)
-
-
-# 注意: 汎用Exceptionハンドラーはデバッグ中は無効化
-# @app.exception_handler(Exception)
-# async def unhandled_exception_handler(
-#     request: Request, exc: Exception
-# ) -> HTMLResponse:
-#     """未処理の例外をキャッチしてユーザーフレンドリーなエラーページを返す。"""
-#     logger.error("未処理の例外: %s: %s", type(exc).__name__, str(exc))
-#     return HTMLResponse(
-#         content=f"<html><body><h1>Error</h1><pre>{type(exc).__name__}: {exc}</pre></body></html>",
-#         status_code=500,
-#     )
 
 
 # =============================================================================
@@ -219,4 +191,5 @@ from app.presentation.routers.mock_exam_router import router as mock_exam_router
 app.include_router(mock_exam_router)
 
 from app.presentation.routers.study_router import router as study_router
+
 app.include_router(study_router)
