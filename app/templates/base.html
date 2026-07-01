@@ -55,8 +55,63 @@
         <p class="mt-1 text-xs"><a href="/licenses" class="hover:text-gray-200">ライセンス・クレジット</a></p>
     </footer>
 
-    <!-- BGM (Web Audio API - プロシージャルBGM) -->
-    <script src="/static/js/bgm.js"></script>
+    <!-- BGM (MP3ファイル再生) -->
+    <audio id="bgm-audio" loop preload="auto">
+        <source src="/static/audio/bgm.mp3" type="audio/mpeg">
+    </audio>
+    <script>
+    (function() {
+        var audio = document.getElementById('bgm-audio');
+        var toggleBtn = document.getElementById('bgm-toggle');
+        var volumeSlider = document.getElementById('bgm-volume');
+        if (!audio || !toggleBtn || !volumeSlider) return;
+
+        var savedVolume = localStorage.getItem('bgm-volume');
+        var savedMuted = localStorage.getItem('bgm-muted');
+        var volume = savedVolume !== null ? parseInt(savedVolume) : 30;
+        var isMuted = savedMuted === 'true';
+
+        audio.volume = volume / 100;
+        volumeSlider.value = volume;
+
+        function updateIcon() {
+            if (isMuted || audio.paused) { toggleBtn.textContent = '🔇'; }
+            else if (volume < 30) { toggleBtn.textContent = '🔈'; }
+            else if (volume < 70) { toggleBtn.textContent = '🔉'; }
+            else { toggleBtn.textContent = '🔊'; }
+        }
+
+        toggleBtn.addEventListener('click', function() {
+            if (isMuted || audio.paused) {
+                isMuted = false;
+                audio.play().then(updateIcon).catch(function(){});
+            } else {
+                isMuted = true;
+                audio.pause();
+                updateIcon();
+            }
+            localStorage.setItem('bgm-muted', isMuted);
+        });
+
+        volumeSlider.addEventListener('input', function() {
+            volume = parseInt(this.value);
+            audio.volume = volume / 100;
+            localStorage.setItem('bgm-volume', volume);
+            if (volume === 0) { isMuted = true; audio.pause(); }
+            else if (isMuted) { isMuted = false; audio.play(); }
+            localStorage.setItem('bgm-muted', isMuted);
+            updateIcon();
+        });
+
+        if (!isMuted) {
+            document.addEventListener('click', function initPlay() {
+                audio.play().then(updateIcon).catch(function(){});
+                document.removeEventListener('click', initPlay);
+            }, { once: true });
+        }
+        updateIcon();
+    })();
+    </script>
 
     {% block scripts %}{% endblock %}
 </body>
