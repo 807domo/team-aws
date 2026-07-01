@@ -7,8 +7,8 @@
 
 import math
 
-MAX_LEVEL: int = 99
-MAX_XP: int = 980_100  # 99² × 100
+MAX_LEVEL: int = 10
+MAX_XP: int = 10_000  # 10² × 100
 
 
 def calculate_level(total_xp: int) -> int:
