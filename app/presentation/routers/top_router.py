@@ -185,9 +185,6 @@ async def rpg_top_screen(
     ステータス表示、SVGマップ、コースパネルを統合して返す。
     デフォルト選択地域は中予。
     """
-    # TODO: 認証システム導入後に実ユーザーIDに置き換え
-    user_id = "default_user"
-
     # クイズ画面から離脱した場合、進行中セッションを中断扱いにする
     quiz_service = QuizService(db)
     quiz_service.complete_in_progress_sessions(user_id)
@@ -268,11 +265,7 @@ async def get_region_courses(
     Args:
         region: 難易度名（"CHUYO", "NANYO", "TOYO"）
     """
-    # TODO: 認証システム導入後に実ユーザーIDに置き換え
-    user_id = "default_user"
-
     # Region enumに変換（不正な値の場合はデフォルトで初級を使用）
-    # Region enumに変換（不正な値の場合はデフォルトで中予を使用）
     try:
         region_enum = Region[region]
     except KeyError:
@@ -339,11 +332,7 @@ async def get_region_summary(
     Returns:
         {"region_name": "初級", "total_count": N, "completed_count": M}
     """
-    # TODO: 認証システム導入後に実ユーザーIDに置き換え
-    user_id = "default_user"
-
     # Region enumに変換（不正な値の場合はデフォルトで初級を使用）
-    # Region enumに変換（不正な値の場合はデフォルトで中予を使用）
     try:
         region_enum = Region[region]
     except KeyError:
