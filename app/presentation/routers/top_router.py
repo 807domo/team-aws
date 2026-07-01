@@ -327,7 +327,6 @@ async def get_region_summary(
     total_count = len(courses)
 
     # 完了コース数を算出
-    # コースが完了 = コース内の全問題について少なくとも1回正解した記録が存在
     completed_count = 0
 
     if total_count > 0:

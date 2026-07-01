@@ -33,6 +33,7 @@ async def dashboard(
     愛媛探索率、学習履歴を表示する。
     学習履歴がない場合は「まだ学習履歴がありません」メッセージを表示する。
     """
+    dashboard_data = results_service.get_dashboard_data(user_id)
     # クイズ画面から離脱した場合、進行中セッションを中断扱いにする
     quiz_service = QuizService(db)
     quiz_service.complete_in_progress_sessions(DEFAULT_USER_ID)

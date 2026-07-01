@@ -10,12 +10,15 @@ import logging
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.data.database import DatabaseConnectionError, SessionLocal, create_tables
 from app.data.seed_data import seed_database
+from app.domain.auth_service import AuthService
+from app.presentation.dependencies import RequiresLoginException
 from app.data.glossary_seed import seed_glossary
 from migrations.runner import run_migrations
 
@@ -161,6 +164,10 @@ async def database_connection_error_handler(
     )
 
 
+@app.exception_handler(RequiresLoginException)
+async def requires_login_handler(request: Request, exc: RequiresLoginException):
+    """未ログイン時にログイン画面へリダイレクトする。"""
+    return RedirectResponse(url="/auth/login", status_code=303)
 from app.presentation.dependencies import RequiresLoginException
 
 

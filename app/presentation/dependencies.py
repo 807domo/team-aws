@@ -36,6 +36,7 @@ def get_current_user_id(request: Request) -> str:
     未ログインの場合はログイン画面にリダイレクトする。
 
     Raises:
+        RequiresLoginException: 未ログイン時にログイン画面へリダイレクト
         RedirectResponse: 未ログイン時にログイン画面へリダイレクト
     """
     token = request.cookies.get(SESSION_COOKIE_NAME)
@@ -76,11 +77,7 @@ def get_user_record_repository(db: Session = Depends(get_db)) -> UserRecordRepos
 
 
 def get_quiz_service(db: Session = Depends(get_db)) -> QuizService:
-    """QuizService インスタンスを生成する。
-
-    QuizService は内部でリポジトリを作成するため、
-    DB セッションのみを注入する。
-    """
+    """QuizService インスタンスを生成する。"""
     return QuizService(db)
 
 
@@ -89,11 +86,7 @@ def get_results_service(
     course_repo: CourseRepository = Depends(get_course_repository),
     question_repo: QuestionRepository = Depends(get_question_repository),
 ) -> ResultsService:
-    """ResultsService インスタンスを生成する。
-
-    ResultsService は複数のリポジトリを受け取るため、
-    個別にリポジトリを注入する。
-    """
+    """ResultsService インスタンスを生成する。"""
     return ResultsService(
         user_record_repository=user_record_repo,
         course_repository=course_repo,
@@ -108,11 +101,7 @@ _mock_exam_engine_instance: MockExamEngine | None = None
 def get_mock_exam_engine(
     question_repo: QuestionRepository = Depends(get_question_repository),
 ) -> MockExamEngine:
-    """MockExamEngine シングルトンインスタンスを返す。
-
-    模擬試験はインメモリでセッションを管理するため、
-    リクエスト間でインスタンスを共有する必要がある。
-    """
+    """MockExamEngine シングルトンインスタンスを返す。"""
     global _mock_exam_engine_instance
     if _mock_exam_engine_instance is None:
         _mock_exam_engine_instance = MockExamEngine(question_repository=question_repo)
