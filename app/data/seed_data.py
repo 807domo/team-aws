@@ -1774,23 +1774,26 @@ def seed_database(db_session: Session) -> bool:
         )
         db_session.add(question)
 
-    # 追加問題の投入（模擬試験65問確保用）
-    for question_data in EXTRA_QUESTIONS + EXTRA_QUESTIONS_2:
-        question = QuestionModel(
-            id=question_data["id"],
-            course_id=question_data["course_id"],
-            text=question_data["text"],
-            choice_1=question_data["choice_1"],
-            choice_2=question_data["choice_2"],
-            choice_3=question_data["choice_3"],
-            choice_4=question_data["choice_4"],
-            correct_choice_index=question_data["correct_choice_index"],
-            ehime_trivia=question_data["ehime_trivia"],
-            aws_ai_explanation=question_data["aws_ai_explanation"],
-            difficulty=question_data["difficulty"],
-            exam_domain=question_data["exam_domain"],
-        )
-        db_session.add(question)
+    # 追加問題の投入（マイグレーション003で未投入の場合のみ）
+    from sqlalchemy import text as sa_text
+    result = db_session.execute(sa_text("SELECT COUNT(*) FROM questions WHERE id = 'q-bp-013'"))
+    if result.scalar() == 0:
+        for question_data in EXTRA_QUESTIONS + EXTRA_QUESTIONS_2:
+            question = QuestionModel(
+                id=question_data["id"],
+                course_id=question_data["course_id"],
+                text=question_data["text"],
+                choice_1=question_data["choice_1"],
+                choice_2=question_data["choice_2"],
+                choice_3=question_data["choice_3"],
+                choice_4=question_data["choice_4"],
+                correct_choice_index=question_data["correct_choice_index"],
+                ehime_trivia=question_data["ehime_trivia"],
+                aws_ai_explanation=question_data["aws_ai_explanation"],
+                difficulty=question_data["difficulty"],
+                exam_domain=question_data["exam_domain"],
+            )
+            db_session.add(question)
 
     db_session.commit()
     return True

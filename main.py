@@ -46,7 +46,7 @@ async def lifespan(app: FastAPI):
     try:
         seeded = seed_database(db)
         if seeded:
-            logger.info("シードデータを投入しました（33問）")
+            logger.info("シードデータを投入しました")
     finally:
         db.close()
 

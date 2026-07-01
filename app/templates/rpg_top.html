@@ -32,11 +32,12 @@
             🏷️ {{ user_status.title }}
         </div>
         <div class="flex-1 min-w-[200px]">
+            <a href="/results/dashboard" class="block" title="ダッシュボードで詳細を確認">
             <div class="flex items-center gap-2">
                 <span class="text-xs text-gray-500 whitespace-nowrap">XP</span>
                 <div class="flex-1">
                     <progress
-                        class="rpg-xp-gauge w-full h-4"
+                        class="rpg-xp-gauge w-full h-4 cursor-pointer"
                         value="{{ user_status.xp_gauge_percentage }}"
                         max="100"
                         aria-label="経験値ゲージ: {{ user_status.xp_gauge_percentage | round(1) }}%"
@@ -46,6 +47,7 @@
                     {{ user_status.current_level_xp }} / {{ user_status.required_xp }}
                 </span>
             </div>
+            </a>
         </div>
     </div>
 </section>
