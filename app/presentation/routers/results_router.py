@@ -8,8 +8,11 @@ GET /results/radar-chart でレーダーチャートデータをJSON形式で返
 from fastapi import APIRouter, Depends, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
+from sqlalchemy.orm import Session
 
+from app.data.database import get_db
 from app.domain.models import ExamType
+from app.domain.quiz_service import QuizService
 from app.domain.results_service import ResultsService
 from app.presentation.dependencies import get_current_user_id, get_results_service
 
@@ -20,6 +23,7 @@ templates = Jinja2Templates(directory="app/templates")
 @router.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(
     request: Request,
+    db: Session = Depends(get_db),
     results_service: ResultsService = Depends(get_results_service),
     user_id: str = Depends(get_current_user_id),
 ):

@@ -5,10 +5,10 @@
 {% block content %}
 <section class="course-select">
     <h2 class="section-title">コースを選択してください</h2>
-    <p class="section-description">愛媛の地域（中予・南予・東予）からコースを選んで学習を始めましょう。</p>
+    <p class="section-description">難易度（初級・中級・上級）からコースを選んで学習を始めましょう。</p>
 
-    <!-- 地域タブ -->
-    <div class="region-tabs" role="tablist" aria-label="地域選択">
+    <!-- 難易度タブ -->
+    <div class="region-tabs" role="tablist" aria-label="難易度選択">
         {% for region in regions %}
         <button
             class="region-tab {% if region.key == active_region %}active{% endif %}"
@@ -63,7 +63,7 @@
         {% else %}
         <div class="empty-state">
             <p class="empty-state-icon">🚧</p>
-            <p class="empty-state-text">この地域のコースは現在準備中です。</p>
+            <p class="empty-state-text">この難易度のコースは現在準備中です。</p>
             <p class="empty-state-subtext">もうしばらくお待ちください。</p>
         </div>
         {% endif %}

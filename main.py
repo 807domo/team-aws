@@ -17,6 +17,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.data.database import DatabaseConnectionError, SessionLocal, create_tables
 from app.data.seed_data import seed_database
+from app.data.glossary_seed import seed_glossary
 from app.domain.auth_service import AuthService
 from app.presentation.dependencies import RequiresLoginException
 from migrations.runner import run_migrations
@@ -46,6 +47,15 @@ async def lifespan(app: FastAPI):
         seeded = seed_database(db)
         if seeded:
             logger.info("シードデータを投入しました（33問）")
+    finally:
+        db.close()
+
+    # 起動時: 用語集シードデータ投入（データが空の場合のみ）
+    db = SessionLocal()
+    try:
+        seeded = seed_glossary(db)
+        if seeded:
+            logger.info("用語集シードデータを投入しました")
     finally:
         db.close()
 
@@ -109,7 +119,6 @@ app.add_middleware(AuthContextMiddleware)
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException) -> HTMLResponse:
     """HTTPException をキャッチしてユーザーフレンドリーなエラーページを返す。"""
-    # ステータスコードに応じた日本語メッセージ
     error_messages = {
         400: "リクエストが正しくありません。",
         404: "お探しのページが見つかりません。",
@@ -180,3 +189,7 @@ app.include_router(quiz_router)
 from app.presentation.routers.mock_exam_router import router as mock_exam_router
 
 app.include_router(mock_exam_router)
+
+from app.presentation.routers.study_router import router as study_router
+
+app.include_router(study_router)

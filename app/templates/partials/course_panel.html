@@ -13,9 +13,16 @@
         <div class="flex items-center justify-between">
             <span class="text-xs text-gray-500">📍 {{ course.region.value }} ・ 📝 {{ course.question_count }}問</span>
             <form method="post" action="/quiz/start/{{ course.id }}">
+                {% if course.is_suspended %}
+                <span class="text-xs text-yellow-600 font-medium mr-2">⏸ {{ course.answered_count }}/{{ course.question_count }}問目で中断中</span>
+                <button type="submit" class="text-xs bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition-colors">
+                    ▶ 再開
+                </button>
+                {% else %}
                 <button type="submit" class="text-xs bg-orange-500 text-white px-3 py-1 rounded hover:bg-orange-600 transition-colors">
                     ▶ 開始
                 </button>
+                {% endif %}
             </form>
         </div>
     </div>
