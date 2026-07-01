@@ -20,39 +20,56 @@ from app.data.seed_data_extra2 import EXTRA_QUESTIONS_3
 
 # =============================================================================
 # コース定義（71コース: 南予31 + 中予20 + 東予20ステージ）
+# テーマ別にステージを分類し、地域の豆知識カテゴリを反映
 # =============================================================================
 
-COURSES: list[dict] = []
+# --- 南予テーマ定義（31ステージ） ---
+_NANYO_THEMES = [
+    # (ステージ範囲, テーマ名, 説明)
+    (1, 7, "観光名所", "宇和島城・大洲城など南予の観光スポットを巡りながらAWSクラウドの基礎を学ぶ"),
+    (8, 13, "自然・絶景", "四国カルスト・滑床渓谷など南予の大自然を楽しみながらAWSサービスを学ぶ"),
+    (14, 19, "食文化・特産品", "じゃこ天・みかん・真珠など南予の食と特産品を通じてAWSを学ぶ"),
+    (20, 25, "歴史・文化財", "内子町並み・卯之町・段畑など南予の歴史遺産とAWSセキュリティを学ぶ"),
+    (26, 31, "祭り・伝統", "闘牛・鵜飼い・太鼓台など南予の伝統行事からAWSの料金とサポートを学ぶ"),
+]
 
-# 南予ステージ（31ステージ）
-for _i in range(1, 32):
-    COURSES.append({
-        "id": f"nanyo-stage-{_i:02d}",
-        "name": f"ステージ{_i}：南予探索コース",
-        "region": "初級",
-        "difficulty": "基礎",
-        "description": f"初級レベルのAWS学習コース（ステージ{_i}）",
-    })
+# --- 中予テーマ定義（20ステージ） ---
+_CHUYO_THEMES = [
+    (1, 5, "城下町・温泉", "松山城・道後温泉を巡りながらAWSアーキテクチャ設計を学ぶ"),
+    (6, 10, "文学・アート", "坊っちゃん・俳句・砥部焼など中予の文化芸術とAWSサービス活用を学ぶ"),
+    (11, 15, "山岳・渓谷", "石鎚山・面河渓・久万高原の自然からAWSセキュリティ実践を学ぶ"),
+    (16, 20, "交通・産業", "伊予鉄道・松山空港・IT産業など中予の都市基盤とAWSコスト最適化を学ぶ"),
+]
 
-# 中予ステージ（20ステージ）
-for _i in range(1, 21):
-    COURSES.append({
-        "id": f"chuyo-stage-{_i:02d}",
-        "name": f"ステージ{_i}：中予探索コース",
-        "region": "中級",
-        "difficulty": "中級",
-        "description": f"中級レベルのAWS学習コース（ステージ{_i}）",
-    })
+# --- 東予テーマ定義（20ステージ） ---
+_TOYO_THEMES = [
+    (1, 5, "海道・架橋", "しまなみ海道・来島海峡大橋を渡りながら高度なAWSアーキテクチャを学ぶ"),
+    (6, 10, "ものづくり", "今治タオル・今治造船・四国中央市製紙業からAWS上級サービスを学ぶ"),
+    (11, 15, "産業遺産", "別子銅山・新居浜太鼓祭りなど東予の産業史とAWSセキュリティ高度設計を学ぶ"),
+    (16, 20, "水と自然", "西条うちぬき・石鎚山東面・村上海賊の歴史からAWSコスト戦略を学ぶ"),
+]
 
-# 東予ステージ（20ステージ）
-for _i in range(1, 21):
-    COURSES.append({
-        "id": f"toyo-stage-{_i:02d}",
-        "name": f"ステージ{_i}：東予探索コース",
-        "region": "上級",
-        "difficulty": "上級",
-        "description": f"上級レベルのAWS学習コース（ステージ{_i}）",
-    })
+
+def _build_courses(region_prefix, difficulty, region_label, themes):
+    """テーマ定義からコースリストを生成する"""
+    courses = []
+    for start, end, theme_name, desc in themes:
+        for i in range(start, end + 1):
+            courses.append({
+                "id": f"{region_prefix}-stage-{i:02d}",
+                "name": f"ステージ{i}：{region_label}{theme_name}コース",
+                "region": {"nanyo": "初級", "chuyo": "中級", "toyo": "上級"}[region_prefix],
+                "difficulty": difficulty,
+                "description": desc,
+            })
+    return courses
+
+
+COURSES: list[dict] = (
+    _build_courses("nanyo", "基礎", "南予", _NANYO_THEMES)
+    + _build_courses("chuyo", "中級", "中予", _CHUYO_THEMES)
+    + _build_courses("toyo", "上級", "東予", _TOYO_THEMES)
+)
 
 
 # =============================================================================
