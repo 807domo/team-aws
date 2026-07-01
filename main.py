@@ -50,7 +50,7 @@ async def lifespan(app: FastAPI):
     finally:
         db.close()
 
-    # 起動時: 用語集シードデータ投入（データが空の場合のみ）
+    # 起動時: 用語集シードデータ投入（差分投入: 未登録の用語のみ追加）
     db = SessionLocal()
     try:
         seeded = seed_glossary(db)
