@@ -86,6 +86,25 @@ async def dashboard(
         daily_labels.append(label)
         daily_values.append(daily_counts_map.get(str(d), 0))
 
+    # XP情報を取得
+    from app.data.user_record_repository import UserRecordRepository
+    from app.domain.level_calculator import calculate_level, calculate_xp_gauge
+    from app.domain.title_master import get_title
+    user_record_repo = UserRecordRepository(db)
+    user_xp_data = user_record_repo.get_user_xp(user_id)
+    total_xp = user_xp_data["total_xp"]
+    level = calculate_level(total_xp)
+    title = get_title(level)
+    gauge = calculate_xp_gauge(total_xp, level)
+    xp_info = {
+        "level": level,
+        "total_xp": total_xp,
+        "title": title,
+        "xp_percentage": gauge["percentage"],
+        "current_level_xp": gauge["current_level_xp"],
+        "required_xp": gauge["required_xp"],
+    }
+
     return templates.TemplateResponse(
         request,
         "dashboard.html",
@@ -99,6 +118,7 @@ async def dashboard(
             "has_history": dashboard_data.has_history,
             "daily_labels": daily_labels,
             "daily_values": daily_values,
+            "xp_info": xp_info,
         },
     )
 

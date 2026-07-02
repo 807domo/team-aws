@@ -20,7 +20,8 @@
 {% endif %}
 
 <!-- ステータスエリア -->
-<section class="rpg-status-area bg-white rounded-lg shadow-md p-4 mb-6">
+<a href="/results/dashboard" class="block" title="ダッシュボードで詳細を確認">
+<section class="rpg-status-area bg-white rounded-lg shadow-md p-4 mb-6 cursor-pointer hover:shadow-lg transition-shadow">
     <div class="flex flex-wrap items-center gap-4">
         <div class="flex items-center gap-3">
             <span class="text-lg font-bold text-gray-800">{{ user_status.display_name }}</span>
@@ -57,6 +58,7 @@
         </div>
     </div>
 </section>
+</a>
 
 <!-- AI練習ボタン -->
 <div class="mb-6 flex flex-wrap gap-3">
@@ -204,17 +206,20 @@
                 {% set pin_coords_nanyo = [
                     (280,700),(250,680),(310,620),(300,830),(370,500),
                     (310,620),(220,560),(290,490),(130,540),(280,720),
-                    (260,610),(340,700),(310,810),(370,730)
+                    (260,610),(340,700),(310,810),(370,730),
+                    (380,740),(270,740),(290,820),(300,510),(260,690)
                 ] %}
                 {% set pin_coords_chuyo = [
                     (370,295),(400,285),(410,300),(390,330),(380,270),
                     (405,290),(500,470),(410,420),(395,305),(385,310),
-                    (520,490),(340,310)
+                    (520,490),(340,310),
+                    (390,315),(360,280),(420,340),(350,360),(530,460)
                 ] %}
                 {% set pin_coords_toyo = [
                     (580,140),(520,210),(660,330),(760,280),(620,310),
                     (560,170),(680,290),(600,370),(510,250),(630,290),
-                    (680,270),(590,130),(620,340),(510,240)
+                    (680,270),(590,130),(620,340),(510,240),
+                    (550,180),(660,350),(590,360),(520,250),(750,270)
                 ] %}
                 {% for region_data in regions %}
                     {% if region_data.region.name == "NANYO" %}
