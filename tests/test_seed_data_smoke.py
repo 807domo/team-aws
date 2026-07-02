@@ -74,7 +74,7 @@ def test_clf_technology_count():
 
 def test_clf_billing_count():
     """CLF-C02 Billing Pricing and Supportドメインの問題数が24以上であることを確認する。"""
-    count = sum(1 for q in ALL_QUESTIONS if q["exam_domain"] == "Billing Pricing and Support")
+    count = sum(1 for q in ALL_QUESTIONS if q["exam_domain"] == "Billing, Pricing, and Support")
     assert count >= 24, (
         f"Billing Pricing and Support: expected >= 24, got {count}"
     )
@@ -82,7 +82,7 @@ def test_clf_billing_count():
 
 def test_aif_ai_ml_count():
     """AIF-C01 AI and ML Fundamentalsドメインの問題数が25以上であることを確認する。"""
-    count = sum(1 for q in ALL_QUESTIONS if q["exam_domain"] == "AI and ML Fundamentals")
+    count = sum(1 for q in ALL_QUESTIONS if q["exam_domain"] == "Fundamentals of AI and ML")
     assert count >= 25, (
         f"AI and ML Fundamentals: expected >= 25, got {count}"
     )
@@ -90,7 +90,7 @@ def test_aif_ai_ml_count():
 
 def test_aif_genai_count():
     """AIF-C01 Generative AI Conceptsドメインの問題数が30以上であることを確認する。"""
-    count = sum(1 for q in ALL_QUESTIONS if q["exam_domain"] == "Generative AI Concepts")
+    count = sum(1 for q in ALL_QUESTIONS if q["exam_domain"] == "Fundamentals of Generative AI")
     assert count >= 30, (
         f"Generative AI Concepts: expected >= 30, got {count}"
     )
@@ -116,7 +116,7 @@ def test_aif_security_gov_count():
     """AIF-C01 Security Compliance and Governanceドメインの問題数が18以上であることを確認する。"""
     count = sum(
         1 for q in ALL_QUESTIONS
-        if q["exam_domain"] == "Security Compliance and Governance"
+        if q["exam_domain"] == "Security, Compliance, and Governance for AI Solutions"
     )
     assert count >= 18, (
         f"Security Compliance and Governance: expected >= 18, got {count}"
