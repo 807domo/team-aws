@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}模擬試験 - 試験タイプ選択 | 愛媛探索AIクイズ{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto">
+    <div class="text-center mb-8">
+        <h1 class="text-2xl font-bold text-gray-800">📝 模擬試験モード</h1>
+        <p class="text-gray-500 mt-2">
+            AWS認定資格の本番形式で模擬試験に挑戦しましょう。<br>
+            制限時間内にすべての問題に回答してください。
+        </p>
+    </div>
+
+    {% if error %}
+    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+        <p class="text-sm">{{ error }}</p>
+    </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% for exam in exam_types %}
+        <div class="bg-white rounded-lg shadow-md p-6 border-t-4 border-orange-500 hover:shadow-lg transition">
+            <div class="flex items-center gap-3 mb-3">
+                <span class="bg-orange-100 text-orange-700 text-xs font-bold px-2 py-1 rounded">
+                    {{ exam.short_label }}
+                </span>
+                <h2 class="font-bold text-gray-800 text-sm">{{ exam.label }}</h2>
+            </div>
+            <p class="text-sm text-gray-600 mb-4">{{ exam.description }}</p>
+            <div class="flex items-center gap-4 text-xs text-gray-500 mb-4">
+                <span>📋 {{ exam.questions }}問</span>
+                <span>⏱️ {{ exam.duration }}分</span>
+                <span>🎯 合格ライン 70%</span>
+            </div>
+            <form method="post" action="/mock-exam/start">
+                <input type="hidden" name="exam_type" value="{{ exam.value }}">
+                <button type="submit" class="w-full bg-orange-600 text-white py-2 rounded-lg font-semibold hover:bg-orange-700 transition">
+                    この試験を開始する
+                </button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="mt-8 bg-blue-50 rounded-lg p-4">
+        <h3 class="font-semibold text-blue-800 text-sm mb-2">💡 模擬試験について</h3>
+        <ul class="text-sm text-blue-700 space-y-1">
+            <li>・ 本番と同じ形式で、制限時間内に回答します</li>
+            <li>・ 回答中に正誤のフィードバックはありません（本番形式）</li>
+            <li>・ 問題間を自由に行き来できます</li>
+            <li>・ 制限時間が切れると自動的に採点されます</li>
+            <li>・ 未回答の問題は不正解として扱われます</li>
+        </ul>
+    </div>
+
+    <div class="mt-6 text-center">
+        <a href="/" class="text-orange-600 hover:text-orange-700 text-sm">← コース選択に戻る</a>
+    </div>
+</div>
+{% endblock %}
