@@ -102,9 +102,9 @@ async def start_ai_practice(
             },
         )
 
-    # 問題を生成（弱点上位1領域のみ、3問 — クォータ節約）
+    # 問題を生成（全弱点領域をまとめて1回のAPIコールで10問生成）
     try:
-        questions = generator.generate_questions(weak_areas[:1], count_per_area=3)
+        questions = generator.generate_questions_batch(weak_areas[:3], total_count=10)
     except Exception as e:
         logger.error("AI問題生成エラー: %s", str(e))
         return templates.TemplateResponse(
