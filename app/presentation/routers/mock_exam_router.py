@@ -179,9 +179,10 @@ async def mock_exam_answer(
                 status_code=303,
             )
 
-    # 次の問題に移動（最後の問題なら同じ問題に留まる）
+    # 次の問題に自動移動
+    next_index = question_index + 1 if question_index < 64 else question_index
     return RedirectResponse(
-        url=f"/mock-exam/{session_id}/question/{question_index}",
+        url=f"/mock-exam/{session_id}/question/{next_index}",
         status_code=303,
     )
 

@@ -391,8 +391,21 @@
     };
 
     // =================================================================
-    // 選択肢のハイライト
+    // 選択肢のハイライト + 自動送信
     // =================================================================
+    document.querySelectorAll('.choice-radio').forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            // ハイライト更新
+            document.querySelectorAll('.choice-label').forEach(function(l) {
+                l.classList.remove('selected');
+            });
+            this.closest('.choice-label').classList.add('selected');
+            // 自動送信
+            window.removeEventListener('beforeunload', onBeforeUnload);
+            document.getElementById('answer-form').submit();
+        });
+    });
+
     document.querySelectorAll('.choice-label').forEach(function(label) {
         label.addEventListener('click', function() {
             document.querySelectorAll('.choice-label').forEach(function(l) {
