@@ -34,21 +34,9 @@ async def create_stage_page(
     db: Session = Depends(get_db),
     user_id: str = Depends(get_current_user_id),
 ):
-    """カスタムステージ作成画面を表示。全問題一覧から選択できる。"""
-    question_repo = QuestionRepository(db)
-
-    # 全問題を取得（ドメイン別にグループ化）
+    """カスタムステージ作成画面を表示。分野・問題数・難易度を設定できる。"""
     from app.data.seed_data import QUESTIONS
-    domains = {}
-    for q in QUESTIONS:
-        domain = q.get("exam_domain", "その他")
-        if domain not in domains:
-            domains[domain] = []
-        domains[domain].append({
-            "id": q["id"],
-            "text": q["text"][:60] + "..." if len(q["text"]) > 60 else q["text"],
-            "domain": domain,
-        })
+    domains = sorted(set(q.get("exam_domain", "") for q in QUESTIONS if q.get("exam_domain")))
 
     return templates.TemplateResponse(
         request,
@@ -63,18 +51,37 @@ async def start_custom_stage(
     db: Session = Depends(get_db),
     user_id: str = Depends(get_current_user_id),
 ):
-    """選択された問題でカスタムステージを開始する。"""
-    form = await request.form()
-    selected_ids = form.getlist("question_ids")
+    """設定に基づいて問題をランダム選択しカスタムステージを開始する。"""
+    import random
 
-    if not selected_ids or len(selected_ids) < 1:
+    form = await request.form()
+    selected_domains = form.getlist("domains")
+    count = int(form.get("count", "5"))
+    difficulty = form.get("difficulty", "all")
+
+    if not selected_domains:
         return RedirectResponse(url="/custom-stage/create", status_code=303)
 
-    # 問題を取得
+    # 条件に合う問題をフィルタリング
+    from app.data.seed_data import QUESTIONS
+    candidates = [
+        q for q in QUESTIONS
+        if q.get("exam_domain") in selected_domains
+        and (difficulty == "all" or q.get("difficulty") == difficulty)
+    ]
+
+    if not candidates:
+        return RedirectResponse(url="/custom-stage/create", status_code=303)
+
+    # ランダムに指定数を選択
+    count = min(count, len(candidates))
+    selected = random.sample(candidates, count)
+
+    # Questionオブジェクトに変換
     question_repo = QuestionRepository(db)
     questions = []
-    for qid in selected_ids:
-        q = question_repo.get_question_by_id(qid)
+    for q_data in selected:
+        q = question_repo.get_question_by_id(q_data["id"])
         if q:
             questions.append(q)
 
