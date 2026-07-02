@@ -207,3 +207,7 @@ app.include_router(mock_exam_router)
 from app.presentation.routers.ai_practice_router import router as ai_practice_router
 
 app.include_router(ai_practice_router)
+
+from app.presentation.routers.custom_stage_router import router as custom_stage_router
+
+app.include_router(custom_stage_router)
