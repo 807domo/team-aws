@@ -36,9 +36,8 @@ class GeminiQuestionGenerator:
 
         if self._api_key:
             try:
-                import google.generativeai as genai
-                genai.configure(api_key=self._api_key)
-                self._client = genai.GenerativeModel(GEMINI_MODEL)
+                from google import genai
+                self._client = genai.Client(api_key=self._api_key)
                 logger.info("Gemini API 初期化成功")
             except Exception as e:
                 logger.warning("Gemini API 初期化失敗: %s", str(e))
@@ -88,13 +87,15 @@ class GeminiQuestionGenerator:
         """1つの弱点領域に対して問題を生成する。"""
         prompt = self._build_prompt(weak_area, count)
 
-        response = self._client.generate_content(
-            prompt,
-            generation_config={
-                "temperature": 0.8,
-                "max_output_tokens": 4096,
-                "response_mime_type": "application/json",
-            },
+        from google.genai import types
+        response = self._client.models.generate_content(
+            model=GEMINI_MODEL,
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                temperature=0.8,
+                max_output_tokens=4096,
+                response_mime_type="application/json",
+            ),
         )
 
         questions_data = self._parse_response(response.text)
