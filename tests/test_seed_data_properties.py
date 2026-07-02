@@ -220,12 +220,12 @@ VALID_EXAM_DOMAINS = {
     "Cloud Concepts",
     "Security and Compliance",
     "Cloud Technology and Services",
-    "Billing Pricing and Support",
-    "AI and ML Fundamentals",
-    "Generative AI Concepts",
+    "Billing, Pricing, and Support",
+    "Fundamentals of AI and ML",
+    "Fundamentals of Generative AI",
     "Applications of Foundation Models",
     "Guidelines for Responsible AI",
-    "Security Compliance and Governance",
+    "Security, Compliance, and Governance for AI Solutions",
 }
 
 

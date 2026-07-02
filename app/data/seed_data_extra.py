@@ -720,7 +720,7 @@ EXTRA_QUESTIONS: list[dict] = [
         "ehime_trivia": "道後温泉旅館組合は複数の旅館が共同でITインフラを運営するケースが増え、コスト効率の良い管理体制が求められています。",
         "aws_ai_explanation": "AWS Organizationsの一括請求（Consolidated Billing）は複数アカウントの使用量を合算し、ボリュームディスカウントの恩恵を受けられます。リザーブドインスタンスやSavings Plansも組織内で共有可能です。",
         "difficulty": "中級",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "chuyo-bp-002",
@@ -734,7 +734,7 @@ EXTRA_QUESTIONS: list[dict] = [
         "ehime_trivia": "松山市はDXに年間数億円の予算を投じ、クラウドコストの可視化と最適化が財政管理の重要課題となっています。",
         "aws_ai_explanation": "AWS Budgetsはコスト・使用量の予算を設定し、閾値到達時にSNS/Eメール通知やAuto Scalingアクションを発動できます。月次・四半期・年間の予算をカスタム設定でき、予測ベースのアラートも可能です。",
         "difficulty": "中級",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "chuyo-bp-003",
@@ -748,7 +748,7 @@ EXTRA_QUESTIONS: list[dict] = [
         "ehime_trivia": "砥部焼のEC事業者はオンライン売上の成長に伴いインフラコストも増加。コスト効率の改善が経営課題となっています。",
         "aws_ai_explanation": "AWS Cost Explorerはコストと使用状況を可視化・分析するツールです。サービス別、アカウント別、タグ別のコスト内訳表示、時系列トレンド分析、将来コスト予測が可能で、コスト削減の機会を特定できます。",
         "difficulty": "中級",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "chuyo-bp-004",
@@ -762,7 +762,7 @@ EXTRA_QUESTIONS: list[dict] = [
         "ehime_trivia": "伊予鉄道の運行管理システムは24時間稼働が必須。安定した稼働と長期的なコスト最適化の両立が求められています。",
         "aws_ai_explanation": "Savings Plansは1年/3年の使用量コミットメント（$/時間）と引き換えに最大72%割引を提供します。Compute Savings PlansはEC2、Fargate、Lambdaに適用でき、インスタンスファミリーやリージョンの変更にも柔軟に対応します。",
         "difficulty": "中級",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "chuyo-bp-005",
@@ -776,7 +776,7 @@ EXTRA_QUESTIONS: list[dict] = [
         "ehime_trivia": "松山市はスタートアップ支援に力を入れ、IT企業の集積を目指すコワーキングスペースやインキュベーション施設を整備しています。",
         "aws_ai_explanation": "AWS Trusted Advisorはコスト最適化、パフォーマンス、セキュリティ、耐障害性、サービス制限の5カテゴリでAWS環境を自動チェックし、ベストプラクティスに基づく推奨事項を提供します。ビジネス/エンタープライズサポートで全チェックが利用可能です。",
         "difficulty": "中級",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "chuyo-bp-006",
@@ -790,7 +790,7 @@ EXTRA_QUESTIONS: list[dict] = [
         "ehime_trivia": "石鎚山の自然保護活動にはドローン監視やセンサーデータ分析が活用され、限られた予算内でのクラウド活用計画が重要です。",
         "aws_ai_explanation": "AWS Pricing Calculatorはサービス・リージョン・使用量を入力して月額コストを事前に見積もるツールです。複数構成の比較や見積もりの共有・エクスポートが可能で、予算策定やクラウド移行計画に活用されます。",
         "difficulty": "中級",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "chuyo-bp-007",
@@ -804,7 +804,7 @@ EXTRA_QUESTIONS: list[dict] = [
         "ehime_trivia": "松山市にはメガバンクの地方拠点や大手製造業のIT部門が進出し、ミッションクリティカルなシステムの運用にエンタープライズ級のサポートが不可欠です。",
         "aws_ai_explanation": "エンタープライズサポートはビジネスクリティカルなシステム停止時に15分以内の応答SLAを提供します。専任TAM（Technical Account Manager）、Well-Architectedレビュー、Conciergeサポートチームも含まれます。",
         "difficulty": "中級",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     # =========================================================================
     # =========================================================================
@@ -1508,7 +1508,7 @@ EXTRA_QUESTIONS: list[dict] = [
         "ehime_trivia": "今治造船グループは複数の造船所と関連企業で構成され、ITインフラの統合管理とコスト最適化が経営効率化の重要テーマとなっています。",
         "aws_ai_explanation": "FinOps体制ではOrganizationsの一括請求（RI/SP共有）、Cost Allocation Tags（部門別配分）、CUR（Cost and Usage Report：最詳細データ）、QuickSight（可視化）、Compute Optimizer/Cost Explorer（推奨）を組み合わせて包括的なコスト管理を実現します。",
         "difficulty": "上級",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "toyo-bp-002",
@@ -1522,7 +1522,7 @@ EXTRA_QUESTIONS: list[dict] = [
         "ehime_trivia": "しまなみ海道の観光基盤は季節変動が大きく、サイクリングシーズン（春・秋）のトラフィックが冬の10倍に達することも。コスト効率の良いリソース調達が課題です。",
         "aws_ai_explanation": "Compute Savings PlansはEC2、Fargate、Lambda全てに適用でき、インスタンスファミリーやリージョン変更にも柔軟に対応します。Cost Explorer推奨で過去の使用パターンから最適なコミットメント額を算出し、ベースライン（SP）+変動（オンデマンド）+バッチ（スポット）の三層で最適化します。",
         "difficulty": "上級",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "toyo-bp-003",
@@ -1536,7 +1536,7 @@ EXTRA_QUESTIONS: list[dict] = [
         "ehime_trivia": "新居浜市のスマートシティは住友系企業の技術力とAWSクラウドの組み合わせで推進。ミッションクリティカルなシステムの安定運用にエンタープライズ級のサポートが不可欠です。",
         "aws_ai_explanation": "TAMはエンタープライズサポートの専任テクニカルアドバイザーです。顧客環境を理解した上でのプロアクティブな最適化推奨、Well-Architectedレビュー、インシデント管理のエスカレーション支援、AWS新機能の活用提案を行い、ビジネス価値の最大化を支援します。",
         "difficulty": "上級",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "toyo-bp-004",
@@ -1550,7 +1550,7 @@ EXTRA_QUESTIONS: list[dict] = [
         "ehime_trivia": "四国中央市の製紙企業は大規模な計算リソースを使用する紙製品のシミュレーション分析を行い、予期しないコスト増加を早期検知する体制が求められています。",
         "aws_ai_explanation": "Cost Anomaly DetectionはMLで正常な支出パターンを学習し、異常を自動検知してSNS/Eメールで通知します。Budgets ActionsはIAMポリシーの自動適用やSCPの制限でコスト暴走を防止。Cost Explorerの予測は過去パターンから月末の着地見込みを算出します。",
         "difficulty": "上級",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "toyo-bp-005",
@@ -1564,7 +1564,7 @@ EXTRA_QUESTIONS: list[dict] = [
         "ehime_trivia": "別子銅山の環境データは調査時に頻繁にアクセスされるが、調査完了後はアクセスが激減する不規則なパターン。適切なストレージ階層化がコスト管理の鍵です。",
         "aws_ai_explanation": "Intelligent-Tieringはオブジェクト単位でアクセスパターンを監視し、Frequent/Infrequent/Archive/Deep Archive層を自動的に切り替えます。ライフサイクルポリシーは作成後の日数で確定的に遷移するため、保管要件が明確なデータに適しています。両者は併用可能です。",
         "difficulty": "上級",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "toyo-bp-006",
@@ -1578,7 +1578,7 @@ EXTRA_QUESTIONS: list[dict] = [
         "ehime_trivia": "しまなみ海道サイクリングのデータは日本語・英語・中国語で提供され、アジア・欧州・北米からのアクセスがあるためマルチリージョン配信のコスト管理が重要です。",
         "aws_ai_explanation": "AWSのデータ転送コストはアーキテクチャの重要要素です。CloudFrontのキャッシュでオリジンへの取得を削減、VPCエンドポイントでNATゲートウェイのデータ処理費を回避、Direct Connectのデータ転送はインターネット経由より安価です。Transfer コストは設計段階で考慮すべきです。",
         "difficulty": "上級",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "toyo-bp-007",
@@ -1592,6 +1592,6 @@ EXTRA_QUESTIONS: list[dict] = [
         "ehime_trivia": "今治市のスマートシティは産官学連携で推進され、限られた予算内での最大効果が求められます。継続的なコスト最適化は持続可能なスマートシティ運営の基盤です。",
         "aws_ai_explanation": "Well-Architected Toolのコスト最適化レビューでは、需要と供給の一致、費用対効果の高いリソース選択、支出の認識、長期的な最適化の4領域を評価します。Trusted AdvisorとCompute Optimizerの推奨を定期的に適用するPDCAサイクルでFinOps成熟度を向上させます。",
         "difficulty": "上級",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
 ]

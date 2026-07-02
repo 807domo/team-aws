@@ -29,7 +29,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "宇和島城は現存12天守の一つで、藤堂高虎が築城した城として知られています。天守からは宇和島湾を一望でき、年間を通じて多くの観光客が訪れます。",
         "aws_ai_explanation": "過去の数値データから将来の数値を予測するタスクは、教師あり学習の回帰問題に分類されます。ラベル付きの歴史データ（日付と来城者数）を使ってモデルを訓練します。",
         "difficulty": "基礎",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "nanyo-ai-002",
@@ -43,7 +43,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "八幡浜港は四国有数の水揚げ量を誇る漁港で、特にトロール漁が盛んです。「日本一細長い佐田岬半島」の付け根に位置し、新鮮な海産物の集散地として栄えています。",
         "aws_ai_explanation": "画像から物体のカテゴリを判定するタスクは画像分類であり、教師あり学習に分類されます。ラベル付き画像データセットでCNNなどのモデルを訓練して実現します。",
         "difficulty": "基礎",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "nanyo-ai-003",
@@ -57,7 +57,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "内子町は江戸時代から明治時代にかけて木蝋と和紙の生産で栄えた町で、八日市・護国地区には当時の町並みが美しく保存されています。",
         "aws_ai_explanation": "ラベルのないデータから類似の特徴を持つグループを自動的に見つけるタスクは、教師なし学習のクラスタリングです。K-meansやDBSCANなどのアルゴリズムが使用されます。",
         "difficulty": "基礎",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "nanyo-ai-004",
@@ -71,7 +71,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "四国カルストは標高約1,400mに広がる日本三大カルストの一つです。愛媛県と高知県にまたがり、石灰岩の白い岩肌と緑の草原が織りなす絶景が広がります。",
         "aws_ai_explanation": "強化学習は、エージェントが環境と相互作用し、報酬を最大化する行動を試行錯誤で学習する手法です。ロボット制御やゲームAIなどに応用されます。",
         "difficulty": "基礎",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "nanyo-ai-005",
@@ -85,7 +85,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "佐田岬は四国最西端に位置する日本一細長い半島で、全長約50kmに及びます。強風を活かした風力発電が盛んで、半島沿いに風車が並ぶ景観が特徴的です。",
         "aws_ai_explanation": "データを訓練用とテスト用に分割する目的は、未知のデータに対するモデルの汎化性能（過学習していないか）を正しく評価するためです。テストデータは学習に使用しません。",
         "difficulty": "基礎",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "nanyo-ai-006",
@@ -99,7 +99,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "大洲城は肱川沿いに建つ城で、2004年に木造で天守が復元されました。明治時代に取り壊された天守を、古写真や設計図をもとに忠実に再建した貴重な城です。",
         "aws_ai_explanation": "オーバーフィッティング（過学習）とは、モデルが訓練データのノイズまで学習してしまい、未知のデータに対する予測精度が低下する現象です。正則化やドロップアウトで対策します。",
         "difficulty": "基礎",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "nanyo-ai-007",
@@ -113,7 +113,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "卯之町は西予市にある宿場町で、江戸時代の町並みが残る重要伝統的建造物群保存地区です。開明学校は四国最古の小学校校舎として知られています。",
         "aws_ai_explanation": "Amazon SageMakerは、機械学習モデルの構築、訓練、デプロイのワークフロー全体を管理するフルマネージドサービスです。Jupyter Notebook、分散学習、エンドポイントデプロイなどの機能を提供します。",
         "difficulty": "基礎",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "nanyo-ai-008",
@@ -127,7 +127,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "滑床渓谷は四万十川の支流・目黒川の上流に位置し、日本の滝百選に選ばれた「雪輪の滝」が有名です。花崗岩の滑らかな岩盤が続く美しい渓谷です。",
         "aws_ai_explanation": "特徴量（Feature）とは、MLモデルの入力として使用されるデータの個々の属性です。適切な特徴量の選択と加工（特徴量エンジニアリング）がモデル性能に大きく影響します。",
         "difficulty": "基礎",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "nanyo-ai-009",
@@ -141,7 +141,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "愛南町は愛媛県最南端に位置し、温暖な気候と豊かな海洋環境を活かしたサンゴ群落が見られます。シコロサンゴの大群落は日本有数の規模を誇ります。",
         "aws_ai_explanation": "ニューラルネットワークは入力層（データを受け取る）、隠れ層（特徴を抽出・変換する）、出力層（予測結果を出力する）の3種類の層で構成されます。",
         "difficulty": "基礎",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     # ============================================================
     # Generative AI Concepts（10問）: nanyo-ga-001 ~ nanyo-ga-010
@@ -158,7 +158,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "宇和島城は慶長6年（1601年）に藤堂高虎によって築かれ、その後伊達家の居城として明治まで続きました。天守は国の重要文化財に指定されています。",
         "aws_ai_explanation": "大規模言語モデル（LLM）は大量のテキストデータで事前学習された生成AIモデルで、自然言語の生成・理解に優れています。GPT、Claude、Titanなどが代表例です。",
         "difficulty": "基礎",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "nanyo-ga-002",
@@ -172,7 +172,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "八幡浜港からは大分県の別府・臼杵へのフェリーが運航しており、四国と九州を結ぶ重要な交通拠点です。港周辺には「どーや市場」があり、新鮮な魚介類が並びます。",
         "aws_ai_explanation": "プロンプトとは、生成AIモデルに対して入力するテキスト（指示、質問、コンテキスト情報）のことです。プロンプトの書き方によって出力の品質が大きく変わります。",
         "difficulty": "基礎",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "nanyo-ga-003",
@@ -186,7 +186,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "西予ジオパークは2013年に日本ジオパークに認定され、4億年以上の地層が観察できます。黒瀬川構造帯や須崎海岸の地層は地質学的に世界的な価値があります。",
         "aws_ai_explanation": "ファインチューニングとは、事前学習済みの基盤モデルを特定ドメインのデータで追加学習させ、そのドメインに特化した性能を向上させる手法です。",
         "difficulty": "基礎",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "nanyo-ga-004",
@@ -200,7 +200,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "大洲城は「伊予の小京都」と呼ばれる大洲市のシンボルで、肱川の清流沿いに建っています。鵜飼いや芋炊きなど、城下町の風情を残す伝統行事が今も続いています。",
         "aws_ai_explanation": "Temperatureは生成AIモデルの出力のランダム性を制御するパラメータです。値が低いと決定的（一貫性のある）出力、高いと多様で創造的な出力が生成されます。",
         "difficulty": "基礎",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "nanyo-ga-005",
@@ -214,7 +214,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "佐田岬灯台は四国最西端に位置し、天気の良い日には豊後水道を挟んで九州の大分県佐賀関を望めます。灯台までの遊歩道からは絶景の太平洋と瀬戸内海が見渡せます。",
         "aws_ai_explanation": "ハルシネーション（幻覚）とは、生成AIモデルが事実に基づかない情報をもっともらしく生成してしまう現象です。RAGや事実確認の仕組みで軽減できます。",
         "difficulty": "基礎",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "nanyo-ga-006",
@@ -228,7 +228,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "内子町は和蝋燭や和紙など伝統工芸品の生産地として知られています。大森和蝋燭屋は200年以上の歴史を持ち、今も手作業で和蝋燭を製造しています。",
         "aws_ai_explanation": "Transformerアーキテクチャの中核は自己注意機構（Self-Attention）で、入力シーケンス内の各要素が他の全要素との関連性を計算し、文脈を理解します。GPTやBERTの基盤技術です。",
         "difficulty": "基礎",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "nanyo-ga-007",
@@ -242,7 +242,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "滑床渓谷は足摺宇和海国立公園内にあり、約12kmにわたって花崗岩の一枚岩が続きます。夏には天然のウォータースライダーとして滑り台遊びが楽しめます。",
         "aws_ai_explanation": "出力トークン数の上限（Max Tokens）を設定することで、応答の長さを制御し、不必要に長い出力を防ぎます。またAPIの利用コストはトークン数に比例するため、コスト管理にも重要です。",
         "difficulty": "基礎",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "nanyo-ga-008",
@@ -256,7 +256,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "愛南町は愛媛県南部に位置し、真珠養殖が盛んな地域です。宇和海の穏やかな入り江を活かした養殖場では、高品質なアコヤ真珠が生産されています。",
         "aws_ai_explanation": "Few-shotプロンプティングは、モデルに対して少数の入出力例（例題と回答のペア）を提示してから質問することで、期待する形式や内容の回答を誘導する手法です。",
         "difficulty": "基礎",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "nanyo-ga-009",
@@ -270,7 +270,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "四国カルストは天狗高原から大野ヶ原まで約25kmにわたる高原台地で、ドリーネやカレンフェルトなどのカルスト地形が見られます。夏は避暑地としても人気です。",
         "aws_ai_explanation": "基盤モデルの事前学習では、大量の無ラベルテキストデータを使い、次のトークンを予測する自己教師あり学習が行われます。これにより言語の構造と知識を獲得します。",
         "difficulty": "基礎",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "nanyo-ga-010",
@@ -284,7 +284,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "宇和島市は南海トラフ地震の津波被害が想定される地域で、防災対策が重視されています。市内各所に避難タワーが設置され、防災訓練も定期的に行われています。",
         "aws_ai_explanation": "RLHF（Reinforcement Learning from Human Feedback）は、人間の評価者がモデル出力を比較評価し、その好みを報酬信号として強化学習でモデルを調整する手法です。安全性や有用性の向上に使われます。",
         "difficulty": "基礎",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     # ============================================================
     # Applications of Foundation Models（12問）: nanyo-fm-001 ~ nanyo-fm-012
@@ -559,7 +559,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "八幡浜港の魚市場では、漁業者ごとの水揚げデータがデジタル管理されています。ICT化が進む中、漁業データの適切な管理とプライバシー保護の両立が求められています。",
         "aws_ai_explanation": "MLパイプラインで個人情報を扱う場合、最初に個人識別情報（PII）の匿名化やマスキングを行います。Amazon Macie でPII検出、AWS Glue DataBrew でデータマスキングが可能です。",
         "difficulty": "基礎",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
     {
         "id": "nanyo-sg-002",
@@ -573,7 +573,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "佐田岬半島の風力発電所は四国電力グループが運営し、安定したクリーンエネルギーを供給しています。風車のメンテナンスや発電効率の最適化にもデータ活用が進んでいます。",
         "aws_ai_explanation": "IAM（Identity and Access Management）ポリシーを使用して、Amazon Bedrockのモデルや SageMakerエンドポイントへのアクセスを特定のユーザーやロールに制限します。最小権限の原則に基づいてアクセスを制御します。",
         "difficulty": "基礎",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
     {
         "id": "nanyo-sg-003",
@@ -587,7 +587,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "内子町の文化財は町並み保存地区の建造物だけでなく、古文書や民具などの資料も多数あります。これらのデジタルアーカイブ化が進められ、後世への継承が図られています。",
         "aws_ai_explanation": "保存時の暗号化（Encryption at Rest）は、S3バケットやEBSボリュームに保存されたデータを暗号化して不正アクセスから保護する対策です。AWS KMSで暗号鍵を管理します。",
         "difficulty": "基礎",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
     {
         "id": "nanyo-sg-004",
@@ -601,7 +601,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "愛南町では、海水温の上昇によるサンゴの白化現象をモニタリングするため、水中カメラやセンサーを使った定期的な観測が行われています。",
         "aws_ai_explanation": "AWS CloudTrailは、AWSアカウント内のすべてのAPIコールを記録・監査するサービスです。AI/MLサービスへのアクセスや操作の追跡、コンプライアンス証跡の確保に使用されます。",
         "difficulty": "基礎",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
     {
         "id": "nanyo-sg-005",
@@ -615,7 +615,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "大洲城は近年、城泊（キャッスルステイ）体験を提供しており、海外からの宿泊客も増えています。日本初の天守閣に宿泊できるプランとして国際的な注目を集めています。",
         "aws_ai_explanation": "GDPR（General Data Protection Regulation）はEU市民の個人データ保護に関する規制で、EU居住者のデータを扱う場合は所在地に関わらず準拠が必要です。データの収集・処理・保存に厳格なルールがあります。",
         "difficulty": "基礎",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
     {
         "id": "nanyo-sg-006",
@@ -629,7 +629,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "西予ジオパークは2013年に日本ジオパークに認定され、ガイド付きツアーが人気です。専門のジオガイドが地層や化石の見どころを分かりやすく解説してくれます。",
         "aws_ai_explanation": "AIガバナンスフレームワークは、AI開発・運用のライフサイクル全体にわたる方針、手順、責任の所在を明確にし、組織的にAIの品質・安全性・コンプライアンスを管理する体系です。",
         "difficulty": "基礎",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
     # ============================================================
     # 中予 AIF-C01 中級問題（42問）
@@ -648,7 +648,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "松山城は標高132mの勝山山頂に建つ連立式平山城で、現存12天守の一つです。ロープウェイやリフトでアクセスでき、年間約50万人の来城者を誇ります。",
         "aws_ai_explanation": "数値予測には教師あり学習の回帰モデルが適切です。時系列データに天候やイベントなどの外部特徴量を組み込むことで、予測精度を向上させます。SageMakerのビルトインアルゴリズムやAutoMLが活用できます。",
         "difficulty": "中級",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "chuyo-ai-002",
@@ -662,7 +662,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "道後温泉本館は日本最古の温泉施設の一つで、3000年以上の歴史を持つと言われています。2024年に保存修理工事が完了し、新たな姿で観光客を迎えています。",
         "aws_ai_explanation": "再学習後の精度低下は、新しいデータに含まれるノイズや異常値によるオーバーフィッティングが原因であることが多いです。データの品質検証、外れ値除去、正則化の強化で対策します。",
         "difficulty": "中級",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "chuyo-ai-003",
@@ -676,7 +676,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "石鎚山は標高1,982mで西日本最高峰です。鎖場が有名な修験道の霊山で、毎年7月のお山開きには多くの登山者が訪れます。天候急変による遭難事故も発生しています。",
         "aws_ai_explanation": "安全に関わる分類問題では、危険な状態を見逃さないことが最重要です。再現率（Recall）を重視したF1スコアを用いることで、偽陰性（危険を安全と誤判定）を最小化する評価ができます。",
         "difficulty": "中級",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "chuyo-ai-004",
@@ -690,7 +690,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "砥部焼は約240年の歴史を持つ愛媛県の代表的な陶磁器で、白磁に藍色の絵付けが特徴です。砥部町には約100の窯元があり、日用食器から美術品まで多様な作品が生産されています。",
         "aws_ai_explanation": "不均衡データでは少数クラスのオーバーサンプリング（SMOTE等）やクラス重み付けが有効です。SageMakerでは学習時にclass_weightパラメータを設定したり、データ拡張で少数クラスを増やすことができます。",
         "difficulty": "中級",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "chuyo-ai-005",
@@ -704,7 +704,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "坊っちゃん列車は夏目漱石の小説『坊っちゃん』に登場する軽便鉄道を復元したもので、松山市内の道後温泉〜松山市駅間を走るレトロな蒸気機関車風ディーゼル車両です。",
         "aws_ai_explanation": "特徴量間の高い相関（多重共線性）はモデルの不安定性や解釈困難を引き起こします。PCAで次元削減したり、相関係数が高い特徴量の一方を除去することで対策できます。",
         "difficulty": "中級",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "chuyo-ai-006",
@@ -718,7 +718,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "伊予鉄道は明治20年創業の日本最古の民営鉄道の一つで、松山市内の路面電車（市内電車）と郊外電車を運行しています。ICい〜カードで市内交通をシームレスに利用できます。",
         "aws_ai_explanation": "SageMaker Automatic Model Tuning（HPO）は、ベイズ最適化やランダム探索を使ってハイパーパラメータの最適な組み合わせを自動的に探索する機能です。学習率やバッチサイズなどを効率的に調整できます。",
         "difficulty": "中級",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "chuyo-ai-007",
@@ -732,7 +732,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "面河渓は石鎚山の南麓に位置する四国最大級の渓谷で、透明度の高い清流と紅葉の名所として知られています。国の名勝に指定され、約12kmの遊歩道が整備されています。",
         "aws_ai_explanation": "ラベル付きデータが少ない場合、大規模データで事前学習されたモデルを利用する転移学習が効果的です。事前学習で獲得した特徴表現を活かし、少量のデータでファインチューニングすることで高精度が得られます。",
         "difficulty": "中級",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "chuyo-ai-008",
@@ -746,7 +746,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "久万高原町は標高500〜1,000mに位置する高原の町で、四国の軽井沢とも呼ばれます。寒暖差が大きく、霧が発生しやすい独特の気象条件を持っています。",
         "aws_ai_explanation": "データの統計的性質が時間とともに変化するモデルドリフト（データドリフト/コンセプトドリフト）には、SageMaker Model Monitorで予測品質を継続監視し、性能低下を検知したら最新データで再学習する対策が有効です。",
         "difficulty": "中級",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     # ============================================================
     # Generative AI Concepts（10問）: chuyo-ga-001 ~ chuyo-ga-010
@@ -763,7 +763,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "松山城は加藤嘉明が1602年に築城を開始し、25年かけて完成した城です。天守からは松山平野、瀬戸内海、石鎚山系を360度見渡すことができます。",
         "aws_ai_explanation": "Chain-of-Thought（CoT）プロンプティングは、モデルに推論過程を段階的に記述させる手法です。複雑な問題を分解して考えさせることで、論理的な回答の精度が向上します。",
         "difficulty": "中級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "chuyo-ga-002",
@@ -777,7 +777,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "道後温泉には本館以外にも飛鳥乃湯泉や椿の湯などの施設があり、周辺には80以上の旅館・ホテルが集まっています。年間約100万人の宿泊客を受け入れる四国最大の温泉地です。",
         "aws_ai_explanation": "効果的なプロンプト設計では、システムプロンプトでAIの役割・知識範囲・回答形式を定義し、Few-shot例で期待する応答パターンを示します。これにより一貫性のある高品質な回答が得られます。",
         "difficulty": "中級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "chuyo-ga-003",
@@ -791,7 +791,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "砥部焼の代表的な模様は「唐草」「太陽」「ぶどう」などで、手描きによる温かみのあるデザインが特徴です。近年は現代的なデザインの作品も増え、若い世代にも人気があります。",
         "aws_ai_explanation": "ファインチューニングは特定ドメインの専門的な出力が必要な場合に有効ですが、コストと時間がかかります。一般的なタスクではプロンプトエンジニアリングで十分な品質が得られることが多く、まずプロンプトで試すのがベストプラクティスです。",
         "difficulty": "中級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "chuyo-ga-004",
@@ -805,7 +805,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "伊予鉄道の市内電車は6路線で構成され、松山市の主要観光地を結んでいます。路面電車としては珍しく超低床車両「5000形」を導入し、バリアフリー化を推進しています。",
         "aws_ai_explanation": "ハルシネーション防止にはRAG（検索拡張生成）が最も効果的です。外部の信頼できるデータソースから最新情報を検索し、LLMにコンテキストとして提供することで、事実に基づいた回答を生成させます。",
         "difficulty": "中級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "chuyo-ga-005",
@@ -819,7 +819,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "東温市は松山市の東隣に位置し、温暖な気候を活かした柑橘栽培と水稲栽培が盛んです。愛媛大学農学部の研究圃場があり、スマート農業の実証実験も行われています。",
         "aws_ai_explanation": "Top-pは累積確率がp以下のトークンのみを候補にし、Top-kは確率上位k個のトークンから選択します。両者を組み合わせることで、生成テキストの多様性と品質のバランスを細かく制御できます。",
         "difficulty": "中級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "chuyo-ga-006",
@@ -833,7 +833,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "松山空港は松山市中心部から約6kmの好立地にあり、年間約300万人が利用する四国最大の空港です。国内主要都市への直行便に加え、国際線も運航しています。",
         "aws_ai_explanation": "LLMの構築は3段階で行われます。①事前学習で大量テキストから言語の基礎能力を獲得、②教師ありファインチューニングで指示に従う能力を学習、③RLHFで人間の好みに沿った回答品質に調整します。",
         "difficulty": "中級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "chuyo-ga-007",
@@ -847,7 +847,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "久万高原町は愛媛県のほぼ中央に位置し、スギ・ヒノキの良質な木材の産地です。「久万林業」は400年以上の歴史があり、計画的な植林と間伐で持続可能な林業を実践しています。",
         "aws_ai_explanation": "ROUGEスコアは、生成されたテキスト要約と人間が作成した参照要約の間のn-gramの一致率を測定する指標です。要約タスクの品質評価に広く使用され、ROUGE-1、ROUGE-2、ROUGE-Lなどのバリエーションがあります。",
         "difficulty": "中級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "chuyo-ga-008",
@@ -861,7 +861,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "道後温泉周辺の宿泊施設は、伝統的な和風旅館から現代的なホテルまで多様です。多くの施設がオンラインレビューを重視し、サービス改善に活用しています。",
         "aws_ai_explanation": "マルチヘッドアテンションは、入力を複数の異なるサブスペースに投影し、それぞれで独立にアテンション計算を行います。これにより、構文関係・意味関係・位置関係など複数の視点を同時に学習できます。",
         "difficulty": "中級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "chuyo-ga-009",
@@ -875,7 +875,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "伊予市は松山市の南西に隣接し、「伊予かすり」や「五色浜」で知られています。郡中港からは瀬戸内の島々へのフェリーが出港し、柑橘やびわの栽培も盛んです。",
         "aws_ai_explanation": "LLMの出力は確率的です。次のトークン予測時に確率分布からサンプリングを行うため、Temperature > 0 の場合は同じプロンプトでも異なる出力が得られます。Temperature = 0 にすると決定的な出力になります。",
         "difficulty": "中級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "chuyo-ga-010",
@@ -889,7 +889,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "松山城では近年、ARやVRを活用したデジタル体験が導入されており、スマートフォンをかざすと当時の城下町の様子が再現される仕組みが人気を集めています。",
         "aws_ai_explanation": "LLMの出力形式を制約するには、プロンプトでJSON等の形式を明示的に指示し、出力パーサーで構造化データを抽出します。Amazon Bedrockのガードレールや構造化出力機能も活用できます。",
         "difficulty": "中級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     # ============================================================
     # Applications of Foundation Models（12問）: chuyo-fm-001 ~ chuyo-fm-012
@@ -1164,7 +1164,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "松山城では入場者数のカウントにセンサーが使われ、混雑状況のリアルタイム表示やイベント企画に活用されています。個人が特定されない統計データの活用が進んでいます。",
         "aws_ai_explanation": "個人情報保護法に準拠するには、データライフサイクル全体での対策が必要です。収集時の利用目的明示と同意、保存時のKMS暗号化、アクセス制御、利用目的の範囲内での処理、保持期間経過後の適切な削除を実装します。",
         "difficulty": "中級",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
     {
         "id": "chuyo-sg-002",
@@ -1178,7 +1178,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "道後温泉の旅館では、オンライン予約システムの普及により、予約データの管理とセキュリティ対策が重要になっています。繁忙期の予約は数ヶ月前から埋まることもあります。",
         "aws_ai_explanation": "AWS CloudTrailはBedrock APIコールの記録を自動的に保持し、CloudWatch Logsはアプリケーションレベルのログをリアルタイムで収集・保存します。両者を組み合わせて包括的な監査証跡を実現します。",
         "difficulty": "中級",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
     {
         "id": "chuyo-sg-003",
@@ -1192,7 +1192,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "石鎚山は修験道の聖地であり、登山口の石鎚ロープウェイは年間約20万人が利用しています。山頂付近での携帯電話通信エリア拡大も進められています。",
         "aws_ai_explanation": "VPCエンドポイント（AWS PrivateLink）を使用すると、インターネットを経由せずにVPC内からAWSサービス（SageMaker、Bedrock等）にプライベートにアクセスできます。データの外部露出リスクを軽減します。",
         "difficulty": "中級",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
     {
         "id": "chuyo-sg-004",
@@ -1206,7 +1206,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "東温市の愛媛大学医学部附属病院は、地域の中核病院として高度医療を提供しています。医療データの電子化が進む中、患者プライバシーの保護は最重要課題です。",
         "aws_ai_explanation": "匿名化不十分なデータは個人情報漏洩のリスクがあります。Amazon MacieはS3バケット内のデータをスキャンし、PII（個人識別情報）を自動検出して警告します。検出後にマスキングや暗号化で対策します。",
         "difficulty": "中級",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
     {
         "id": "chuyo-sg-005",
@@ -1220,7 +1220,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "伊予市は瀬戸内海に面し、しらすやタチウオなどの水産物が豊富です。漁獲データの分析により、漁場の最適化や持続可能な漁業への取り組みが進められています。",
         "aws_ai_explanation": "Amazon Bedrockでは、顧客の入力データと出力データはモデルプロバイダーに共有されず、基盤モデルの学習にも使用されません。データはAWSのセキュリティ基盤で暗号化して保護されます。",
         "difficulty": "中級",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
     {
         "id": "chuyo-sg-006",
@@ -1234,7 +1234,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "久万高原町の森林面積は町の約85%を占め、スギ・ヒノキの人工林管理が主要産業です。ドローンやAIを活用した森林資源の把握と効率的な林業経営の研究が進んでいます。",
         "aws_ai_explanation": "包括的なAIガバナンスフレームワークには、①利用方針と許可範囲、②リスク評価と影響分析プロセス、③責任者・承認フローの明確化、④定期的な監査と評価、⑤インシデント発生時の対応手順を含めます。",
         "difficulty": "中級",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
     # ============================================================
     # 東予 AIF-C01 上級問題（41問）
@@ -1254,7 +1254,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "しまなみ海道は全長約60kmの自転車道を持つ世界的サイクリングロードで、年間約30万人のサイクリストが訪れます。季節や天候による交通量の変動が大きいのが特徴です。",
         "aws_ai_explanation": "複数の時系列要因を統合的に扱うには、LSTMやTransformerベースのモデルが有効です。季節性はエンコーディングで、外部要因は追加特徴量として入力し、多変量時系列予測を実現します。Amazon Forecastもこのアプローチを採用しています。",
         "difficulty": "上級",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "toyo-ai-002",
@@ -1268,7 +1268,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "今治タオルは厳格な品質基準を設け、吸水性テストなど独自の検査を行っています。今治タオル工業組合の認定基準をクリアした製品のみが今治タオルブランドを使用できます。",
         "aws_ai_explanation": "不均衡データでは精度だけでは性能を正しく評価できません。F1スコアやPR-AUCで少数クラスの検出力を評価し、SMOTEによるオーバーサンプリングやコスト敏感学習でクラス不均衡に対処します。SageMakerではこれらの手法を組み込んだパイプラインを構築できます。",
         "difficulty": "上級",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "toyo-ai-003",
@@ -1282,7 +1282,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "新居浜太鼓祭りは毎年10月に開催され、約50台の太鼓台が市内を練り歩きます。かきくらべでは数千人の群衆が集まり、安全管理が重要な課題となっています。",
         "aws_ai_explanation": "CNN-RNN統合アーキテクチャでは、CNNが各画像フレームから空間的特徴（密度分布パターン）を抽出し、RNN/LSTMがフレーム間の時間的依存関係を学習します。これにより現在の状況から将来の群衆密度変化を予測できます。",
         "difficulty": "上級",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "toyo-ai-004",
@@ -1296,7 +1296,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "別子銅山は1691年から1973年まで約280年間操業した日本有数の銅山で、現在は産業遺産として保存されています。坑道や石積みなどの構造物の保全が重要な課題です。",
         "aws_ai_explanation": "特徴量を増やすと次元の呪いにより、データが高次元空間で疎になりモデルが過学習しやすくなります。L1/L2正則化、特徴量重要度に基づく選択、PCAなどの次元削減を併用し、モデルの汎化性能と解釈可能性を維持することが重要です。",
         "difficulty": "上級",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "toyo-ai-005",
@@ -1310,7 +1310,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "来島海峡大橋は世界初の3連吊り橋で全長約4.1kmあり、海峡の強い潮流と風による構造的影響を常時監視する必要があります。センサーによる構造ヘルスモニタリングが実施されています。",
         "aws_ai_explanation": "Autoencoderは正常データの分布を潜在空間にエンコードし、再構成誤差が大きい入力を異常と判定します。Isolation Forestはランダムな分割で孤立しやすい点を異常と判定します。複雑な時系列パターンにはAutoencoder、表形式データにはIsolation Forestが有効な場合が多いです。",
         "difficulty": "上級",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "toyo-ai-006",
@@ -1324,7 +1324,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "今治造船は国内最大手の造船グループで、今治市を中心に複数の造船所を運営しています。高品質な溶接技術は船舶の安全性を左右する重要な工程です。",
         "aws_ai_explanation": "バイアス-バリアンストレードオフの最適化には、k-fold交差検証でモデル選択を行い、L1/L2正則化でバリアンスを制御し、必要に応じてバギングやブースティングなどのアンサンブル手法で両方のバランスを取ります。SageMakerの自動モデルチューニングでこのプロセスを効率化できます。",
         "difficulty": "上級",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "toyo-ai-007",
@@ -1338,7 +1338,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "西条うちぬきは西条市内に約3,000本ある自噴井で、環境省の「名水百選」に選定されています。石鎚山系の伏流水が自然に湧出する仕組みで、水位は降水量と密接に関連しています。",
         "aws_ai_explanation": "ベイズ最適化はガウス過程などのサロゲートモデルで目的関数を近似し、獲得関数（Expected Improvementなど）で探索と活用のバランスを取りながら次の評価点を選択します。これによりランダムサーチよりも少ない試行で最適パラメータに収束できます。",
         "difficulty": "上級",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     {
         "id": "toyo-ai-008",
@@ -1352,7 +1352,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "四国中央市は紙・パルプ産業の集積地で、日本の紙生産量の約3分の1を占めます。多品種の紙製品を効率的に生産するため、品質管理と需要予測が経営の要です。",
         "aws_ai_explanation": "成熟したMLOpsでは、SageMaker Pipelinesで自動再訓練、Model Registryでバージョン管理、A/Bテストとカナリアデプロイで安全なリリース、Model Monitorでデータドリフト・モデルドリフトの検知を統合的に実装します。これによりモデルの継続的な品質維持が可能になります。",
         "difficulty": "上級",
-        "exam_domain": "AI and ML Fundamentals"
+        "exam_domain": "Fundamentals of AI and ML"
     },
     # ============================================================
     # Generative AI Concepts（10問）: toyo-ga-001 ~ toyo-ga-010
@@ -1369,7 +1369,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "しまなみ海道は日本・アメリカ・台湾など海外のサイクリストにも人気が高く、多言語での案内ニーズが年々増加しています。各島の文化や見どころを多言語で紹介するガイドの充実が求められています。",
         "aws_ai_explanation": "Self-attention機構は入力系列のすべてのトークンペア間のattentionスコアを同時に計算するため、RNNのような逐次処理の制約がありません。これにより長距離の依存関係を直接的に捕捉でき、GPU並列処理の恩恵を最大限活用した高速な訓練が可能になります。",
         "difficulty": "上級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "toyo-ga-002",
@@ -1383,7 +1383,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "今治タオルは「今治タオルプロジェクト」により白いタオルのブランディングに成功し、高品質・安心の代名詞となりました。ブランドの一貫したトーン維持がマーケティングの重要課題です。",
         "aws_ai_explanation": "RLHFの標準的なプロセスは、①SFTでデモンストレーションデータによる教師ありファインチューニング、②人間の選好データで報酬モデルを訓練、③PPOアルゴリズムで報酬モデルからのフィードバックに基づきポリシー（LLM）を更新する3段階です。",
         "difficulty": "上級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "toyo-ga-003",
@@ -1397,7 +1397,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "村上海賊ミュージアムは今治市にあり、中世に瀬戸内海を支配した村上水軍の歴史を展示しています。2014年に「日本遺産」第一号に認定された村上海賊の歴史的資料を多数収蔵しています。",
         "aws_ai_explanation": "Temperatureはソフトマックスの出力分布をスケーリングし（高い値で平坦化＝多様性増加）、Top-pは累積確率が閾値に達するまでのトークンのみを候補にし（動的）、Top-kは上位k個のトークンに候補を固定します。これらの組み合わせで生成テキストの多様性と品質を制御します。",
         "difficulty": "上級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "toyo-ga-004",
@@ -1411,7 +1411,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "新居浜市は住友グループ発祥の地として重工業が盛んで、産業用ロボットの製造・活用が進んでいます。別子銅山の遺産を受け継ぐ製造業の技術革新が続いています。",
         "aws_ai_explanation": "Diffusion Modelはノイズを段階的に除去するプロセスで生成するため、GANのモード崩壊（生成多様性の喪失）が原理的に起きにくく、訓練も安定します。一方で推論時に複数のデノイジングステップが必要なため、単一パスで生成するGANより遅い場合があります。",
         "difficulty": "上級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "toyo-ga-005",
@@ -1425,7 +1425,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "西条市は石鎚山系の豊富な伏流水を活用した農業が盛んで、特に水稲栽培と野菜生産が主力です。ICTやAIを活用したスマート農業の実証実験も進められています。",
         "aws_ai_explanation": "LoRA（Low-Rank Adaptation）は元のモデルの重み行列Wを凍結し、W + ΔW = W + BA（B,Aは低ランク行列）として追加パラメータのみを学習します。ランクrが小さいため学習パラメータ数は元の1%以下に削減でき、推論時はBAをWにマージすることで追加コストなしに使用できます。",
         "difficulty": "上級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "toyo-ga-006",
@@ -1439,7 +1439,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "しまなみ海道が結ぶ芸予諸島には、大三島の大山祇神社、伯方島の塩田跡、大島の村上水軍城跡など、各島に固有の歴史・文化資源があり、島ごとのストーリーが豊かです。",
         "aws_ai_explanation": "プロンプトエンジニアリングの3手法は相互補完的です。Zero-shotはタスク指示のみで汎用的、Few-shotは例示で出力形式・品質を制御、Chain-of-Thought（CoT）は「ステップバイステップで考えてください」のように推論過程を分解させることで、算術や論理推論の精度を大幅に向上させます。",
         "difficulty": "上級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "toyo-ga-007",
@@ -1453,7 +1453,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "今治市はスマートシティの取り組みを推進しており、造船・タオル産業とICTの融合による新しいまちづくりを目指しています。来島海峡を望む都市空間のデジタル化が進んでいます。",
         "aws_ai_explanation": "マルチモーダル統合の先進的アプローチでは、CLIPやImageBindのようにcontrastive learningで異なるモダリティの表現を共有ベクトル空間に整列させ、cross-attention機構で各モダリティ間の相互参照を可能にします。これにより画像に関する質問回答や、テキストからの画像検索が実現できます。",
         "difficulty": "上級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "toyo-ga-008",
@@ -1467,7 +1467,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "別子銅山には280年の操業で膨大な歴史文書が残されており、住友史料館で保管されています。これらの文書のデジタルアーカイブ化は産業遺産の保存に重要な役割を果たしています。",
         "aws_ai_explanation": "Kaplanらが示したスケーリング則では、LLMの性能（損失）はモデルパラメータ数N、データセットサイズD、計算量Cのそれぞれに対してべき乗則L∝N^(-α)で改善されます。Chinchillaの研究では、固定計算予算下でNとDを等しくスケールさせることが最も効率的であることが示されました。",
         "difficulty": "上級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "toyo-ga-009",
@@ -1481,7 +1481,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "四国中央市は書道用紙から工業用紙まで多種多様な紙製品を製造しており、製品カタログの作成・更新は膨大な作業量を伴います。AI活用による効率化が期待されています。",
         "aws_ai_explanation": "ハルシネーション対策には多層的アプローチが必要です。RAGで正確な情報源を参照し、faithfulness指標（生成文と参照文書の一致度）で評価し、複数回生成の一貫性（self-consistency）を検証し、citationで根拠を明示することで、信頼性の高い出力を実現します。",
         "difficulty": "上級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     {
         "id": "toyo-ga-010",
@@ -1495,7 +1495,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "来島海峡は日本三大急潮の一つで、最大10ノット以上の潮流が発生します。船舶の安全航行のため、潮流情報のリアルタイム提供と予測が極めて重要です。",
         "aws_ai_explanation": "LLMの訓練3段階は各々異なる能力を付与します。事前学習（大量テキスト）で言語モデリングと知識獲得、SFT（教師ありファインチューニング）でタスク固有のフォーマットと能力、RLHF（人間フィードバック強化学習）で人間の価値観・安全性・有用性への整合を実現します。",
         "difficulty": "上級",
-        "exam_domain": "Generative AI Concepts"
+        "exam_domain": "Fundamentals of Generative AI"
     },
     # ============================================================
     # Applications of Foundation Models（11問）: toyo-fm-001 ~ toyo-fm-011
@@ -1759,7 +1759,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "今治タオルは今治市を中心とした120年以上の歴史を持つ地場産業で、約100社のメーカーが高品質タオルを製造しています。EC販売の拡大により顧客データの適切な管理がますます重要になっています。",
         "aws_ai_explanation": "MLパイプラインのデータプライバシーには全段階での保護が必要です。①差分プライバシー：訓練時にノイズを付加し個人特定を防止、②暗号化：AWS KMSによる転送中（TLS）・保存中（AES-256）の暗号化、③最小権限：IAMポリシーとVPCエンドポイントでアクセス制御、④リネージ：AWS Glue Data Catalogでデータの来歴を追跡、⑤自動削除：S3ライフサイクルポリシーで保持期間管理。",
         "difficulty": "上級",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
     {
         "id": "toyo-sg-002",
@@ -1773,7 +1773,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "新居浜市は住友グループ発祥の地で、住友化学・住友金属鉱山など大手企業の工場が集積する四国有数の工業都市です。工場のIoT化とAI活用が産業競争力の鍵となっています。",
         "aws_ai_explanation": "AIモデルのセキュリティには、①IAMロール：職責に応じたモデルエンドポイントへのアクセス制御（invoke権限の分離）、②CloudTrail/CloudWatch Logs：全推論リクエストの監査ログ記録、③GuardDuty/異常検知：不審なアクセスパターン（大量リクエスト・通常時間外アクセス等）の検知、④SageMaker Model Registry：バージョン管理と問題発生時の迅速なロールバックが必要です。",
         "difficulty": "上級",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
     {
         "id": "toyo-sg-003",
@@ -1787,7 +1787,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "西条市は「水の都」とも呼ばれ、豊富な地下水を活用した農業が盛んです。いちご・あたご梨・裸麦など多彩な農産物が生産され、スマート農業への取り組みも進んでいます。",
         "aws_ai_explanation": "AIガバナンスフレームワークには、①データ分類：機密度レベルに応じた管理基準設定、②同意管理：利用目的の明示と同意取得・撤回プロセス、③DPIA：AI利用による個人の権利への影響を事前評価、④コンプライアンス監査：AWS Audit ManagerとAWS Configで継続的なコンプライアンス評価、⑤インシデント対応：データ漏洩時の通知・対処手順の整備が必要です。",
         "difficulty": "上級",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
     {
         "id": "toyo-sg-004",
@@ -1801,7 +1801,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "しまなみ海道は自動車・自転車・歩行者が共存する世界的にもユニークな道路で、交通量管理には高い精度と信頼性が求められます。橋梁の通行制限判断はAIによる支援が期待されています。",
         "aws_ai_explanation": "AIモデルの敵対的攻撃対策には多層防御が必要です。①入力バリデーション：統計的異常値検出やInputの形式検証で異常入力を遮断、②敵対的訓練：摂動データを訓練に含めモデルのロバスト性向上、③環境隔離：VPCプライベートサブネット・セキュリティグループでエンドポイントを保護、④出力モニタリング：CloudWatch異常検知で予測分布の急変を検知しアラート発報。",
         "difficulty": "上級",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
     {
         "id": "toyo-sg-005",
@@ -1815,7 +1815,7 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "四国中央市の製紙産業は独自の製造技術やノウハウが競争力の源泉であり、これらの企業秘密の保護は経営上の最重要課題です。DXの推進と情報セキュリティの両立が求められています。",
         "aws_ai_explanation": "企業の生成AI利用におけるデータ保護には、①VPCエンドポイント：インターネットを経由せずAWSサービスにプライベート接続、②Bedrock Guardrails：PII・機密情報の入出力フィルタリング、③IAMポリシー：利用可能なモデル・機能の制限、④CloudTrail：誰が・いつ・何を入力したかの完全な監査証跡。Bedrockはデフォルトで顧客データをモデル訓練に使用しません。",
         "difficulty": "上級",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
     {
         "id": "toyo-sg-006",
@@ -1829,6 +1829,6 @@ EXTRA_QUESTIONS_3: list[dict] = [
         "ehime_trivia": "来島海峡大橋は国の重要インフラとして24時間体制で監視されており、構造物の健全性維持が地域の交通・物流を支えています。AIによる高度なモニタリングは安全管理の次世代基盤として期待されます。",
         "aws_ai_explanation": "クリティカルインフラのAIガバナンスには、全ライフサイクルをカバーするフレームワークが必要です。①開発：リスク評価（影響度×発生確率）とセキュリティ要件定義、②テスト：ロバスト性・公平性・セキュリティの検証ゲート、③本番：SageMaker Model MonitorでContinuous Monitoring（データドリフト・性能劣化の自動検知）、④廃棄：モデルアーティファクト・訓練データの完全削除証明。AWS Config Rulesでコンプライアンス状態を継続評価します。",
         "difficulty": "上級",
-        "exam_domain": "Security Compliance and Governance"
+        "exam_domain": "Security, Compliance, and Governance for AI Solutions"
     },
 ]

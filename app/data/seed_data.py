@@ -971,7 +971,7 @@ QUESTIONS: list[dict] = [
         "ehime_trivia": "宇和島市遊子の段畑は急斜面に石を積んで作った畑で「耕して天に至る」と称されます。重要文化的景観に選定された美しい段々畑です。",
         "aws_ai_explanation": "AWS Trusted Advisorはコスト最適化、パフォーマンス、セキュリティ、耐障害性、サービス制限の5カテゴリでAWS環境をチェックし、改善推奨を提供するサービスです。",
         "difficulty": "基礎",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "nanyo-bp-002",
@@ -985,7 +985,7 @@ QUESTIONS: list[dict] = [
         "ehime_trivia": "内子町の観光施設（内子座、木蝋資料館等）は入場料制で、訪れた施設分だけ支払います。共通券を購入すると割安になる仕組みもあります。",
         "aws_ai_explanation": "オンデマンド料金はAWSの基本課金モデルで、使用した時間やリソース量に応じて従量課金されます。初期費用や長期契約が不要で、予測困難なワークロードに最適です。",
         "difficulty": "基礎",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "nanyo-bp-003",
@@ -999,7 +999,7 @@ QUESTIONS: list[dict] = [
         "ehime_trivia": "滑床渓谷に隣接する森の国キャンプ場では年間パスポートを購入すると利用料が割安になります。自然に囲まれたアウトドアフィールドとして人気です。",
         "aws_ai_explanation": "Savings PlansやReserved Instancesは1〜3年の利用コミットにより最大72%の割引を提供します。安定した使用が見込めるワークロードのコスト削減に効果的です。",
         "difficulty": "基礎",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "nanyo-bp-004",
@@ -1013,7 +1013,7 @@ QUESTIONS: list[dict] = [
         "ehime_trivia": "西予市には道の駅「どんぶり館」があり、地元の農産物や特産品を部門別に販売。各生産者の売上を個別に管理しています。",
         "aws_ai_explanation": "コスト配分タグはAWSリソースにタグを付けて部門・プロジェクト別にコストを分類・追跡する機能です。AWS Cost Explorerで可視化し、コスト配分レポートを生成できます。",
         "difficulty": "基礎",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "nanyo-bp-005",
@@ -1027,7 +1027,7 @@ QUESTIONS: list[dict] = [
         "ehime_trivia": "八幡浜市のみかん共選場ではシーズン中の出荷量と経費を厳密に予算管理しています。品質維持とコスト管理の両立が農家経営の要です。",
         "aws_ai_explanation": "AWS Budgetsはカスタム予算を設定し、コストや使用量が閾値を超えた際にアラートを送信するサービスです。メール通知やSNS通知で予算超過を事前に警告できます。",
         "difficulty": "基礎",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "nanyo-bp-006",
@@ -1041,7 +1041,7 @@ QUESTIONS: list[dict] = [
         "ehime_trivia": "愛南町の観光案内所では、石垣の里やサンゴ、シーカヤックなどの観光情報を無料で提供しています。美しい宇和海の魅力を伝える拠点です。",
         "aws_ai_explanation": "ベーシックサポートプランは全AWSアカウントに無料で提供されます。ドキュメント、ホワイトペーパー、サポートフォーラム、サービスヘルスダッシュボード、一部のTrusted Advisorチェックが含まれます。",
         "difficulty": "基礎",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "nanyo-bp-007",
@@ -1055,7 +1055,7 @@ QUESTIONS: list[dict] = [
         "ehime_trivia": "宇和島闘牛では複数の牛主が協力して大会を運営します。エントリー費用をまとめることで、個別に支払うよりも運営コストが削減されます。",
         "aws_ai_explanation": "AWS Organizationsの一括請求では複数アカウントの利用量を統合し、ボリューム割引の恩恵を受けやすくなります。請求を一元管理しながら、各アカウントの独立性も維持できます。",
         "difficulty": "基礎",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "nanyo-bp-008",
@@ -1069,7 +1069,7 @@ QUESTIONS: list[dict] = [
         "ehime_trivia": "大洲市は「伊予の小京都」として観光地で、地元旅行会社が城下町巡りや鵜飼い体験のツアーを企画・販売しています。事前見積もりが顧客満足の基本です。",
         "aws_ai_explanation": "AWS Pricing CalculatorはAWSサービスの月額コストを事前に見積もる無料Webツールです。EC2、S3、RDSなど各サービスの構成を入力し、予想コストをシミュレーションできます。",
         "difficulty": "基礎",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     # =========================================================================
     # Cloud Concepts 追加（10問）nanyo-cc-018 〜 nanyo-cc-027
@@ -1562,7 +1562,7 @@ QUESTIONS: list[dict] = [
         "ehime_trivia": "宇和島闘牛は年5回の定期大会が開催され、一般席から特等席まで料金に応じた観覧エリアが用意されています。約300年の歴史を持つ伝統文化です。",
         "aws_ai_explanation": "AWSサポートプランはベーシック（無料）、デベロッパー、ビジネス、エンタープライズOn-Ramp、エンタープライズの5段階です。ベーシックは全アカウントに付属し、ドキュメントやフォーラムを利用できます。",
         "difficulty": "基礎",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "nanyo-bp-010",
@@ -1576,7 +1576,7 @@ QUESTIONS: list[dict] = [
         "ehime_trivia": "内子町は江戸時代から木蝋の生産で栄え、生産者は年間計画に基づいて櫨の実を予約購入しコスト管理を行っていました。現在も伝統を受け継いでいます。",
         "aws_ai_explanation": "リザーブドインスタンス（RI）は1年または3年の利用コミットメントで最大72%の割引を受けられる料金モデルです。安定したワークロードに最適で、全額前払い・一部前払い・前払いなしを選べます。",
         "difficulty": "基礎",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "nanyo-bp-011",
@@ -1590,7 +1590,7 @@ QUESTIONS: list[dict] = [
         "ehime_trivia": "佐田岬の風力発電所は風の強さに応じて発電量が変動し、売電収入をリアルタイムで把握するモニタリングシステムが導入されています。",
         "aws_ai_explanation": "AWS Cost Explorerは過去13か月のコストと使用量データを可視化し、今後12か月の支出を予測するツールです。サービス別、タグ別、アカウント別のコスト分析が可能です。",
         "difficulty": "基礎",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "nanyo-bp-012",
@@ -1604,7 +1604,7 @@ QUESTIONS: list[dict] = [
         "ehime_trivia": "大洲市の肱川あらし展望公園は冬季限定の観光スポットで、運営予算の管理が重要です。事前に予算計画を立てて効率的に運営されています。",
         "aws_ai_explanation": "AWS Budgetsはカスタム予算を設定し、コストや使用量が閾値を超えた際にメール・SNSでアラートを送信します。予算超過を未然に防ぐコスト管理の基本ツールです。",
         "difficulty": "基礎",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "nanyo-bp-013",
@@ -1618,7 +1618,7 @@ QUESTIONS: list[dict] = [
         "ehime_trivia": "松野町の道の駅「虹の森公園」はGW・夏休みなど繁忙期に臨時スタッフを増員し、閑散期はコストを抑えた運営を行っています。",
         "aws_ai_explanation": "スポットインスタンスはAWSの未使用EC2容量を最大90%割引で利用できる料金モデルです。中断される可能性がありますが、バッチ処理やテスト環境など中断耐性のあるワークロードに最適です。",
         "difficulty": "基礎",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
     {
         "id": "nanyo-bp-014",
@@ -1632,7 +1632,7 @@ QUESTIONS: list[dict] = [
         "ehime_trivia": "西予市観光協会は市内の複数観光施設（ジオミュージアム、かまぼこ板の絵美術館等）の運営コストを一括管理し、効率的な予算配分を行っています。",
         "aws_ai_explanation": "AWS Organizationsの一括請求（Consolidated Billing）は複数アカウントの使用量を合算し、ボリュームディスカウントやRI共有のメリットを得られます。コスト管理の一元化を実現します。",
         "difficulty": "基礎",
-        "exam_domain": "Billing Pricing and Support",
+        "exam_domain": "Billing, Pricing, and Support",
     },
 ]
 
