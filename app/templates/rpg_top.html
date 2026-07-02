@@ -231,6 +231,7 @@
                             {% set color = pin_colors[course.pin_status] %}
                             <g class="stage-pin" style="cursor: pointer;" data-course-id="{{ course.id }}"
                                onclick="document.getElementById('pin-form-{{ course.id }}').submit();">
+                                <title>{{ course.name }}</title>
                                 <circle cx="{{ cx }}" cy="{{ cy }}" r="11" fill="{{ color }}" stroke="white" stroke-width="2"
                                         {% if course.pin_status == "perfect" %}class="pin-perfect"{% endif %}/>
                                 <text x="{{ cx }}" y="{{ cy + 4 }}" text-anchor="middle" font-size="9" fill="{% if course.pin_status == 'perfect' %}#000{% else %}white{% endif %}" font-weight="bold" pointer-events="none">{{ loop.index }}</text>
