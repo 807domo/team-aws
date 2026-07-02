@@ -19,7 +19,8 @@ AI ドメイン:
 from sqlalchemy.orm import Session
 
 from app.data.models import CourseModel, QuestionModel
-from app.data.seed_data_extra import EXTRA_QUESTIONS, EXTRA_QUESTIONS_2
+from app.data.seed_data_extra import EXTRA_QUESTIONS
+from app.data.seed_data_extra2 import EXTRA_QUESTIONS_2
 
 
 # =============================================================================
@@ -307,6 +308,112 @@ COURSES = [
         "difficulty": "上級",
         "description": "品質基準認定の伝統産業",
     },
+    {
+        "id": "nanyo-stage-15",
+        "name": "ステージ15：AI基礎概念",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "AI/MLの基礎概念と愛媛の産業活用を学ぶ",
+    },
+    {
+        "id": "nanyo-stage-16",
+        "name": "ステージ16：機械学習入門",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "機械学習の基本的な仕組みを学ぶ",
+    },
+    {
+        "id": "nanyo-stage-17",
+        "name": "ステージ17：責任あるAI",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "AIの倫理とガバナンスの基礎を学ぶ",
+    },
+    {
+        "id": "nanyo-stage-18",
+        "name": "ステージ18：AIサービス基礎",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "AWSのAIサービスの基本を学ぶ",
+    },
+    {
+        "id": "nanyo-stage-19",
+        "name": "ステージ19：データとAI",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "データ活用とAIの関係を学ぶ",
+    },
+    {
+        "id": "chuyo-stage-13",
+        "name": "ステージ13：生成AI基礎",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "生成AIの仕組みと活用を学ぶ",
+    },
+    {
+        "id": "chuyo-stage-14",
+        "name": "ステージ14：プロンプト設計",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "効果的なプロンプトエンジニアリングを学ぶ",
+    },
+    {
+        "id": "chuyo-stage-15",
+        "name": "ステージ15：LLMの活用",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "大規模言語モデルの実践活用を学ぶ",
+    },
+    {
+        "id": "chuyo-stage-16",
+        "name": "ステージ16：Amazon Bedrock",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "Amazon Bedrockによる生成AI開発を学ぶ",
+    },
+    {
+        "id": "chuyo-stage-17",
+        "name": "ステージ17：RAGアーキテクチャ",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "検索拡張生成の設計パターンを学ぶ",
+    },
+    {
+        "id": "toyo-stage-15",
+        "name": "ステージ15：基盤モデル応用",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "基盤モデルのファインチューニングを学ぶ",
+    },
+    {
+        "id": "toyo-stage-16",
+        "name": "ステージ16：AIセキュリティ",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "AI特有のセキュリティ課題を学ぶ",
+    },
+    {
+        "id": "toyo-stage-17",
+        "name": "ステージ17：MLOps",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "機械学習の運用と自動化を学ぶ",
+    },
+    {
+        "id": "toyo-stage-18",
+        "name": "ステージ18：AIガバナンス",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "AI規制とコンプライアンスを学ぶ",
+    },
+    {
+        "id": "toyo-stage-19",
+        "name": "ステージ19：AI設計パターン",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "エンタープライズAIアーキテクチャを学ぶ",
+    },
+
 ]
 
 
@@ -1800,6 +1907,7 @@ QUESTIONS = [
     # =========================================================================
     # 文化財コース問題（各コース4問 × 9コース = 36問）
     # =========================================================================
+
 ]
 
 # 文化財問題は別ファイルからインポート
