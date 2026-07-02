@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}実績バッジ - 愛媛探索AIクイズ{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">🏅 実績バッジ</h1>
+
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+        <p class="text-gray-700">
+            獲得バッジ: <span class="text-orange-600 font-bold text-xl">{{ earned_count }}</span>
+            / {{ total_count }}
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {% for badge in badges %}
+        <div class="rounded-lg shadow p-5 border-2 transition
+            {% if badge.earned %}bg-white border-orange-300{% else %}bg-gray-100 border-gray-200 opacity-60{% endif %}">
+            <div class="flex items-center gap-3">
+                <span class="text-3xl">{{ badge.icon }}</span>
+                <div>
+                    <h3 class="font-bold text-gray-800">{{ badge.name }}</h3>
+                    <p class="text-sm text-gray-600">{{ badge.description }}</p>
+                </div>
+                {% if badge.earned %}
+                <span class="ml-auto text-green-600 font-bold text-lg">✓</span>
+                {% else %}
+                <span class="ml-auto text-gray-400 text-lg">🔒</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-6">
+        <a href="/" class="text-orange-600 hover:text-orange-700 font-medium">← トップに戻る</a>
+    </div>
+</div>
+{% endblock %}

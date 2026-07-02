@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}模擬試験履歴 - 愛媛探索AIクイズ{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">📋 模擬試験 受験履歴</h1>
+
+    {% if not history %}
+    <div class="bg-white rounded-lg shadow p-8 text-center">
+        <div class="text-5xl mb-4">📝</div>
+        <p class="text-xl text-gray-600 font-medium">まだ模擬試験を受けていません</p>
+        <p class="text-gray-500 mt-2">模擬試験に挑戦して実力を確認しましょう！</p>
+        <a href="/mock-exam/select" class="inline-block mt-4 bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition">
+            模擬試験を受ける
+        </a>
+    </div>
+    {% else %}
+
+    <div class="bg-white rounded-lg shadow p-6">
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+                <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+                    <tr>
+                        <th class="px-4 py-3">受験日時</th>
+                        <th class="px-4 py-3">試験タイプ</th>
+                        <th class="px-4 py-3">正解数</th>
+                        <th class="px-4 py-3">スコア</th>
+                        <th class="px-4 py-3">グレード</th>
+                        <th class="px-4 py-3">合否</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for exam in history %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 text-gray-600">{{ exam.completed_at }}</td>
+                        <td class="px-4 py-3 font-medium text-gray-800">
+                            {% if "Cloud Practitioner" in exam.exam_type %}CCP{% else %}AIF{% endif %}
+                        </td>
+                        <td class="px-4 py-3 text-gray-700">{{ exam.correct_count }} / {{ exam.total_questions }}</td>
+                        <td class="px-4 py-3 font-bold
+                            {% if exam.score_percentage >= 70 %}text-green-600{% else %}text-red-600{% endif %}">
+                            {{ "%.1f"|format(exam.score_percentage) }}%
+                        </td>
+                        <td class="px-4 py-3">
+                            <span class="px-2 py-1 rounded-full text-xs font-semibold
+                                {% if exam.grade == 'A' %}bg-green-100 text-green-800
+                                {% elif exam.grade == 'B' %}bg-blue-100 text-blue-800
+                                {% elif exam.grade == 'C' %}bg-yellow-100 text-yellow-800
+                                {% elif exam.grade == 'D' %}bg-orange-100 text-orange-800
+                                {% else %}bg-red-100 text-red-800{% endif %}">
+                                {{ exam.grade }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3">
+                            {% if exam.score_percentage >= 70 %}
+                            <span class="text-green-600 font-bold">✓ 合格</span>
+                            {% else %}
+                            <span class="text-red-600">✗ 不合格</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% endif %}
+
+    <div class="mt-6 flex gap-4">
+        <a href="/mock-exam/select" class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition">
+            模擬試験を受ける
+        </a>
+        <a href="/results/dashboard" class="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50 transition">
+            ダッシュボードに戻る
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -17,6 +17,7 @@ MIGRATION_MODULES = [
     "migrations.001_add_user_xp_level_columns",
     "migrations.002_add_user_password_hash",
     "migrations.003_add_extra_questions",
+    "migrations.004_create_bookmarks_table",
 ]
 
 

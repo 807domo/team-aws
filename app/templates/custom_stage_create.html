@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}カスタムステージ作成 - 愛媛探索AIクイズ{% endblock %}
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <h1 class="text-2xl font-bold text-gray-800 mb-2">🛠️ カスタムステージ作成</h1>
+    <p class="text-gray-600 mb-6 text-sm">分野・問題数・難易度を選んでオリジナルステージを作りましょう</p>
+
+    <form method="post" action="/custom-stage/start" class="bg-white rounded-lg shadow-md p-6">
+        <!-- 分野選択 -->
+        <div class="mb-6">
+            <label class="block font-semibold text-gray-800 mb-3">📂 出題分野（複数選択可）</label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {% for domain in domains %}
+                <label class="flex items-center gap-2 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                    <input type="checkbox" name="domains" value="{{ domain }}"
+                           class="accent-orange-500" checked>
+                    <span class="text-sm text-gray-700">{{ domain }}</span>
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- 問題数 -->
+        <div class="mb-6">
+            <label class="block font-semibold text-gray-800 mb-3">📝 問題数</label>
+            <div class="flex gap-3">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="count" value="5" class="accent-orange-500" checked>
+                    <span class="text-sm">5問</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="count" value="10" class="accent-orange-500">
+                    <span class="text-sm">10問</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="count" value="15" class="accent-orange-500">
+                    <span class="text-sm">15問</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="count" value="20" class="accent-orange-500">
+                    <span class="text-sm">20問</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- 難易度 -->
+        <div class="mb-6">
+            <label class="block font-semibold text-gray-800 mb-3">📊 難易度</label>
+            <div class="flex gap-3">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="difficulty" value="all" class="accent-orange-500" checked>
+                    <span class="text-sm">すべて</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="difficulty" value="基礎" class="accent-orange-500">
+                    <span class="text-sm px-2 py-0.5 bg-green-100 text-green-700 rounded">基礎</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="difficulty" value="中級" class="accent-orange-500">
+                    <span class="text-sm px-2 py-0.5 bg-yellow-100 text-yellow-700 rounded">中級</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="difficulty" value="上級" class="accent-orange-500">
+                    <span class="text-sm px-2 py-0.5 bg-red-100 text-red-700 rounded">上級</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- 開始ボタン -->
+        <button type="submit"
+                class="w-full bg-orange-600 text-white py-3 rounded-lg font-semibold
+                       hover:bg-orange-700 transition">
+            ▶ ステージを開始
+        </button>
+    </form>
+</div>
+{% endblock %}

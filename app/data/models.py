@@ -159,6 +159,41 @@ class MockExamSessionModel(Base):
     # リレーション
     user: Mapped["UserModel"] = relationship(back_populates="mock_exam_sessions")
 
+
+class MockExamResultModel(Base):
+    """模擬試験結果テーブル"""
+
+    __tablename__ = "mock_exam_results"
+
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    user_id: Mapped[str] = mapped_column(
+        ForeignKey("users.id"), nullable=False
+    )
+    exam_type: Mapped[str] = mapped_column(String(100), nullable=False)
+    total_questions: Mapped[int] = mapped_column(Integer, nullable=False)
+    correct_count: Mapped[int] = mapped_column(Integer, nullable=False)
+    score_percentage: Mapped[float] = mapped_column(nullable=False)
+    grade: Mapped[str] = mapped_column(String(5), nullable=False)
+    completed_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+
+
+class BookmarkModel(Base):
+    """ブックマークテーブル"""
+
+    __tablename__ = "bookmarks"
+
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    user_id: Mapped[str] = mapped_column(
+        ForeignKey("users.id"), nullable=False
+    )
+    question_id: Mapped[str] = mapped_column(String(64), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, server_default=func.now()
+    )
+
+
 class GlossaryTermModel(Base):
     """用語集テーブル"""
     __tablename__ = "glossary_terms"

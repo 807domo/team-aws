@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}カスタムステージ - 解説{% endblock %}
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="mb-6">
+        {% if is_correct %}
+        <div class="bg-green-50 border-2 border-green-400 rounded-lg p-4 text-center">
+            <span class="text-3xl">🎉</span><p class="text-green-700 font-bold text-xl mt-2">正解！</p>
+        </div>
+        {% else %}
+        <div class="bg-red-50 border-2 border-red-400 rounded-lg p-4 text-center">
+            <span class="text-3xl">😢</span><p class="text-red-700 font-bold text-xl mt-2">不正解...</p>
+        </div>
+        {% endif %}
+    </div>
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <p class="text-gray-800 font-medium mb-4">{{ question.text }}</p>
+        <div class="space-y-2">
+            {% for choice in choices %}
+            <div class="flex items-center p-3 rounded-lg
+                {% if loop.index0 == correct_index %}bg-green-50 border-2 border-green-400
+                {% elif loop.index0 == selected_index and not is_correct %}bg-red-50 border-2 border-red-400
+                {% else %}bg-gray-50 border border-gray-200{% endif %}">
+                <span class="inline-flex items-center justify-center w-7 h-7 rounded-full mr-3 text-sm font-bold
+                    {% if loop.index0 == correct_index %}bg-green-500 text-white
+                    {% elif loop.index0 == selected_index and not is_correct %}bg-red-500 text-white
+                    {% else %}bg-gray-200 text-gray-600{% endif %}">{{ ['A','B','C','D'][loop.index0] }}</span>
+                <span class="text-gray-700 flex-1">{{ choice }}</span>
+                {% if loop.index0 == correct_index %}<span class="text-green-600 font-bold">✓</span>{% endif %}
+                {% if loop.index0 == selected_index and not is_correct %}<span class="text-red-600 font-bold">✗</span>{% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% if explanation %}
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-3"><span class="text-2xl mr-2">💡</span><h3 class="text-lg font-bold text-orange-700">解説</h3></div>
+        <p class="text-gray-700 leading-relaxed pl-10">{{ explanation }}</p>
+
+        <hr class="border-gray-200 my-4">
+
+        <!-- ブックマークボタン -->
+        <div class="text-center">
+            <form method="post" action="/bookmark/{{ question.id }}" class="inline">
+                <button type="submit" class="inline-flex items-center gap-2 text-yellow-600 hover:text-yellow-700 border border-yellow-300 px-4 py-2 rounded-lg hover:bg-yellow-50 transition text-sm font-medium">
+                    ⭐ ブックマークに追加
+                </button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+    <div class="text-center">
+        {% if is_last %}
+        <a href="/custom-stage/{{ session_id }}/result" class="inline-block bg-orange-600 text-white py-3 px-8 rounded-lg font-semibold hover:bg-orange-700 transition">結果を見る 📊</a>
+        {% else %}
+        <a href="/custom-stage/{{ session_id }}/question" class="inline-block bg-orange-600 text-white py-3 px-8 rounded-lg font-semibold hover:bg-orange-700 transition">次へ →</a>
+        {% endif %}
+    </div>
+    <div class="text-center mt-4 text-sm text-gray-500">問題 {{ question_index + 1 }} / {{ total_questions }}</div>
+</div>
+{% endblock %}

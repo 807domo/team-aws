@@ -121,6 +121,14 @@
         </div>
     </div>
 
+    <!-- 日別学習量グラフセクション -->
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">📅 日別学習量（過去30日）</h2>
+        <div class="flex justify-center">
+            <canvas id="dailyChart" width="700" height="250"></canvas>
+        </div>
+    </div>
+
     <!-- レーダーチャートセクション -->
     <div class="bg-white rounded-lg shadow p-6 mb-8">
         <div class="flex items-center justify-between mb-4">
@@ -159,6 +167,16 @@
                 <p class="text-3xl font-bold text-orange-600">{{ exploration_rate.completed_region_count }}/3</p>
                 <p class="text-sm text-gray-600 mt-1">難易度クリア</p>
             </div>
+        </div>
+    </div>
+
+    <!-- 模擬試験履歴リンク -->
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+        <div class="flex items-center justify-between">
+            <h2 class="text-lg font-semibold text-gray-800">📋 模擬試験履歴</h2>
+            <a href="/results/mock-exams" class="text-orange-600 hover:text-orange-700 font-medium text-sm">
+                すべて見る →
+            </a>
         </div>
     </div>
 
@@ -213,6 +231,47 @@
 {% block scripts %}
 {% if has_history %}
 <script>
+// 日別学習量チャート
+const dailyLabels = {{ daily_labels | tojson }};
+const dailyValues = {{ daily_values | tojson }};
+const dailyCtx = document.getElementById('dailyChart').getContext('2d');
+new Chart(dailyCtx, {
+    type: 'bar',
+    data: {
+        labels: dailyLabels,
+        datasets: [{
+            label: '回答数',
+            data: dailyValues,
+            backgroundColor: 'rgba(234, 88, 12, 0.6)',
+            borderColor: 'rgba(234, 88, 12, 1)',
+            borderWidth: 1,
+            borderRadius: 3,
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: { stepSize: 1 },
+                title: { display: true, text: '回答数' }
+            },
+            x: {
+                title: { display: true, text: '日付' },
+                ticks: {
+                    maxRotation: 45,
+                    minRotation: 45,
+                    autoSkip: true,
+                    maxTicksLimit: 15,
+                }
+            }
+        },
+        plugins: {
+            legend: { display: false }
+        }
+    }
+});
+
 // レーダーチャートの初期データ
 const radarLabels = {{ radar_labels | tojson }};
 const radarValues = {{ radar_values | tojson }};

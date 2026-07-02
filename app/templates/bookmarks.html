@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}ブックマーク - 愛媛探索AIクイズ{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">⭐ ブックマーク</h1>
+
+    {% if not bookmarks %}
+    <div class="bg-white rounded-lg shadow p-8 text-center">
+        <div class="text-6xl mb-4">⭐</div>
+        <p class="text-xl text-gray-600 font-medium">ブックマークはまだありません</p>
+        <p class="text-gray-500 mt-2">クイズの解説画面で⭐ボタンを押すとブックマークに追加できます</p>
+        <a href="/" class="inline-block mt-4 bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition">
+            トップへ戻る
+        </a>
+    </div>
+    {% else %}
+
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+        <p class="text-gray-700">ブックマーク数: <span class="text-orange-600 font-bold">{{ bookmarks|length }}問</span></p>
+    </div>
+
+    <div class="space-y-4">
+        {% for item in bookmarks %}
+        <div class="bg-white rounded-lg shadow p-5 border-l-4 border-orange-400">
+            <div class="flex items-start justify-between">
+                <div class="flex-1">
+                    <p class="text-gray-800 font-medium mb-1">{{ item.text }}</p>
+                    <p class="text-xs text-gray-500">🏷️ {{ item.domain }} ・ 追加日: {{ item.created_at }}</p>
+                </div>
+                <form method="post" action="/bookmark/{{ item.question_id }}">
+                    <button type="submit" class="text-yellow-500 hover:text-yellow-600 text-xl ml-3" title="ブックマーク解除">
+                        ⭐
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% endif %}
+
+    <div class="text-center mt-6">
+        <a href="/" class="text-orange-600 hover:text-orange-700 font-medium">← トップに戻る</a>
+    </div>
+</div>
+{% endblock %}

@@ -26,6 +26,5 @@ Thumbs.db
 .hypothesis/
 .pytest_cache/
 test_integration.db
-
-#用語集実装の際の生成物
-repomix-output.xml
+# 環境変数（APIキー）
+.env

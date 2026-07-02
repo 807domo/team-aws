@@ -102,6 +102,17 @@
                 {{ question.aws_ai_explanation }}
             </p>
         </div>
+
+        <hr class="border-gray-200 my-4">
+
+        <!-- ブックマークボタン -->
+        <div class="text-center">
+            <form method="post" action="/bookmark/{{ question.id }}" class="inline">
+                <button type="submit" class="inline-flex items-center gap-2 text-yellow-600 hover:text-yellow-700 border border-yellow-300 px-4 py-2 rounded-lg hover:bg-yellow-50 transition text-sm font-medium">
+                    ⭐ ブックマークに追加
+                </button>
+            </form>
+        </div>
     </div>
 
     <!-- 次へボタン -->

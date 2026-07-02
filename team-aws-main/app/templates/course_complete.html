@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}コース完了 - 愛媛探索AIクイズ{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <!-- 完了ヘッダー -->
+    <div class="text-center mb-8">
+        {% if aborted %}
+        <span class="text-5xl">⏸️</span>
+        <h1 class="text-2xl font-bold text-gray-800 mt-4">コース中断</h1>
+        <p class="text-gray-600 mt-2">{{ summary.course_name }}（途中結果）</p>
+        {% else %}
+        <span class="text-5xl">🎊</span>
+        <h1 class="text-2xl font-bold text-gray-800 mt-4">コース完了！</h1>
+        <p class="text-gray-600 mt-2">{{ summary.course_name }}</p>
+        {% endif %}
+    </div>
+
+    <!-- 結果サマリーカード -->
+    <div class="bg-white rounded-lg shadow-md p-8 mb-6">
+        <!-- グレード表示 -->
+        <div class="text-center mb-6">
+            <div class="inline-flex items-center justify-center w-24 h-24 rounded-full
+                        {% if summary.grade.value == 'A' %}
+                            bg-yellow-100 border-4 border-yellow-400
+                        {% elif summary.grade.value == 'B' %}
+                            bg-blue-100 border-4 border-blue-400
+                        {% elif summary.grade.value == 'C' %}
+                            bg-green-100 border-4 border-green-400
+                        {% elif summary.grade.value == 'D' %}
+                            bg-orange-100 border-4 border-orange-400
+                        {% else %}
+                            bg-gray-100 border-4 border-gray-400
+                        {% endif %}">
+                <span class="text-4xl font-bold
+                             {% if summary.grade.value == 'A' %}
+                                 text-yellow-600
+                             {% elif summary.grade.value == 'B' %}
+                                 text-blue-600
+                             {% elif summary.grade.value == 'C' %}
+                                 text-green-600
+                             {% elif summary.grade.value == 'D' %}
+                                 text-orange-600
+                             {% else %}
+                                 text-gray-600
+                             {% endif %}">
+                    {{ summary.grade.value }}
+                </span>
+            </div>
+        </div>
+
+        <!-- スコア詳細 -->
+        <div class="grid grid-cols-3 gap-4 text-center">
+            <div class="bg-gray-50 rounded-lg p-4">
+                <p class="text-sm text-gray-500">正解数</p>
+                <p class="text-2xl font-bold text-gray-800">
+                    {{ summary.correct_count }} / {{ summary.total_count }}
+                </p>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-4">
+                <p class="text-sm text-gray-500">正答率</p>
+                <p class="text-2xl font-bold text-orange-600">
+                    {{ summary.accuracy_rate }}%
+                </p>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-4">
+                <p class="text-sm text-gray-500">グレード</p>
+                <p class="text-2xl font-bold
+                          {% if summary.grade.value == 'A' %}
+                              text-yellow-600
+                          {% elif summary.grade.value == 'B' %}
+                              text-blue-600
+                          {% elif summary.grade.value == 'C' %}
+                              text-green-600
+                          {% elif summary.grade.value == 'D' %}
+                              text-orange-600
+                          {% else %}
+                              text-gray-600
+                          {% endif %}">
+                    {{ summary.grade.value }}
+                </p>
+            </div>
+        </div>
+
+        <!-- 応援メッセージ -->
+        <div class="mt-6 text-center">
+            {% if summary.grade.value == 'A' %}
+                <p class="text-yellow-700 font-medium">🏆 素晴らしい！完璧に近い成績です！</p>
+            {% elif summary.grade.value == 'B' %}
+                <p class="text-blue-700 font-medium">👏 よくできました！あと少しで最高グレードです！</p>
+            {% elif summary.grade.value == 'C' %}
+                <p class="text-green-700 font-medium">💪 まずまずの成績です。復習で更に伸びますよ！</p>
+            {% elif summary.grade.value == 'D' %}
+                <p class="text-orange-700 font-medium">📚 基礎の復習がおすすめです。もう一度挑戦しましょう！</p>
+            {% else %}
+                <p class="text-gray-700 font-medium">🌱 解説をしっかり読んで、再挑戦してみましょう！</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- アクションボタン -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/"
+           class="inline-block bg-orange-600 text-white py-3 px-6 rounded-lg
+                  font-semibold hover:bg-orange-700 text-center
+                  transition-colors duration-200">
+            コース選択に戻る
+        </a>
+        {% if aborted %}
+        <a href="/quiz/start/{{ summary.course_id }}"
+           class="inline-block bg-white text-orange-600 border-2 border-orange-600
+                  py-3 px-6 rounded-lg font-semibold hover:bg-orange-50 text-center
+                  transition-colors duration-200"
+           onclick="event.preventDefault(); fetch('/quiz/start/{{ summary.course_id }}', {method:'POST', redirect:'follow'}).then(r => window.location.href = r.url);">
+            ▶ 続きから再開する
+        </a>
+        {% else %}
+        <a href="/quiz/start/{{ summary.course_id }}"
+           class="inline-block bg-white text-orange-600 border-2 border-orange-600
+                  py-3 px-6 rounded-lg font-semibold hover:bg-orange-50 text-center
+                  transition-colors duration-200"
+           onclick="event.preventDefault(); fetch('/quiz/start/{{ summary.course_id }}', {method:'POST', redirect:'follow'}).then(r => window.location.href = r.url);">
+            もう一度挑戦する 🔄
+        </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

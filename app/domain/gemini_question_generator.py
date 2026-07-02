@@ -19,7 +19,7 @@ from app.domain.models import Difficulty, Question, WeakArea
 
 logger = logging.getLogger(__name__)
 
-GEMINI_MODEL = "gemini-2.0-flash"
+GEMINI_MODEL = "gemini-2.5-flash"
 GENERATION_TIMEOUT_SECONDS = 30
 
 
@@ -36,9 +36,8 @@ class GeminiQuestionGenerator:
 
         if self._api_key:
             try:
-                import google.generativeai as genai
-                genai.configure(api_key=self._api_key)
-                self._client = genai.GenerativeModel(GEMINI_MODEL)
+                from google import genai
+                self._client = genai.Client(api_key=self._api_key)
                 logger.info("Gemini API 初期化成功")
             except Exception as e:
                 logger.warning("Gemini API 初期化失敗: %s", str(e))
@@ -75,12 +74,92 @@ class GeminiQuestionGenerator:
                 questions = self._generate_for_area(weak_area, count_per_area)
                 all_questions.extend(questions)
             except Exception as e:
-                logger.error(
-                    "問題生成失敗（ドメイン: %s）: %s",
-                    weak_area.domain, str(e),
-                )
+                error_str = str(e)
+                logger.error("問題生成失敗（ドメイン: %s）: %s", weak_area.domain, error_str)
+                # 429/503エラーはクォータ超過 — 以降の生成もスキップ
+                if "429" in error_str or "503" in error_str or "RESOURCE_EXHAUSTED" in error_str:
+                    logger.warning("クォータ超過のため問題生成を中止します")
+                    break
 
         return all_questions
+
+    def generate_questions_batch(
+        self, weak_areas: list[WeakArea], total_count: int = 10
+    ) -> list[Question]:
+        """複数の弱点領域をまとめて1回のAPIコールで問題生成する（クォータ節約）。
+
+        Args:
+            weak_areas: 弱点領域リスト
+            total_count: 生成する総問題数
+
+        Returns:
+            生成された問題リスト
+        """
+        if not self.is_available:
+            return []
+
+        total_count = max(1, min(10, total_count))
+        domains_text = "\n".join(
+            f"- {wa.domain}（誤答率: {wa.incorrect_rate:.1f}%）" for wa in weak_areas
+        )
+
+        prompt = f"""あなたはAWS認定資格の問題作成の専門家です。
+以下の弱点ドメインに基づいて、合計{total_count}問の4択クイズ問題をJSON配列で生成してください。
+
+## 弱点ドメイン
+{domains_text}
+
+## 条件
+- テーマ: AWSクラウドサービスとAI/ML（愛媛要素は不要）
+- 形式: 4択問題（正解は1つのみ）
+- 各ドメインからバランスよく出題すること
+- 難易度: 基礎〜中級レベルで理解を深める内容にする
+
+## 出力形式（JSON配列のみ返すこと）
+[
+  {{
+    "text": "問題文",
+    "choice_1": "選択肢1",
+    "choice_2": "選択肢2",
+    "choice_3": "選択肢3",
+    "choice_4": "選択肢4",
+    "correct_choice_index": 0,
+    "explanation": "正解の解説（100-200文字）",
+    "difficulty": "中級",
+    "exam_domain": "ドメイン名"
+  }}
+]
+
+注意:
+- correct_choice_index は 0-3 の整数
+- difficulty は "基礎", "中級", "上級" のいずれか
+- exam_domain は弱点ドメインのいずれかを設定
+- 実務で役立つ実践的な問題にすること"""
+
+        try:
+            from google.genai import types
+            response = self._client.models.generate_content(
+                model=GEMINI_MODEL,
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    temperature=0.8,
+                    max_output_tokens=8192,
+                    response_mime_type="application/json",
+                ),
+            )
+
+            questions_data = self._parse_response(response.text)
+            validated: list[Question] = []
+            for q_data in questions_data:
+                if self._validate(q_data):
+                    domain = q_data.get("exam_domain", weak_areas[0].domain if weak_areas else "")
+                    validated.append(self._to_question(q_data, domain))
+
+            return validated[:total_count]
+
+        except Exception as e:
+            logger.error("バッチ問題生成失敗: %s", str(e))
+            return []
 
     def _generate_for_area(
         self, weak_area: WeakArea, count: int
@@ -88,13 +167,15 @@ class GeminiQuestionGenerator:
         """1つの弱点領域に対して問題を生成する。"""
         prompt = self._build_prompt(weak_area, count)
 
-        response = self._client.generate_content(
-            prompt,
-            generation_config={
-                "temperature": 0.8,
-                "max_output_tokens": 4096,
-                "response_mime_type": "application/json",
-            },
+        from google.genai import types
+        response = self._client.models.generate_content(
+            model=GEMINI_MODEL,
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                temperature=0.8,
+                max_output_tokens=4096,
+                response_mime_type="application/json",
+            ),
         )
 
         questions_data = self._parse_response(response.text)

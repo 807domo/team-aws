@@ -11,7 +11,10 @@ Requirements: 5.1, 5.2, 5.3, 5.5, 5.6
 from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
+from sqlalchemy.orm import Session
 
+from app.data.database import get_db
+from app.data.models import MockExamResultModel
 from app.domain.mock_exam_engine import MockExamEngine
 from app.domain.models import ExamType
 from app.presentation.dependencies import get_current_user_id, get_mock_exam_engine
@@ -176,9 +179,10 @@ async def mock_exam_answer(
                 status_code=303,
             )
 
-    # 次の問題に移動（最後の問題なら同じ問題に留まる）
+    # 次の問題に自動移動
+    next_index = question_index + 1 if question_index < 64 else question_index
     return RedirectResponse(
-        url=f"/mock-exam/{session_id}/question/{question_index}",
+        url=f"/mock-exam/{session_id}/question/{next_index}",
         status_code=303,
     )
 
@@ -188,25 +192,32 @@ async def mock_exam_finish_post(
     request: Request,
     session_id: str,
     engine: MockExamEngine = Depends(get_mock_exam_engine),
+    user_id: str = Depends(get_current_user_id),
+    db: Session = Depends(get_db),
 ):
-    """試験を終了し、結果画面にリダイレクトする。
-
-    Requirements: 5.3
-    """
+    """試験を終了し、結果画面にリダイレクトする。"""
     try:
         result = engine.finish_exam(session_id)
     except ValueError:
-        return RedirectResponse(
-            url="/mock-exam/select",
-            status_code=303,
-        )
+        return RedirectResponse(url="/mock-exam/select", status_code=303)
+
+    # 結果をDBに保存
+    import uuid
+    db_result = MockExamResultModel(
+        id=str(uuid.uuid4()),
+        user_id=user_id,
+        exam_type=result.exam_type.value,
+        total_questions=result.total_questions,
+        correct_count=result.correct_count,
+        score_percentage=result.score_percentage,
+        grade=result.grade.value,
+        completed_at=result.completed_at,
+    )
+    db.add(db_result)
+    db.commit()
 
     return templates.TemplateResponse(
-        request,
-        "mock_exam_result.html",
-        context={
-            "result": result,
-        },
+        request, "mock_exam_result.html", context={"result": result}
     )
 
 
@@ -215,25 +226,32 @@ async def mock_exam_finish_get(
     request: Request,
     session_id: str,
     engine: MockExamEngine = Depends(get_mock_exam_engine),
+    user_id: str = Depends(get_current_user_id),
+    db: Session = Depends(get_db),
 ):
-    """試験を終了し結果画面を表示する（GET: タイマー切れリダイレクト用）。
-
-    Requirements: 5.3
-    """
+    """試験を終了し結果画面を表示する（GET: タイマー切れリダイレクト用）。"""
     try:
         result = engine.finish_exam(session_id)
     except ValueError:
-        return RedirectResponse(
-            url="/mock-exam/select",
-            status_code=303,
-        )
+        return RedirectResponse(url="/mock-exam/select", status_code=303)
+
+    # 結果をDBに保存
+    import uuid
+    db_result = MockExamResultModel(
+        id=str(uuid.uuid4()),
+        user_id=user_id,
+        exam_type=result.exam_type.value,
+        total_questions=result.total_questions,
+        correct_count=result.correct_count,
+        score_percentage=result.score_percentage,
+        grade=result.grade.value,
+        completed_at=result.completed_at,
+    )
+    db.add(db_result)
+    db.commit()
 
     return templates.TemplateResponse(
-        request,
-        "mock_exam_result.html",
-        context={
-            "result": result,
-        },
+        request, "mock_exam_result.html", context={"result": result}
     )
 
 

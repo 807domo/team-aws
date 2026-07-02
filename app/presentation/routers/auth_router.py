@@ -62,8 +62,8 @@ async def register(
             context={"error": str(e), "display_name": display_name},
         )
 
-    # ログイン成功 → Cookie設定してトップへリダイレクト
-    response = RedirectResponse(url="/", status_code=303)
+    # 新規登録成功 → Cookie設定してチュートリアルへリダイレクト
+    response = RedirectResponse(url="/tutorial", status_code=303)
     response.set_cookie(
         key=SESSION_COOKIE_NAME,
         value=token,

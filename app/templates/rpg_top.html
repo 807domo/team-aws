@@ -20,8 +20,7 @@
 {% endif %}
 
 <!-- ステータスエリア -->
-<a href="/results/dashboard" class="block" title="ダッシュボードで詳細を確認">
-<section class="rpg-status-area bg-white rounded-lg shadow-md p-4 mb-6 cursor-pointer hover:shadow-lg transition-shadow">
+<section class="rpg-status-area bg-white rounded-lg shadow-md p-4 mb-6">
     <div class="flex flex-wrap items-center gap-4">
         <div class="flex items-center gap-3">
             <span class="text-lg font-bold text-gray-800">{{ user_status.display_name }}</span>
@@ -31,6 +30,14 @@
         </div>
         <div class="text-sm text-gray-600 font-medium">
             🏷️ {{ user_status.title }}
+        </div>
+        {% if streak_days > 0 %}
+        <div class="text-sm font-medium text-orange-600">
+            🔥 {{ streak_days }}日連続
+        </div>
+        {% endif %}
+        <div class="text-sm text-gray-600">
+            <a href="/badges" class="hover:text-orange-600">🏅 {{ earned_badge_count }}個獲得</a>
         </div>
         <div class="flex-1 min-w-[200px]">
             <div class="flex items-center gap-2">
@@ -50,19 +57,39 @@
         </div>
     </div>
 </section>
-</a>
 
 <!-- AI練習ボタン -->
-<div class="mb-6 flex gap-3">
-    <a href="/ai-practice/start"
+<div class="mb-6 flex flex-wrap gap-3">
+    <a href="/ai-practice/start" id="ai-practice-btn"
        class="inline-flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded-lg
-              font-medium text-sm hover:bg-purple-700 transition-colors shadow">
+              font-medium text-sm hover:bg-purple-700 transition-colors shadow"
+       onclick="document.getElementById('ai-loading-overlay').classList.remove('hidden'); this.classList.add('pointer-events-none', 'opacity-50');">
         🤖 AI弱点練習
     </a>
     <a href="/results/dashboard"
        class="inline-flex items-center gap-2 bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg
               font-medium text-sm hover:bg-gray-50 transition-colors">
         📊 ダッシュボード
+    </a>
+    <a href="/custom-stage/create"
+       class="inline-flex items-center gap-2 bg-white text-orange-600 border border-orange-300 px-4 py-2 rounded-lg
+              font-medium text-sm hover:bg-orange-50 transition-colors">
+        🛠️ カスタムステージ
+    </a>
+    <a href="/review/mistakes"
+       class="inline-flex items-center gap-2 bg-white text-red-600 border border-red-300 px-4 py-2 rounded-lg
+              font-medium text-sm hover:bg-red-50 transition-colors">
+        📝 間違い復習
+    </a>
+    <a href="/badges"
+       class="inline-flex items-center gap-2 bg-white text-yellow-700 border border-yellow-300 px-4 py-2 rounded-lg
+              font-medium text-sm hover:bg-yellow-50 transition-colors">
+        🏅 バッジ
+    </a>
+    <a href="/bookmarks"
+       class="inline-flex items-center gap-2 bg-white text-blue-600 border border-blue-300 px-4 py-2 rounded-lg
+              font-medium text-sm hover:bg-blue-50 transition-colors">
+        ⭐ ブックマーク
     </a>
 </div>
 
@@ -104,8 +131,8 @@
                     <!-- 上島町 -->
                     <path d="M645 123l2 6-4 1-2-8zM666 136l-4-6 9 2v4zM602 105l-3-2 4-1 1-11 3-3 3 1-3 12zM616 92l4-1-3 4-6 3-1-17 14-13 4 8-13 11zM603 87h-6l-1-15 9 9zM587 98l6-4 5 3-5 5h-5zM585 75l3-1 7 14-16 9v-14z"
                           fill="{{ region_data.fill_color }}" stroke="none" />
-                    <text x="700" y="180" text-anchor="middle"
-                          font-family="sans-serif" font-size="26" font-weight="bold"
+                    <text x="720" y="210" text-anchor="middle"
+                          font-family="sans-serif" font-size="22" font-weight="bold"
                           fill="#374151" pointer-events="none"
                           stroke="white" stroke-width="4" paint-order="stroke">東予（上級）</text>
                     {% elif region_data.region.name == "CHUYO" %}
@@ -127,8 +154,8 @@
                     <!-- 砥部町 -->
                     <path d="M437 414l-5 6 6 6-2 14 3 1-11 9-8 3-6-3-7 10-12-12 18-30h-4l2-9-6-5-3-10-7-2-4-6 5-7-2-5 8-2 6-10v-7l-1-3 18 8-5 2-1 7 14 25v16z"
                           fill="{{ region_data.fill_color }}" stroke="none" />
-                    <text x="380" y="310" text-anchor="middle"
-                          font-family="sans-serif" font-size="26" font-weight="bold"
+                    <text x="310" y="260" text-anchor="middle"
+                          font-family="sans-serif" font-size="22" font-weight="bold"
                           fill="#374151" pointer-events="none"
                           stroke="white" stroke-width="4" paint-order="stroke">中予（中級）</text>
                     {% elif region_data.region.name == "NANYO" %}
@@ -159,14 +186,67 @@
                     <!-- 愛南町 -->
                     <path d="M245 776l-1 5-6-8-5 2 2 9-4 3 4 4h-5l-2 8-9-6 9-1 4-11-1-6 3-3zM245 777l18-2 30 11 6-4 14 1 11-8 11 3 8-7 10 3 10 11-1 16 7 21-5 5 1 10-15 4 2 9-27 7-6-15 7-5-11 5-3-5h-11v5l8 5-13-4-2-7-11-1-3 5 10 5-14 8 14-1v4l-5 6-8-1-4 4-7-4 1-10-8-10h14l6-8-16-9 7-1v-5l6-4-2 3 6 1-5 2 4 2-4 5 8-2 8 5 1-4 9 5 2-3-8-7v4l-12-5-5-10 2-6-5-8-5 4-1-21-6 5v-6l-10 1 1 8zM251 840l-4-1 10-4z"
                           fill="{{ region_data.fill_color }}" stroke="none" />
-                    <text x="300" y="600" text-anchor="middle"
-                          font-family="sans-serif" font-size="26" font-weight="bold"
+                    <text x="200" y="480" text-anchor="middle"
+                          font-family="sans-serif" font-size="22" font-weight="bold"
                           fill="#374151" pointer-events="none"
                           stroke="white" stroke-width="4" paint-order="stroke">南予（初級）</text>
                     {% endif %}
                 </g>
                 {% endfor %}
+
+                <!-- ステージピン（動的） -->
+                {% set pin_colors = {
+                    "not_started": "#9CA3AF",
+                    "in_progress": "#F59E0B",
+                    "completed": "#10B981",
+                    "perfect": "#FFD700"
+                } %}
+                {% set pin_coords_nanyo = [
+                    (280,700),(250,680),(310,620),(300,830),(370,500),
+                    (310,620),(220,560),(290,490),(130,540),(280,720),
+                    (260,610),(340,700),(310,810),(370,730)
+                ] %}
+                {% set pin_coords_chuyo = [
+                    (370,295),(400,285),(410,300),(390,330),(380,270),
+                    (405,290),(500,470),(410,420),(395,305),(385,310),
+                    (520,490),(340,310)
+                ] %}
+                {% set pin_coords_toyo = [
+                    (580,140),(520,210),(660,330),(760,280),(620,310),
+                    (560,170),(680,290),(600,370),(510,250),(630,290),
+                    (680,270),(590,130),(620,340),(510,240)
+                ] %}
+                {% for region_data in regions %}
+                    {% if region_data.region.name == "NANYO" %}
+                        {% set coords = pin_coords_nanyo %}
+                    {% elif region_data.region.name == "CHUYO" %}
+                        {% set coords = pin_coords_chuyo %}
+                    {% else %}
+                        {% set coords = pin_coords_toyo %}
+                    {% endif %}
+                    {% for course in region_data.courses %}
+                        {% if loop.index0 < coords|length %}
+                            {% set cx = coords[loop.index0][0] %}
+                            {% set cy = coords[loop.index0][1] %}
+                            {% set color = pin_colors[course.pin_status] %}
+                            <g class="stage-pin" style="cursor: pointer;" data-course-id="{{ course.id }}"
+                               onclick="document.getElementById('pin-form-{{ course.id }}').submit();">
+                                <title>{{ course.name }}</title>
+                                <circle cx="{{ cx }}" cy="{{ cy }}" r="11" fill="{{ color }}" stroke="white" stroke-width="2"
+                                        {% if course.pin_status == "perfect" %}class="pin-perfect"{% endif %}/>
+                                <text x="{{ cx }}" y="{{ cy + 4 }}" text-anchor="middle" font-size="9" fill="{% if course.pin_status == 'perfect' %}#000{% else %}white{% endif %}" font-weight="bold" pointer-events="none">{{ loop.index }}</text>
+                            </g>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
             </svg>
+
+            <!-- ピン用の隠しフォーム -->
+            {% for region_data in regions %}
+                {% for course in region_data.courses %}
+                <form id="pin-form-{{ course.id }}" method="post" action="/quiz/start/{{ course.id }}" style="display:none;"></form>
+                {% endfor %}
+            {% endfor %}
         </div>
     </section>
   </section>
@@ -190,6 +270,9 @@
                 hx-swap="innerHTML"
             >
                 {{ region_data.region.value }}
+                <span class="ml-1 text-xs opacity-75">
+                    {% if region_data.region.name == "NANYO" %}南予{% elif region_data.region.name == "CHUYO" %}中予{% else %}東予{% endif %}
+                </span>
                 <span class="ml-1 text-xs opacity-75">({{ region_data.progress_status }})</span>
             </button>
             {% endfor %}
@@ -201,18 +284,23 @@
             {% if current_region and current_region.courses %}
             <div class="course-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {% for course in current_region.courses %}
-                <div class="course-card bg-white rounded-lg shadow-md p-4 border-l-4
-                     {% if course.completion_status == 'perfect' %}ring-2 ring-green-400 bg-green-50{% elif course.completion_status == 'in_progress' %}ring-2 ring-yellow-300 bg-yellow-50{% endif %}"
-                     style="border-left-color: {{ current_region.fill_color }};">
+                <div class="course-card rounded-lg shadow-md p-4 border-l-4
+                     {% if course.pin_status == 'perfect' %}bg-yellow-50 border-l-yellow-400
+                     {% elif course.pin_status == 'completed' %}bg-green-50 border-l-green-400
+                     {% elif course.pin_status == 'in_progress' %}bg-orange-50 border-l-orange-400
+                     {% else %}bg-white border-l-gray-300{% endif %}"
+                >
                     <div class="flex items-start justify-between mb-2">
                         <h3 class="font-bold text-gray-800">{{ course.name }}</h3>
-                        <div class="flex items-center gap-1">
-                            {% if course.completion_status == 'perfect' %}
-                            <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded font-medium">✅ 完全正解</span>
-                            {% elif course.completion_status == 'in_progress' %}
-                            <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded font-medium">🔶 途中</span>
+                        <div class="flex items-center gap-1 shrink-0">
+                            {% if course.pin_status == 'perfect' %}
+                            <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded whitespace-nowrap">🌟 満点</span>
+                            {% elif course.pin_status == 'completed' %}
+                            <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded whitespace-nowrap">✓ 完了</span>
+                            {% elif course.pin_status == 'in_progress' %}
+                            <span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded whitespace-nowrap">● 着手中</span>
                             {% else %}
-                            <span class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded font-medium">⬜ 未着手</span>
+                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded whitespace-nowrap">○ 未着手</span>
                             {% endif %}
                         </div>
                     </div>
@@ -224,6 +312,14 @@
                             <span class="text-xs text-yellow-600 font-medium mr-2">⏸ {{ course.answered_count }}/{{ course.question_count }}問目で中断中</span>
                             <button type="submit" class="text-xs bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition-colors">
                                 ▶ 再開
+                            </button>
+                            {% elif course.pin_status == 'perfect' %}
+                            <button type="submit" class="text-xs bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition-colors">
+                                🌟 再挑戦
+                            </button>
+                            {% elif course.pin_status == 'completed' %}
+                            <button type="submit" class="text-xs bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition-colors">
+                                ✓ 再挑戦
                             </button>
                             {% else %}
                             <button type="submit" class="text-xs bg-orange-500 text-white px-3 py-1 rounded hover:bg-orange-600 transition-colors">
@@ -245,6 +341,20 @@
         </div>
     </section>
   </section>
+</div>
+
+<!-- AI問題生成中ローディングオーバーレイ -->
+<div id="ai-loading-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-xl p-8 text-center shadow-2xl max-w-sm mx-4">
+        <div class="animate-spin text-5xl mb-4">🤖</div>
+        <h3 class="text-lg font-bold text-gray-800 mb-2">AI問題を生成中...</h3>
+        <p class="text-sm text-gray-600 mb-4">あなたの弱点に合わせた問題を作成しています</p>
+        <div class="flex justify-center gap-1">
+            <span class="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style="animation-delay:0s"></span>
+            <span class="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style="animation-delay:0.2s"></span>
+            <span class="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style="animation-delay:0.4s"></span>
+        </div>
+    </div>
 </div>
 {% endblock %}
 

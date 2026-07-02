@@ -646,3 +646,25 @@ html, body {
     display: none !important;
   }
 }
+
+/* -----------------------------------------------------------------------------
+   14. Stage Pin States
+   ----------------------------------------------------------------------------- */
+
+/* 満点ピン - 金色に輝くアニメーション */
+@keyframes pin-glow {
+    0%, 100% { filter: drop-shadow(0 0 3px #FFD700); }
+    50% { filter: drop-shadow(0 0 8px #FFD700) drop-shadow(0 0 3px #FFA500); }
+}
+
+.pin-perfect {
+    animation: pin-glow 2s ease-in-out infinite;
+}
+
+/* ピンのホバー効果 */
+.stage-pin {
+    cursor: pointer;
+}
+.stage-pin:hover circle {
+    filter: brightness(1.2);
+}

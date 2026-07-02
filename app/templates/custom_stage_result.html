@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}カスタムステージ - 結果{% endblock %}
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="text-center mb-8">
+        <span class="text-5xl">🛠️</span>
+        <h1 class="text-2xl font-bold text-gray-800 mt-4">カスタムステージ 完了！</h1>
+    </div>
+    <div class="bg-white rounded-lg shadow-md p-8 mb-6">
+        <div class="grid grid-cols-2 gap-4 text-center">
+            <div class="bg-orange-50 rounded-lg p-4">
+                <p class="text-sm text-gray-500">正解数</p>
+                <p class="text-2xl font-bold text-gray-800">{{ correct_count }} / {{ total_count }}</p>
+            </div>
+            <div class="bg-orange-50 rounded-lg p-4">
+                <p class="text-sm text-gray-500">正答率</p>
+                <p class="text-2xl font-bold text-orange-600">{{ accuracy }}%</p>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/custom-stage/create" class="inline-block bg-orange-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange-700 text-center transition">
+            🛠️ 別のステージを作る
+        </a>
+        <a href="/" class="inline-block bg-white text-gray-700 border border-gray-300 py-3 px-6 rounded-lg font-semibold hover:bg-gray-50 text-center transition">
+            トップに戻る
+        </a>
+    </div>
+</div>
+{% endblock %}

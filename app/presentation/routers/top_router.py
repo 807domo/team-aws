@@ -4,17 +4,26 @@
 GET / でRPG風トップ画面を表示する。
 GET /courses/{region} でHTMX用コースパネルHTMLフラグメントを返す。
 GET /api/region-summary/{region} でツールチップ用難易度サマリーJSONを返す。
+GET /badges でバッジ一覧ページを表示する。
+GET /bookmarks でブックマーク一覧ページを表示する。
+POST /bookmark/{question_id} でブックマーク追加/削除を行う。
 """
 
+import uuid
+from datetime import date, timedelta
+
 from fastapi import APIRouter, Depends, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.data.course_repository import CourseRepository
 from app.data.database import get_db
+from app.data.models import AnswerRecordModel, BookmarkModel, QuestionModel
 from app.data.question_repository import QuestionRepository
 from app.data.user_record_repository import UserRecordRepository
+from app.domain.badge_service import check_badges
 from app.domain.level_calculator import calculate_level, calculate_xp_gauge
 from app.domain.models import CourseInfo, Region, RegionMapData, UserStatus
 from app.domain.progress_calculator import ProgressStatus, calculate_region_progress
@@ -31,6 +40,39 @@ PROGRESS_FILL_COLORS: dict[ProgressStatus, str] = {
     ProgressStatus.IN_PROGRESS: "#FED7AA",  # light orange
     ProgressStatus.COMPLETE: "#F97316",  # vivid mikan orange
 }
+
+
+def _calculate_streak(user_id: str, db: Session) -> int:
+    """今日から遡って連続で回答した日数を計算する。"""
+    records = (
+        db.query(func.date(AnswerRecordModel.answered_at))
+        .filter(AnswerRecordModel.user_id == user_id)
+        .distinct()
+        .all()
+    )
+    if not records:
+        return 0
+
+    answered_dates = sorted(
+        {date.fromisoformat(str(r[0])) for r in records}, reverse=True
+    )
+    today = date.today()
+
+    if not answered_dates or (
+        answered_dates[0] != today and answered_dates[0] != today - timedelta(days=1)
+    ):
+        return 0
+
+    streak = 0
+    check_date = answered_dates[0]
+    for d in answered_dates:
+        if d == check_date:
+            streak += 1
+            check_date -= timedelta(days=1)
+        elif d < check_date:
+            break
+
+    return streak
 
 
 def _safe_get_user_status(user_id: str, db: Session) -> UserStatus:
@@ -119,20 +161,38 @@ def _get_region_map_data(
     course_infos = []
     for course in courses:
         questions = question_repo.get_questions_by_course(course.id)
+        question_ids = [q.id for q in questions]
         is_suspended = course.id in suspended_sessions
         answered_count = suspended_sessions.get(course.id, 0)
 
-        # コースごとの完了ステータスを判定
-        question_ids = [q.id for q in questions]
-        course_records = [r for r in user_records if r.course_id == course.id]
-        correct_question_ids = {r.question_id for r in course_records if r.is_correct}
-
-        if len(correct_question_ids) == 0 and not is_suspended:
-            completion_status = "not_started"
-        elif correct_question_ids >= set(question_ids) and len(question_ids) > 0:
-            completion_status = "perfect"
-        else:
-            completion_status = "in_progress"
+        # ピンの状態を判定
+        pin_status = "not_started"
+        if question_ids:
+            # このコースの回答記録を抽出
+            course_records = [r for r in user_records if r.course_id == course.id]
+            if course_records:
+                correct_ids = {r.question_id for r in course_records if r.is_correct}
+                if correct_ids >= set(question_ids):
+                    # 全問正解の記録があるか確認
+                    all_correct = all(
+                        any(r.question_id == qid and r.is_correct for r in course_records)
+                        for qid in question_ids
+                    )
+                    # 不正解が1つもないか（=満点）
+                    incorrect_exists = any(
+                        r.course_id == course.id and not r.is_correct
+                        for r in course_records
+                    )
+                    if all_correct and not incorrect_exists:
+                        pin_status = "perfect"
+                    elif all_correct:
+                        pin_status = "completed"
+                    else:
+                        pin_status = "in_progress"
+                else:
+                    pin_status = "in_progress"
+        elif is_suspended:
+            pin_status = "in_progress"
 
         course_infos.append(
             CourseInfo(
@@ -144,7 +204,7 @@ def _get_region_map_data(
                 question_count=len(questions),
                 is_suspended=is_suspended,
                 answered_count=answered_count,
-                completion_status=completion_status,
+                pin_status=pin_status,
             )
         )
 
@@ -173,6 +233,13 @@ async def rpg_top_screen(
 
     # ユーザーステータスを安全に取得
     user_status = _safe_get_user_status(user_id, db)
+
+    # ストリーク日数を計算
+    streak_days = _calculate_streak(user_id, db)
+
+    # バッジ獲得数を計算
+    badges = check_badges(user_id, db)
+    earned_badge_count = sum(1 for b in badges if b["earned"])
 
     # 中断中セッションの情報を取得
     from app.data.models import QuizSessionModel
@@ -228,6 +295,8 @@ async def rpg_top_screen(
             "regions": regions,
             "selected_region": selected_region,
             "all_complete": all_complete,
+            "streak_days": streak_days,
+            "earned_badge_count": earned_badge_count,
         },
     )
 
@@ -330,6 +399,7 @@ async def get_region_summary(
     total_count = len(courses)
 
     # 完了コース数を算出
+    # コースが完了 = コース内の全問題について少なくとも1回正解した記録が存在
     completed_count = 0
 
     if total_count > 0:
@@ -367,3 +437,99 @@ async def get_region_summary(
 async def licenses_page(request: Request):
     """ライセンス・クレジット表記ページを表示する。"""
     return templates.TemplateResponse(request, "licenses.html")
+
+
+@router.get("/tutorial", response_class=HTMLResponse)
+async def tutorial_page(request: Request):
+    """初回ログイン時のチュートリアルページを表示する。"""
+    return templates.TemplateResponse(request, "tutorial.html")
+
+
+@router.get("/badges", response_class=HTMLResponse)
+async def badges_page(
+    request: Request,
+    db: Session = Depends(get_db),
+    user_id: str = Depends(get_current_user_id),
+):
+    """バッジ一覧ページを表示する。"""
+    badges = check_badges(user_id, db)
+    earned_count = sum(1 for b in badges if b["earned"])
+    total_count = len(badges)
+
+    return templates.TemplateResponse(
+        request,
+        "badges.html",
+        context={
+            "badges": badges,
+            "earned_count": earned_count,
+            "total_count": total_count,
+        },
+    )
+
+
+@router.post("/bookmark/{question_id}")
+async def toggle_bookmark(
+    question_id: str,
+    request: Request,
+    db: Session = Depends(get_db),
+    user_id: str = Depends(get_current_user_id),
+):
+    """ブックマークの追加/削除をトグルする。"""
+    existing = (
+        db.query(BookmarkModel)
+        .filter(
+            BookmarkModel.user_id == user_id,
+            BookmarkModel.question_id == question_id,
+        )
+        .first()
+    )
+
+    if existing:
+        db.delete(existing)
+        db.commit()
+    else:
+        bookmark = BookmarkModel(
+            id=str(uuid.uuid4()),
+            user_id=user_id,
+            question_id=question_id,
+        )
+        db.add(bookmark)
+        db.commit()
+
+    # リファラーがあればそこに戻る、なければブックマーク一覧へ
+    referer = request.headers.get("referer")
+    if referer:
+        return RedirectResponse(url=referer, status_code=303)
+    return RedirectResponse(url="/bookmarks", status_code=303)
+
+
+@router.get("/bookmarks", response_class=HTMLResponse)
+async def bookmarks_page(
+    request: Request,
+    db: Session = Depends(get_db),
+    user_id: str = Depends(get_current_user_id),
+):
+    """ブックマーク一覧ページを表示する。"""
+    bookmark_records = (
+        db.query(BookmarkModel)
+        .filter(BookmarkModel.user_id == user_id)
+        .order_by(BookmarkModel.created_at.desc())
+        .all()
+    )
+
+    bookmarks = []
+    for bm in bookmark_records:
+        question = db.query(QuestionModel).filter(QuestionModel.id == bm.question_id).first()
+        if question:
+            bookmarks.append({
+                "question_id": bm.question_id,
+                "text": question.text,
+                "domain": question.exam_domain or "その他",
+                "created_at": bm.created_at.strftime("%Y/%m/%d") if bm.created_at else "",
+            })
+
+    return templates.TemplateResponse(
+        request,
+        "bookmarks.html",
+        context={"bookmarks": bookmarks},
+    )
