@@ -386,3 +386,9 @@ async def get_region_summary(
 async def licenses_page(request: Request):
     """ライセンス・クレジット表記ページを表示する。"""
     return templates.TemplateResponse(request, "licenses.html")
+
+
+@router.get("/tutorial", response_class=HTMLResponse)
+async def tutorial_page(request: Request):
+    """初回ログイン時のチュートリアルページを表示する。"""
+    return templates.TemplateResponse(request, "tutorial.html")

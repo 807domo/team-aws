@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}はじめに - 愛媛探索AIクイズ{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto">
+    <div class="text-center mb-8">
+        <span class="text-5xl">🍊</span>
+        <h1 class="text-2xl font-bold text-gray-800 mt-4">ようこそ！愛媛探索AIクイズへ</h1>
+        <p class="text-gray-600 mt-2">愛媛の文化財を巡りながらAWS資格の学習を始めましょう</p>
+    </div>
+
+    <!-- ステップ説明 -->
+    <div class="space-y-6 mb-8">
+        <!-- Step 1 -->
+        <div class="bg-white rounded-lg shadow-md p-6 flex gap-4 items-start">
+            <div class="bg-orange-100 text-orange-600 font-bold text-xl w-10 h-10 rounded-full flex items-center justify-center shrink-0">1</div>
+            <div>
+                <h3 class="font-bold text-gray-800 mb-1">🗺️ 地図からステージを選ぶ</h3>
+                <p class="text-sm text-gray-600">愛媛県の地図上にピンが表示されています。ピンをクリックするか、コース一覧からステージを選んで学習を始めましょう。</p>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="bg-white rounded-lg shadow-md p-6 flex gap-4 items-start">
+            <div class="bg-orange-100 text-orange-600 font-bold text-xl w-10 h-10 rounded-full flex items-center justify-center shrink-0">2</div>
+            <div>
+                <h3 class="font-bold text-gray-800 mb-1">📝 4択クイズに挑戦</h3>
+                <p class="text-sm text-gray-600">各ステージは5問程度の4択問題で構成されています。AWSクラウドの知識を問う問題に回答し、解説で理解を深めましょう。途中で中断しても後から再開できます。</p>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="bg-white rounded-lg shadow-md p-6 flex gap-4 items-start">
+            <div class="bg-orange-100 text-orange-600 font-bold text-xl w-10 h-10 rounded-full flex items-center justify-center shrink-0">3</div>
+            <div>
+                <h3 class="font-bold text-gray-800 mb-1">📊 3つの難易度をステップアップ</h3>
+                <p class="text-sm text-gray-600">
+                    <span class="inline-block bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs mr-1">初級（南予）</span>基礎的なクラウド概念<br>
+                    <span class="inline-block bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded text-xs mr-1 mt-1">中級（中予）</span>実践的なAWSサービス活用<br>
+                    <span class="inline-block bg-red-100 text-red-700 px-2 py-0.5 rounded text-xs mr-1 mt-1">上級（東予）</span>高度なアーキテクチャ設計
+                </p>
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="bg-white rounded-lg shadow-md p-6 flex gap-4 items-start">
+            <div class="bg-orange-100 text-orange-600 font-bold text-xl w-10 h-10 rounded-full flex items-center justify-center shrink-0">4</div>
+            <div>
+                <h3 class="font-bold text-gray-800 mb-1">🏆 ピンの色で進捗を確認</h3>
+                <p class="text-sm text-gray-600">
+                    <span class="inline-block w-3 h-3 rounded-full bg-gray-400 mr-1"></span>未着手
+                    <span class="inline-block w-3 h-3 rounded-full bg-yellow-400 ml-3 mr-1"></span>着手中
+                    <span class="inline-block w-3 h-3 rounded-full bg-green-500 ml-3 mr-1"></span>完了
+                    <span class="inline-block w-3 h-3 rounded-full bg-yellow-300 ml-3 mr-1 border border-yellow-500"></span>満点
+                    <br><span class="text-xs text-gray-500 mt-1 inline-block">全ステージを完了すると特別な演出が！</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="bg-white rounded-lg shadow-md p-6 flex gap-4 items-start">
+            <div class="bg-orange-100 text-orange-600 font-bold text-xl w-10 h-10 rounded-full flex items-center justify-center shrink-0">5</div>
+            <div>
+                <h3 class="font-bold text-gray-800 mb-1">🤖 AI弱点練習＆模擬試験</h3>
+                <p class="text-sm text-gray-600">ある程度学習が進むと「AI弱点練習」が使えるようになり、苦手分野の問題をAIが自動生成します。また「模擬試験」で本番さながらの65問・90分試験に挑戦できます。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 開始ボタン -->
+    <div class="text-center">
+        <a href="/"
+           class="inline-block bg-orange-600 text-white py-3 px-8 rounded-lg font-semibold text-lg hover:bg-orange-700 transition-colors shadow-lg">
+            🍊 学習を始める
+        </a>
+    </div>
+</div>
+{% endblock %}
