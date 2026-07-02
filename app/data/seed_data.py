@@ -19,7 +19,8 @@ AI ドメイン:
 from sqlalchemy.orm import Session
 
 from app.data.models import CourseModel, QuestionModel
-from app.data.seed_data_extra import EXTRA_QUESTIONS, EXTRA_QUESTIONS_2
+from app.data.seed_data_extra import EXTRA_QUESTIONS
+from app.data.seed_data_extra2 import EXTRA_QUESTIONS_3
 
 
 # =============================================================================
@@ -1807,9 +1808,6 @@ from app.data.bunkazai_questions import BUNKAZAI_QUESTIONS  # noqa: E402
 
 QUESTIONS.extend(BUNKAZAI_QUESTIONS)
 
-from app.data.extra_questions import EXTRA_QUESTIONS as EXTRA_QUESTIONS_3  # noqa: E402
-QUESTIONS.extend(EXTRA_QUESTIONS_3)
-
 # =============================================================================
 # シーディング関数
 # =============================================================================
@@ -1855,7 +1853,7 @@ def seed_database(db_session: Session) -> bool:
     ).fetchone() else set()
 
     seen_ids: set[str] = set(existing_question_ids)
-    all_questions = list(QUESTIONS) + list(EXTRA_QUESTIONS) + list(EXTRA_QUESTIONS_2)
+    all_questions = list(QUESTIONS) + list(EXTRA_QUESTIONS) + list(EXTRA_QUESTIONS_3)
     for question_data in all_questions:
         qid = question_data["id"]
         if qid in seen_ids:
