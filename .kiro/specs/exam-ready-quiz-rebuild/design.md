@@ -48,7 +48,7 @@ graph TD
 |----------|------|-----------|
 | `app/data/seed_data.py` | COURSES (30件) + QUESTIONS (CLF-C02問題: ~110問) | ~110問 |
 | `app/data/seed_data_extra.py` | EXTRA_QUESTIONS (CLF-C02残り + AIF-C01前半: ~110問) | ~110問 |
-| `app/data/seed_data_extra2.py` | EXTRA_QUESTIONS_3 (AIF-C01後半: ~110問) | ~110問 |
+| `app/data/seed_data_extra2.py` | EXTRA_QUESTIONS_2 (AIF-C01後半: ~110問) | ~110問 |
 | `app/data/glossary_seed.py` | GLOSSARY_SEED_DATA (150語以上) | - |
 
 ### 問題配分設計
@@ -88,10 +88,10 @@ graph TD
 # 変更内容:
 # - COURSES リスト: 30コース定義（変更なし）
 # - QUESTIONS リスト: CLF-C02ドメインの問題（~110問）
-# - seed_database() 関数: EXTRA_QUESTIONS + EXTRA_QUESTIONS_3 を統合して投入
+# - seed_database() 関数: EXTRA_QUESTIONS + EXTRA_QUESTIONS_2 を統合して投入
 
 from app.data.seed_data_extra import EXTRA_QUESTIONS
-from app.data.seed_data_extra2 import EXTRA_QUESTIONS_3
+from app.data.seed_data_extra2 import EXTRA_QUESTIONS_2
 
 def seed_database(db: Session) -> bool:
     """コースと問題の初期データを投入する（データが空の場合のみ）"""
@@ -104,7 +104,7 @@ def seed_database(db: Session) -> bool:
         db.add(CourseModel(**course_data))
     
     # 全問題を統合して登録
-    all_questions = QUESTIONS + EXTRA_QUESTIONS + EXTRA_QUESTIONS_3
+    all_questions = QUESTIONS + EXTRA_QUESTIONS + EXTRA_QUESTIONS_2
     for q_data in all_questions:
         db.add(QuestionModel(**q_data))
     
@@ -123,8 +123,8 @@ EXTRA_QUESTIONS: list[dict] = [...]
 #### 3. `app/data/seed_data_extra2.py`（新規作成）
 
 ```python
-# EXTRA_QUESTIONS_3: AIF-C01後半問題 (~110問)
-EXTRA_QUESTIONS_3: list[dict] = [...]
+# EXTRA_QUESTIONS_2: AIF-C01後半問題 (~110問)
+EXTRA_QUESTIONS_2: list[dict] = [...]
 ```
 
 #### 4. `app/data/glossary_seed.py`
@@ -359,9 +359,9 @@ from hypothesis.strategies import sampled_from
 
 from app.data.seed_data import QUESTIONS
 from app.data.seed_data_extra import EXTRA_QUESTIONS
-from app.data.seed_data_extra2 import EXTRA_QUESTIONS_3
+from app.data.seed_data_extra2 import EXTRA_QUESTIONS_2
 
-ALL_QUESTIONS = QUESTIONS + EXTRA_QUESTIONS + EXTRA_QUESTIONS_3
+ALL_QUESTIONS = QUESTIONS + EXTRA_QUESTIONS + EXTRA_QUESTIONS_2
 
 @settings(max_examples=200)
 @given(question=sampled_from(ALL_QUESTIONS))

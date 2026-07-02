@@ -20,7 +20,7 @@ from sqlalchemy.orm import Session
 
 from app.data.models import CourseModel, QuestionModel
 from app.data.seed_data_extra import EXTRA_QUESTIONS
-from app.data.seed_data_extra2 import EXTRA_QUESTIONS_3
+from app.data.seed_data_extra2 import EXTRA_QUESTIONS_2
 
 
 # =============================================================================
@@ -1853,7 +1853,7 @@ def seed_database(db_session: Session) -> bool:
     ).fetchone() else set()
 
     seen_ids: set[str] = set(existing_question_ids)
-    all_questions = list(QUESTIONS) + list(EXTRA_QUESTIONS) + list(EXTRA_QUESTIONS_3)
+    all_questions = list(QUESTIONS) + list(EXTRA_QUESTIONS) + list(EXTRA_QUESTIONS_2)
     for question_data in all_questions:
         qid = question_data["id"]
         if qid in seen_ids:

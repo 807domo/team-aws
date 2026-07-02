@@ -9,10 +9,10 @@ from collections import Counter
 
 from app.data.seed_data import QUESTIONS, COURSES
 from app.data.seed_data_extra import EXTRA_QUESTIONS
-from app.data.seed_data_extra2 import EXTRA_QUESTIONS_3
+from app.data.seed_data_extra2 import EXTRA_QUESTIONS_2
 from app.data.glossary_seed import GLOSSARY_SEED_DATA
 
-ALL_QUESTIONS = QUESTIONS + EXTRA_QUESTIONS + EXTRA_QUESTIONS_3
+ALL_QUESTIONS = QUESTIONS + EXTRA_QUESTIONS + EXTRA_QUESTIONS_2
 
 # Valid course IDs: nanyo-stage-01~31, chuyo-stage-01~20, toyo-stage-01~20
 VALID_COURSE_IDS = (
