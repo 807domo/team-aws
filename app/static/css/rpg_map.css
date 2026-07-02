@@ -662,13 +662,9 @@ html, body {
 }
 
 /* ピンのホバー効果 */
-.stage-pin:hover circle {
-    filter: brightness(1.2) drop-shadow(0 0 4px rgba(0,0,0,0.3));
-    transition: filter 0.15s ease;
-}
 .stage-pin {
-    transition: opacity 0.15s ease;
+    cursor: pointer;
 }
-.stage-pin:hover {
-    opacity: 0.9;
+.stage-pin:hover circle {
+    filter: brightness(1.2);
 }
