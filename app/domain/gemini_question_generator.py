@@ -19,7 +19,7 @@ from app.domain.models import Difficulty, Question, WeakArea
 
 logger = logging.getLogger(__name__)
 
-GEMINI_MODEL = "gemini-2.0-flash"
+GEMINI_MODEL = "gemini-flash-latest"
 GENERATION_TIMEOUT_SECONDS = 30
 
 
