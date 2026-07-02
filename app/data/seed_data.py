@@ -19,7 +19,8 @@ AI ドメイン:
 from sqlalchemy.orm import Session
 
 from app.data.models import CourseModel, QuestionModel
-from app.data.seed_data_extra import EXTRA_QUESTIONS, EXTRA_QUESTIONS_2
+from app.data.seed_data_extra import EXTRA_QUESTIONS
+from app.data.seed_data_extra2 import EXTRA_QUESTIONS_2
 
 
 # =============================================================================
@@ -307,6 +308,112 @@ COURSES = [
         "difficulty": "上級",
         "description": "品質基準認定の伝統産業",
     },
+    {
+        "id": "nanyo-stage-15",
+        "name": "ステージ15：四万十川源流",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "松野町の清流と共にAI/MLの基礎概念を学ぶ",
+    },
+    {
+        "id": "nanyo-stage-16",
+        "name": "ステージ16：南楽園",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "宇和島の日本庭園と共に機械学習入門を学ぶ",
+    },
+    {
+        "id": "nanyo-stage-17",
+        "name": "ステージ17：御荘湾サンゴ",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "愛南町のサンゴと共に責任あるAIを学ぶ",
+    },
+    {
+        "id": "nanyo-stage-18",
+        "name": "ステージ18：肱川あらし",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "大洲の気象現象と共にAWSのAIサービスを学ぶ",
+    },
+    {
+        "id": "nanyo-stage-19",
+        "name": "ステージ19：宇和島真珠",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "真珠養殖の知恵と共にデータ活用を学ぶ",
+    },
+    {
+        "id": "chuyo-stage-13",
+        "name": "ステージ13：坊っちゃん列車",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "松山のレトロ列車と共に生成AIの基礎を学ぶ",
+    },
+    {
+        "id": "chuyo-stage-14",
+        "name": "ステージ14：愛媛県庁本館",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "歴史的庁舎と共にプロンプト設計を学ぶ",
+    },
+    {
+        "id": "chuyo-stage-15",
+        "name": "ステージ15：松山総合公園",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "展望台からの景色と共にLLMの活用を学ぶ",
+    },
+    {
+        "id": "chuyo-stage-16",
+        "name": "ステージ16：三津浜港",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "港町の歴史と共にAmazon Bedrockを学ぶ",
+    },
+    {
+        "id": "chuyo-stage-17",
+        "name": "ステージ17：石鎚スキー場",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "四国唯一のスキー場と共にRAGを学ぶ",
+    },
+    {
+        "id": "toyo-stage-15",
+        "name": "ステージ15：瀬戸内しまなみ",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "島々の絶景と共に基盤モデルの応用を学ぶ",
+    },
+    {
+        "id": "toyo-stage-16",
+        "name": "ステージ16：東平産業遺産",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "東洋のマチュピチュと共にAIセキュリティを学ぶ",
+    },
+    {
+        "id": "toyo-stage-17",
+        "name": "ステージ17：石鎚山系",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "西日本最高峰と共にMLOpsを学ぶ",
+    },
+    {
+        "id": "toyo-stage-18",
+        "name": "ステージ18：今治造船",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "日本最大の造船業と共にAIガバナンスを学ぶ",
+    },
+    {
+        "id": "toyo-stage-19",
+        "name": "ステージ19：四国中央紙産業",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "紙のまちの技術革新と共にAI設計を学ぶ",
+    },
+
 ]
 
 
@@ -1800,6 +1907,7 @@ QUESTIONS = [
     # =========================================================================
     # 文化財コース問題（各コース4問 × 9コース = 36問）
     # =========================================================================
+
 ]
 
 # 文化財問題は別ファイルからインポート

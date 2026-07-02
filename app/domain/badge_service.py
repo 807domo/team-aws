@@ -74,6 +74,25 @@ BADGE_DEFINITIONS = [
         "description": "AI弱点練習を完了した",
         "icon": "🤖",
     },
+    # 称号バッジ
+    {
+        "id": "title_researcher",
+        "name": "愛媛の駆け出しAI研究者",
+        "description": "Lv.3に到達し称号を獲得した",
+        "icon": "🔬",
+    },
+    {
+        "id": "title_engineer",
+        "name": "道後を極めしAIエンジニア",
+        "description": "Lv.6に到達し称号を獲得した",
+        "icon": "⚙️",
+    },
+    {
+        "id": "title_master",
+        "name": "伝説の愛媛AIマスター",
+        "description": "Lv.10に到達し最高称号を獲得した",
+        "icon": "👑",
+    },
 ]
 
 
@@ -232,6 +251,19 @@ def check_badges(user_id: str, db: Session) -> list[dict]:
     ) or 0
     if ai_records > 0:
         earned.append("ai_practice")
+
+    # 称号バッジ: レベルに基づく
+    from app.data.models import UserModel
+    from app.domain.level_calculator import calculate_level
+    user = db.query(UserModel).filter(UserModel.id == user_id).first()
+    if user:
+        user_level = calculate_level(user.total_xp or 0)
+        if user_level >= 3:
+            earned.append("title_researcher")
+        if user_level >= 6:
+            earned.append("title_engineer")
+        if user_level >= 10:
+            earned.append("title_master")
 
     # バッジ定義と照合して返す
     result = []
