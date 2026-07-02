@@ -6,6 +6,7 @@ FastAPI 依存性注入用の get_db() ジェネレータを提供する。
 DB接続リトライ機構を含む。
 """
 
+import os
 import logging
 import time
 from collections.abc import Generator
@@ -16,17 +17,22 @@ from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
 logger = logging.getLogger(__name__)
 
-# SQLite データベースファイルパス
-DATABASE_URL = "sqlite:///ehime_quiz.db"
+# データベース接続URL（未指定時はSQLiteを使用）
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./ehime_quiz.db")
 
 # リトライ設定定数
 DB_CONNECTION_RETRY_COUNT = 3
 DB_CONNECTION_RETRY_DELAY_SECONDS = 1
 
 # エンジン作成（SQLite では check_same_thread=False が必要）
+connect_args = {}
+
+if DATABASE_URL.startswith("sqlite"):
+    connect_args = {"check_same_thread": False}
+
 engine = create_engine(
     DATABASE_URL,
-    connect_args={"check_same_thread": False},
+    connect_args=connect_args,
     echo=False,
 )
 
