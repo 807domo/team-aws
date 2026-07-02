@@ -663,11 +663,12 @@ html, body {
 
 /* ピンのホバー効果 */
 .stage-pin:hover circle {
-    transform-origin: center;
     filter: brightness(1.2) drop-shadow(0 0 4px rgba(0,0,0,0.3));
+    transition: filter 0.15s ease;
+}
+.stage-pin {
+    transition: opacity 0.15s ease;
 }
 .stage-pin:hover {
-    transform: scale(1.2);
-    transform-origin: center;
-    transition: transform 0.15s ease;
+    opacity: 0.9;
 }

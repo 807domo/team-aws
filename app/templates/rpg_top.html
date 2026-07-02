@@ -31,6 +31,14 @@
         <div class="text-sm text-gray-600 font-medium">
             🏷️ {{ user_status.title }}
         </div>
+        {% if streak_days > 0 %}
+        <div class="text-sm font-medium text-orange-600">
+            🔥 {{ streak_days }}日連続
+        </div>
+        {% endif %}
+        <div class="text-sm text-gray-600">
+            <a href="/badges" class="hover:text-orange-600">🏅 {{ earned_badge_count }}個獲得</a>
+        </div>
         <div class="flex-1 min-w-[200px]">
             <div class="flex items-center gap-2">
                 <span class="text-xs text-gray-500 whitespace-nowrap">XP</span>
@@ -51,7 +59,7 @@
 </section>
 
 <!-- AI練習ボタン -->
-<div class="mb-6 flex gap-3">
+<div class="mb-6 flex flex-wrap gap-3">
     <a href="/ai-practice/start" id="ai-practice-btn"
        class="inline-flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded-lg
               font-medium text-sm hover:bg-purple-700 transition-colors shadow"
@@ -67,6 +75,21 @@
        class="inline-flex items-center gap-2 bg-white text-orange-600 border border-orange-300 px-4 py-2 rounded-lg
               font-medium text-sm hover:bg-orange-50 transition-colors">
         🛠️ カスタムステージ
+    </a>
+    <a href="/review/mistakes"
+       class="inline-flex items-center gap-2 bg-white text-red-600 border border-red-300 px-4 py-2 rounded-lg
+              font-medium text-sm hover:bg-red-50 transition-colors">
+        📝 間違い復習
+    </a>
+    <a href="/badges"
+       class="inline-flex items-center gap-2 bg-white text-yellow-700 border border-yellow-300 px-4 py-2 rounded-lg
+              font-medium text-sm hover:bg-yellow-50 transition-colors">
+        🏅 バッジ
+    </a>
+    <a href="/bookmarks"
+       class="inline-flex items-center gap-2 bg-white text-blue-600 border border-blue-300 px-4 py-2 rounded-lg
+              font-medium text-sm hover:bg-blue-50 transition-colors">
+        ⭐ ブックマーク
     </a>
 </div>
 

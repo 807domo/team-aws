@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}カスタムステージ - 解説{% endblock %}
+{% block title %}復習 - 解説{% endblock %}
 {% block content %}
 <div class="max-w-2xl mx-auto">
     <div class="mb-6">
@@ -51,9 +51,9 @@
     {% endif %}
     <div class="text-center">
         {% if is_last %}
-        <a href="/custom-stage/{{ session_id }}/result" class="inline-block bg-orange-600 text-white py-3 px-8 rounded-lg font-semibold hover:bg-orange-700 transition">結果を見る 📊</a>
+        <a href="/review/{{ session_id }}/result" class="inline-block bg-orange-600 text-white py-3 px-8 rounded-lg font-semibold hover:bg-orange-700 transition">結果を見る 📊</a>
         {% else %}
-        <a href="/custom-stage/{{ session_id }}/question" class="inline-block bg-orange-600 text-white py-3 px-8 rounded-lg font-semibold hover:bg-orange-700 transition">次へ →</a>
+        <a href="/review/{{ session_id }}/question" class="inline-block bg-orange-600 text-white py-3 px-8 rounded-lg font-semibold hover:bg-orange-700 transition">次へ →</a>
         {% endif %}
     </div>
     <div class="text-center mt-4 text-sm text-gray-500">問題 {{ question_index + 1 }} / {{ total_questions }}</div>

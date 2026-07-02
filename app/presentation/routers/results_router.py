@@ -32,7 +32,12 @@ async def dashboard(
     スコア・グレード、レーダーチャート（ドメイン別正答率）、
     愛媛探索率、学習履歴を表示する。
     学習履歴がない場合は「まだ学習履歴がありません」メッセージを表示する。
+    日別学習量グラフ（過去30日）も表示する。
     """
+    from datetime import date, timedelta
+    from sqlalchemy import func as sa_func
+    from app.data.models import AnswerRecordModel
+
     # クイズ画面から離脱した場合、進行中セッションを中断扱いにする
     quiz_service = QuizService(db)
     quiz_service.complete_in_progress_sessions(user_id)
@@ -55,6 +60,32 @@ async def dashboard(
         for attempt in dashboard_data.attempt_history
     ]
 
+    # 過去30日の日別回答数を集計
+    today = date.today()
+    thirty_days_ago = today - timedelta(days=29)
+    daily_counts_raw = (
+        db.query(
+            sa_func.date(AnswerRecordModel.answered_at).label("day"),
+            sa_func.count(AnswerRecordModel.id).label("count"),
+        )
+        .filter(
+            AnswerRecordModel.user_id == user_id,
+            sa_func.date(AnswerRecordModel.answered_at) >= thirty_days_ago,
+        )
+        .group_by(sa_func.date(AnswerRecordModel.answered_at))
+        .all()
+    )
+
+    # 30日分の全日付を生成し、回答数がない日は0にする
+    daily_counts_map = {str(r[0]): r[1] for r in daily_counts_raw}
+    daily_labels = []
+    daily_values = []
+    for i in range(30):
+        d = thirty_days_ago + timedelta(days=i)
+        label = d.strftime("%m/%d")
+        daily_labels.append(label)
+        daily_values.append(daily_counts_map.get(str(d), 0))
+
     return templates.TemplateResponse(
         request,
         "dashboard.html",
@@ -66,6 +97,8 @@ async def dashboard(
             "exploration_rate": dashboard_data.exploration_rate,
             "attempt_history": attempt_history,
             "has_history": dashboard_data.has_history,
+            "daily_labels": daily_labels,
+            "daily_values": daily_values,
         },
     )
 

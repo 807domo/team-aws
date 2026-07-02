@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}復習結果 - 愛媛探索AIクイズ{% endblock %}
+{% block content %}
+<div class="max-w-2xl mx-auto text-center">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">📝 復習結果</h1>
+
+    <div class="bg-white rounded-lg shadow-md p-8 mb-6">
+        <div class="text-6xl mb-4">
+            {% if accuracy >= 80 %}🎉{% elif accuracy >= 60 %}👍{% else %}💪{% endif %}
+        </div>
+        <p class="text-gray-600 mb-2">正答率</p>
+        <p class="text-5xl font-bold text-orange-600 mb-4">{{ accuracy }}%</p>
+        <p class="text-lg text-gray-700">{{ correct_count }} / {{ total_count }} 問正解</p>
+    </div>
+
+    <div class="flex justify-center gap-4">
+        <a href="/review/mistakes" class="bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-700 transition">
+            📝 復習一覧に戻る
+        </a>
+        <a href="/" class="bg-white text-gray-700 border border-gray-300 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition">
+            🏠 トップへ
+        </a>
+    </div>
+</div>
+{% endblock %}
