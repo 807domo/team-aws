@@ -190,8 +190,10 @@ async def submit_ai_answer(
     session_id: str,
     request: Request,
     choice_index: int = Form(...),
+    db: Session = Depends(get_db),
+    user_id: str = Depends(get_current_user_id),
 ):
-    """AI練習問題の回答を送信する。"""
+    """AI練習問題の回答を送信し、DBに記録する。"""
     session = _ai_sessions.get(session_id)
     if session is None:
         raise HTTPException(status_code=404, detail="セッションが見つかりません")
@@ -202,6 +204,25 @@ async def submit_ai_answer(
 
     if is_correct:
         session["correct_count"] += 1
+
+    # DBに回答記録を保存
+    import uuid as _uuid
+    from datetime import datetime as _dt
+    from app.data.models import AnswerRecordModel
+    try:
+        record = AnswerRecordModel(
+            id=str(_uuid.uuid4()),
+            user_id=user_id,
+            question_id=question.id,
+            course_id="ai-generated",
+            selected_choice_index=choice_index,
+            is_correct=is_correct,
+            answered_at=_dt.now(),
+        )
+        db.add(record)
+        db.commit()
+    except Exception:
+        db.rollback()  # 保存失敗しても問題表示は継続
 
     # 次の問題へ
     session["current_index"] += 1
