@@ -36,3 +36,52 @@ def get_title(level: int) -> str:
             return title
 
     return MAX_TITLE
+
+
+def get_next_title(level: int) -> str | None:
+    """現在のレベルの次の称号を返す。最高称号の場合はNone。
+
+    Args:
+        level: 現在のレベル（1以上の整数）
+
+    Returns:
+        次の称号文字列。最高称号の場合はNone。
+    """
+    current_title = get_title(level)
+    if current_title == MAX_TITLE:
+        return None
+
+    for i, (level_range, title) in enumerate(TITLE_MAPPING):
+        if level in level_range:
+            if i + 1 < len(TITLE_MAPPING):
+                return TITLE_MAPPING[i + 1][1]
+            else:
+                return MAX_TITLE
+    return None
+
+
+def get_all_titles_with_requirements() -> list[dict]:
+    """全称号と解放条件（必要レベル・XP）のリストを返す。
+
+    Returns:
+        [{"title": str, "min_level": int, "min_xp": int}, ...]
+        min_xp は (min_level - 1)² × 100 で算出。
+    """
+    result = []
+    for level_range, title in TITLE_MAPPING:
+        min_level = level_range.start
+        min_xp = (min_level - 1) * (min_level - 1) * 100
+        result.append({
+            "title": title,
+            "min_level": min_level,
+            "min_xp": min_xp,
+        })
+    # MAX_TITLE (Level 10+)
+    min_level = TITLE_MAPPING[-1][0].stop  # 10
+    min_xp = (min_level - 1) * (min_level - 1) * 100
+    result.append({
+        "title": MAX_TITLE,
+        "min_level": min_level,
+        "min_xp": min_xp,
+    })
+    return result

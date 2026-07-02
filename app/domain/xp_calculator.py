@@ -5,8 +5,8 @@
 すべての関数は副作用を持たない。
 """
 
-XP_PER_CORRECT_ANSWER: int = 10
-PERFECT_COURSE_BONUS: int = 100
+XP_PER_CORRECT_ANSWER: int = 24
+PERFECT_COURSE_BONUS: int = 50
 
 
 def calculate_xp_award(correct_count: int, total_count: int) -> int:
