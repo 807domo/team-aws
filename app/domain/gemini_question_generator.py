@@ -74,10 +74,14 @@ class GeminiQuestionGenerator:
                 questions = self._generate_for_area(weak_area, count_per_area)
                 all_questions.extend(questions)
             except Exception as e:
-                logger.error(
-                    "問題生成失敗（ドメイン: %s）: %s",
-                    weak_area.domain, str(e),
-                )
+                error_str = str(e)
+                logger.error("問題生成失敗（ドメイン: %s）: %s", weak_area.domain, error_str)
+                # 429/503エラーはクォータ超過 — 以降の生成もスキップ
+                if "429" in error_str or "503" in error_str or "RESOURCE_EXHAUSTED" in error_str:
+                    logger.warning("クォータ超過のため問題生成を中止します")
+                    break
+
+        return all_questions
 
         return all_questions
 
