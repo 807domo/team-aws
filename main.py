@@ -169,27 +169,25 @@ async def requires_login_handler(request: Request, exc: RequiresLoginException):
 # =============================================================================
 
 from app.presentation.routers.top_router import router as top_router
-
 app.include_router(top_router)
 
 from app.presentation.routers.auth_router import router as auth_router
-
 app.include_router(auth_router)
 
 from app.presentation.routers.course_router import router as course_router
-from app.presentation.routers.results_router import router as results_router
-
 app.include_router(course_router)
+
+from app.presentation.routers.results_router import router as results_router
 app.include_router(results_router)
 
 from app.presentation.routers.quiz_router import router as quiz_router
-
 app.include_router(quiz_router)
 
 from app.presentation.routers.mock_exam_router import router as mock_exam_router
-
 app.include_router(mock_exam_router)
 
 from app.presentation.routers.study_router import router as study_router
-
 app.include_router(study_router)
+
+from app.presentation.routers.ai_practice_router import router as ai_practice_router
+app.include_router(ai_practice_router)
