@@ -16,11 +16,43 @@ AI ドメイン:
   - Responsible AI
 """
 
+import hashlib
+import random
+
 from sqlalchemy.orm import Session
 
 from app.data.models import CourseModel, QuestionModel
 from app.data.seed_data_extra import EXTRA_QUESTIONS
 from app.data.seed_data_extra2 import EXTRA_QUESTIONS_2
+
+
+def shuffle_choices(question_data: dict) -> dict:
+    """問題の選択肢をシャッフルし、correct_choice_indexを更新する。
+    IDに基づく決定論的シャッフル。
+    冪等性を確保するため、選択肢をソートして正規化してからシャッフルする。"""
+    seed = int(hashlib.md5(question_data["id"].encode()).hexdigest(), 16) % (2**32)
+    rng = random.Random(seed)
+
+    choices = [
+        question_data["choice_1"],
+        question_data["choice_2"],
+        question_data["choice_3"],
+        question_data["choice_4"],
+    ]
+    correct_answer = choices[question_data["correct_choice_index"]]
+
+    # 冪等性を確保するため、ソートして正規化してからシャッフル
+    choices_sorted = sorted(choices)
+    rng.shuffle(choices_sorted)
+    new_correct_index = choices_sorted.index(correct_answer)
+
+    result = dict(question_data)
+    result["choice_1"] = choices_sorted[0]
+    result["choice_2"] = choices_sorted[1]
+    result["choice_3"] = choices_sorted[2]
+    result["choice_4"] = choices_sorted[3]
+    result["correct_choice_index"] = new_correct_index
+    return result
 
 
 # =============================================================================
@@ -1969,19 +2001,21 @@ def seed_database(db_session: Session) -> bool:
         if qid in seen_ids:
             continue
         seen_ids.add(qid)
+        # 選択肢をシャッフルしてcorrect_choice_indexの分布を均等化
+        shuffled = shuffle_choices(question_data)
         question = QuestionModel(
             id=qid,
-            course_id=question_data["course_id"],
-            text=question_data["text"],
-            choice_1=question_data["choice_1"],
-            choice_2=question_data["choice_2"],
-            choice_3=question_data["choice_3"],
-            choice_4=question_data["choice_4"],
-            correct_choice_index=question_data["correct_choice_index"],
-            ehime_trivia=question_data["ehime_trivia"],
-            aws_ai_explanation=question_data["aws_ai_explanation"],
-            difficulty=question_data["difficulty"],
-            exam_domain=question_data["exam_domain"],
+            course_id=shuffled["course_id"],
+            text=shuffled["text"],
+            choice_1=shuffled["choice_1"],
+            choice_2=shuffled["choice_2"],
+            choice_3=shuffled["choice_3"],
+            choice_4=shuffled["choice_4"],
+            correct_choice_index=shuffled["correct_choice_index"],
+            ehime_trivia=shuffled["ehime_trivia"],
+            aws_ai_explanation=shuffled["aws_ai_explanation"],
+            difficulty=shuffled["difficulty"],
+            exam_domain=shuffled["exam_domain"],
         )
         db_session.add(question)
 
