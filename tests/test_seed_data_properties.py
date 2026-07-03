@@ -15,9 +15,9 @@ from hypothesis.strategies import sampled_from
 
 from app.data.seed_data import QUESTIONS
 from app.data.seed_data_extra import EXTRA_QUESTIONS
-from app.data.seed_data_extra2 import EXTRA_QUESTIONS_3
+from app.data.seed_data_extra2 import EXTRA_QUESTIONS_2
 
-ALL_QUESTIONS = QUESTIONS + EXTRA_QUESTIONS + EXTRA_QUESTIONS_3
+ALL_QUESTIONS = QUESTIONS + EXTRA_QUESTIONS + EXTRA_QUESTIONS_2
 
 
 # =============================================================================
