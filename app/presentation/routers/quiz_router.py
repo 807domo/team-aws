@@ -36,6 +36,30 @@ def _shuffle_questions(questions: list[Question], session_id: str) -> list[Quest
     return shuffled
 
 
+def _shuffle_choices(question: Question, session_id: str) -> tuple[list[str], int]:
+    """選択肢をシャッフルし、新しい正解インデックスを返す。
+
+    セッションIDと問題IDをシードにして決定的にシャッフルする。
+    """
+    choices = [
+        (0, question.choice_1),
+        (1, question.choice_2),
+        (2, question.choice_3),
+        (3, question.choice_4),
+    ]
+    seed_str = f"{session_id}_{question.id}"
+    seed = int(hashlib.md5(seed_str.encode()).hexdigest(), 16) % (2**32)
+    random.Random(seed).shuffle(choices)
+
+    shuffled_texts = [c[1] for c in choices]
+    # 元のcorrect_choice_indexが新しい位置のどこにあるか
+    new_correct_index = next(
+        i for i, (orig_idx, _) in enumerate(choices)
+        if orig_idx == question.correct_choice_index
+    )
+    return shuffled_texts, new_correct_index
+
+
 @router.post("/start/{course_id}", response_class=HTMLResponse)
 async def start_quiz(
     course_id: str,
@@ -112,12 +136,7 @@ async def show_question(
         )
 
     question = questions[index]
-    choices = [
-        question.choice_1,
-        question.choice_2,
-        question.choice_3,
-        question.choice_4,
-    ]
+    choices, correct_index = _shuffle_choices(question, session_id)
 
     return templates.TemplateResponse(
         request,
@@ -126,6 +145,7 @@ async def show_question(
             "session_id": session_id,
             "question": question,
             "choices": choices,
+            "correct_index": correct_index,
             "question_index": index,
             "total_questions": len(questions),
             "progress_percent": int((index / len(questions)) * 100),
@@ -160,16 +180,31 @@ async def submit_answer(
     if question is None:
         raise HTTPException(status_code=404, detail="問題が見つかりません")
 
-    # 正誤判定（選択肢とcorrect_choice_indexの比較は常に可能）
-    is_correct = choice_index == question.correct_choice_index
+    # シャッフル後の正解インデックスを再計算
+    _, shuffled_correct_index = _shuffle_choices(question, session_id)
+
+    # 正誤判定（シャッフル後のインデックスで比較）
+    is_correct = choice_index == shuffled_correct_index
     save_failed = False
 
+    # DBへの記録は元のcorrect_choice_indexベースで行う
+    # choice_indexをシャッフル前の元インデックスに変換
+    choices_map = [
+        (0, question.choice_1),
+        (1, question.choice_2),
+        (2, question.choice_3),
+        (3, question.choice_4),
+    ]
+    seed_str = f"{session_id}_{question.id}"
+    seed = int(hashlib.md5(seed_str.encode()).hexdigest(), 16) % (2**32)
+    random.Random(seed).shuffle(choices_map)
+    original_choice_index = choices_map[choice_index][0]
+
     try:
-        result = quiz_service.submit_answer(session_id, question_id, choice_index)
+        result = quiz_service.submit_answer(session_id, question_id, original_choice_index)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        # 成績記録保存失敗: 正誤フィードバックは表示し、保存失敗を通知する
         logger.error("成績記録保存失敗: %s", str(e))
         save_failed = True
 
@@ -178,13 +213,11 @@ async def submit_answer(
     if session is None:
         raise HTTPException(status_code=404, detail="セッションが見つかりません")
 
-    # 保存失敗時: エラーメッセージ付きでリトライオプションを含む解説画面へ遷移
-    # 正誤フィードバックは必ず表示する（Requirement 2.3: 技術的問題に関係なく常に表示）
     redirect_url = (
         f"/quiz/{session_id}/explanation/{question_id}"
         f"?is_correct={is_correct}"
         f"&selected={choice_index}"
-        f"&correct={question.correct_choice_index}"
+        f"&correct={shuffled_correct_index}"
         f"&question_index={question_index}"
     )
 
@@ -239,12 +272,7 @@ async def show_explanation(
     next_index = question_index + 1
     is_last_question = next_index >= total_questions
 
-    choices = [
-        question.choice_1,
-        question.choice_2,
-        question.choice_3,
-        question.choice_4,
-    ]
+    choices, _ = _shuffle_choices(question, session_id)
 
     return templates.TemplateResponse(
         request,
