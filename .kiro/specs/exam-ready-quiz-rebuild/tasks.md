@@ -7,14 +7,14 @@
 ## Tasks
 
 - [x] 1. コース定義の確認とseed_data_extra2.py新規作成
-  - [x] 1.1 `app/data/seed_data_extra2.py` を新規作成し、空の `EXTRA_QUESTIONS_3` リストを定義する
-    - ファイルを作成し `EXTRA_QUESTIONS_3: list[dict] = []` を定義
+  - [x] 1.1 `app/data/seed_data_extra2.py` を新規作成し、空の `EXTRA_QUESTIONS_2` リストを定義する
+    - ファイルを作成し `EXTRA_QUESTIONS_2: list[dict] = []` を定義
     - docstringでファイルの役割（AIF-C01後半問題格納）を説明
     - _Requirements: 8.4, 8.5_
 
-  - [x] 1.2 `app/data/seed_data.py` の `seed_database()` 関数を更新し、`EXTRA_QUESTIONS_3` をインポートして全問題を統合投入するように修正する
-    - `from app.data.seed_data_extra2 import EXTRA_QUESTIONS_3` を追加
-    - `all_questions = QUESTIONS + EXTRA_QUESTIONS + EXTRA_QUESTIONS_3` として投入
+  - [x] 1.2 `app/data/seed_data.py` の `seed_database()` 関数を更新し、`EXTRA_QUESTIONS_2` をインポートして全問題を統合投入するように修正する
+    - `from app.data.seed_data_extra2 import EXTRA_QUESTIONS_2` を追加
+    - `all_questions = QUESTIONS + EXTRA_QUESTIONS + EXTRA_QUESTIONS_2` として投入
     - 既存の `EXTRA_QUESTIONS_2` インポートを削除
     - _Requirements: 8.4, 8.5, 2.5_
 
@@ -55,7 +55,7 @@
   - Ensure all tests pass, ask the user if questions arise.
 
 - [x] 5. AIF-C01問題データの作成
-  - [x] 5.1 `app/data/seed_data_extra2.py` のEXTRA_QUESTIONS_3リストにAIF-C01問題（南予 基礎: 約43問）を作成する
+  - [x] 5.1 `app/data/seed_data_extra2.py` のEXTRA_QUESTIONS_2リストにAIF-C01問題（南予 基礎: 約43問）を作成する
     - AI and ML Fundamentals: 9問、Generative AI Concepts: 10問、Applications of Foundation Models: 12問、Guidelines for Responsible AI: 6問、Security Compliance and Governance: 6問
     - ID形式: `nanyo-ai-001`, `nanyo-ga-001`, `nanyo-fm-001`, `nanyo-ra-001`, `nanyo-sg-001`
     - course_id: `nanyo-stage-01` 〜 `nanyo-stage-10` に分配（CLF問題と合わせて各コース10〜12問になるよう調整）
@@ -63,7 +63,7 @@
     - 南予地域の地名を使用
     - _Requirements: 1.1, 1.2, 1.6, 1.7, 2.1, 2.2, 2.3, 3.1, 3.2, 3.3, 5.1, 5.2, 5.3, 5.4, 5.5, 7.1_
 
-  - [x] 5.2 `app/data/seed_data_extra2.py` のEXTRA_QUESTIONS_3リストにAIF-C01問題（中予 中級: 約42問）を追加する
+  - [x] 5.2 `app/data/seed_data_extra2.py` のEXTRA_QUESTIONS_2リストにAIF-C01問題（中予 中級: 約42問）を追加する
     - AI and ML Fundamentals: 8問、Generative AI Concepts: 10問、Applications of Foundation Models: 12問、Guidelines for Responsible AI: 6問、Security Compliance and Governance: 6問
     - ID形式: `chuyo-ai-001`, `chuyo-ga-001` 等
     - course_id: `chuyo-stage-01` 〜 `chuyo-stage-08` に分配
@@ -71,7 +71,7 @@
     - 中予地域の地名を使用
     - _Requirements: 1.1, 1.3, 1.6, 1.7, 2.1, 2.2, 2.3, 3.1, 3.2, 3.4, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 7.2_
 
-  - [x] 5.3 `app/data/seed_data_extra2.py` のEXTRA_QUESTIONS_3リストにAIF-C01問題（東予 上級: 約41問）を追加する
+  - [x] 5.3 `app/data/seed_data_extra2.py` のEXTRA_QUESTIONS_2リストにAIF-C01問題（東予 上級: 約41問）を追加する
     - AI and ML Fundamentals: 8問、Generative AI Concepts: 10問、Applications of Foundation Models: 11問、Guidelines for Responsible AI: 6問、Security Compliance and Governance: 6問
     - ID形式: `toyo-ai-001`, `toyo-ga-001` 等
     - course_id: `toyo-stage-01` 〜 `toyo-stage-10` に分配
