@@ -7,3 +7,4 @@ python-dotenv>=1.0
 boto3>=1.43
 google-genai>=1.0
 gunicorn>=22.0
+mangum>=0.19
