@@ -15,7 +15,7 @@ from sqlalchemy.orm import Session
 
 from app.data.database import get_db
 from app.data.models import AnswerRecordModel
-from app.data.question_repository import QuestionRepository
+from app.data.repository_factory import get_question_repository
 from app.domain.models import Question
 from app.presentation.dependencies import get_current_user_id
 
@@ -78,7 +78,7 @@ async def start_custom_stage(
     selected = random.sample(candidates, count)
 
     # Questionオブジェクトに変換
-    question_repo = QuestionRepository(db)
+    question_repo = get_question_repository(db)
     questions = []
     for q_data in selected:
         q = question_repo.get_question_by_id(q_data["id"])

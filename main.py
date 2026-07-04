@@ -229,3 +229,14 @@ app.include_router(study_router)
 from app.presentation.routers.review_router import router as review_router
 
 app.include_router(review_router)
+
+
+# =============================================================================
+# Lambda handler (Mangum adapter)
+# =============================================================================
+
+try:
+    from mangum import Mangum
+    handler = Mangum(app)
+except ImportError:
+    handler = None  # Local development without mangum
