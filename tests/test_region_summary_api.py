@@ -130,21 +130,21 @@ class TestRegionSummaryNormal:
         assert "region_name" in data
         assert "total_count" in data
         assert "completed_count" in data
-        assert data["region_name"] == "中予"
+        assert data["region_name"] == "中級"
 
     def test_region_summary_nanyo(self, client: TestClient):
         """GET /api/region-summary/NANYO が200を返す"""
         response = client.get("/api/region-summary/NANYO")
         assert response.status_code == 200
         data = response.json()
-        assert data["region_name"] == "南予"
+        assert data["region_name"] == "初級"
 
     def test_region_summary_toyo(self, client: TestClient):
         """GET /api/region-summary/TOYO が200を返す"""
         response = client.get("/api/region-summary/TOYO")
         assert response.status_code == 200
         data = response.json()
-        assert data["region_name"] == "東予"
+        assert data["region_name"] == "上級"
 
 
 # =============================================================================
@@ -156,12 +156,12 @@ class TestRegionSummaryInvalid:
     """GET /api/region-summary/{region} 異常系テスト"""
 
     def test_region_summary_invalid_falls_back(self, client: TestClient):
-        """GET /api/region-summary/INVALID が200を返し、CHUYOデータにフォールバックする"""
+        """GET /api/region-summary/INVALID が200を返し、NANYOデータにフォールバックする"""
         response = client.get("/api/region-summary/INVALID")
         assert response.status_code == 200
         data = response.json()
-        # 不正パラメータの場合はCHUYO（中予）にフォールバック
-        assert data["region_name"] == "中予"
+        # 不正パラメータの場合はNANYO（初級）にフォールバック
+        assert data["region_name"] == "初級"
         assert "total_count" in data
         assert "completed_count" in data
 

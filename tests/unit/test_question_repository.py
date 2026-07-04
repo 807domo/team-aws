@@ -26,7 +26,7 @@ def db_session():
     course = CourseModel(
         id="course-chuyo-basic",
         name="松山城コース（基礎）",
-        region="中予",
+        region="中級",
         difficulty="基礎",
         description="中予地域の基礎コース",
     )

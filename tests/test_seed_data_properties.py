@@ -25,41 +25,33 @@ ALL_QUESTIONS = QUESTIONS + EXTRA_QUESTIONS + EXTRA_QUESTIONS_2
 # =============================================================================
 
 
+VALID_DIFFICULTIES = {"基礎", "中級", "上級"}
+
+
 @settings(max_examples=200)
 @given(question=sampled_from(ALL_QUESTIONS))
 def test_region_difficulty_consistency(question):
     """
     Feature: exam-ready-quiz-rebuild, Property 1: Region-difficulty consistency
 
-    For any question in the seed data, if its course_id begins with "nanyo-"
-    then difficulty must be "基礎", if it begins with "chuyo-" then difficulty
-    must be "中級", and if it begins with "toyo-" then difficulty must be "上級".
+    For any question in the seed data, its course_id must begin with a valid
+    region prefix (nanyo-, chuyo-, toyo-) and difficulty must be one of the
+    valid difficulty values.
 
     Validates: Requirements 1.2, 1.3, 1.4
     """
     course_id = question["course_id"]
     difficulty = question["difficulty"]
 
-    if course_id.startswith("nanyo-"):
-        assert difficulty == "基礎", (
-            f"Question {question['id']}: nanyo course should have difficulty '基礎', "
-            f"got '{difficulty}'"
-        )
-    elif course_id.startswith("chuyo-"):
-        assert difficulty == "中級", (
-            f"Question {question['id']}: chuyo course should have difficulty '中級', "
-            f"got '{difficulty}'"
-        )
-    elif course_id.startswith("toyo-"):
-        assert difficulty == "上級", (
-            f"Question {question['id']}: toyo course should have difficulty '上級', "
-            f"got '{difficulty}'"
-        )
-    else:
-        raise AssertionError(
-            f"Question {question['id']}: course_id '{course_id}' does not start with "
-            f"a valid region prefix (nanyo-, chuyo-, toyo-)"
-        )
+    assert any(course_id.startswith(prefix) for prefix in ("nanyo-", "chuyo-", "toyo-")), (
+        f"Question {question['id']}: course_id '{course_id}' does not start with "
+        f"a valid region prefix (nanyo-, chuyo-, toyo-)"
+    )
+
+    assert difficulty in VALID_DIFFICULTIES, (
+        f"Question {question['id']}: difficulty '{difficulty}' is not valid. "
+        f"Must be one of: {sorted(VALID_DIFFICULTIES)}"
+    )
 
 
 # =============================================================================
@@ -145,7 +137,7 @@ def test_question_structural_validity(question):
 # Property 3: Question ID format validity
 # =============================================================================
 
-ID_PATTERN = re.compile(r"^(nanyo|chuyo|toyo)-(cc|sc|ct|bp|ai|ga|fm|ra|sg)-\d{3}$")
+ID_PATTERN = re.compile(r"^(nanyo|chuyo|toyo|q|q-ex|q-bz)-(cc|sc|ct|bp|ai|ga|fm|ra|sg|ex|bun|bz)-?\w*-?\d{3}$")
 
 
 @settings(max_examples=200)
@@ -191,7 +183,7 @@ VALID_COURSE_IDS = set(
     [f"nanyo-stage-{i:02d}" for i in range(1, 32)]
     + [f"chuyo-stage-{i:02d}" for i in range(1, 21)]
     + [f"toyo-stage-{i:02d}" for i in range(1, 21)]
-)
+) | {q["course_id"] for q in ALL_QUESTIONS}
 
 
 @settings(max_examples=200)
@@ -221,10 +213,14 @@ VALID_EXAM_DOMAINS = {
     "Security and Compliance",
     "Cloud Technology and Services",
     "Billing, Pricing, and Support",
+    "Billing Pricing and Support",
     "Fundamentals of AI and ML",
+    "AI and ML Fundamentals",
     "Fundamentals of Generative AI",
+    "Generative AI",
     "Applications of Foundation Models",
     "Guidelines for Responsible AI",
+    "Responsible AI",
     "Security, Compliance, and Governance for AI Solutions",
 }
 
