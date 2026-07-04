@@ -19,7 +19,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     # ============================================================
     {
         "id": "nanyo-ai-001",
-        "course_id": "nanyo-stage-23",
+        "course_id": "nanyo-stage-15",
         "text": "宇和島城の来城者数を過去データから予測したい場合、最も適切な機械学習のタイプはどれですか？",
         "choice_1": "教師あり学習（回帰）",
         "choice_2": "教師なし学習（クラスタリング）",
@@ -33,7 +33,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-ai-002",
-        "course_id": "nanyo-stage-23",
+        "course_id": "nanyo-stage-17",
         "text": "八幡浜港で水揚げされる魚を画像から自動で種類分けするシステムを構築する場合、使用するMLタスクはどれですか？",
         "choice_1": "回帰分析",
         "choice_2": "画像分類（教師あり学習）",
@@ -47,7 +47,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-ai-003",
-        "course_id": "nanyo-stage-23",
+        "course_id": "nanyo-stage-16",
         "text": "内子町並みの観光客を行動パターンで自動グループ分けしたい場合、最も適切な手法はどれですか？",
         "choice_1": "教師あり学習の分類",
         "choice_2": "教師なし学習のクラスタリング",
@@ -61,7 +61,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-ai-004",
-        "course_id": "nanyo-stage-23",
+        "course_id": "nanyo-stage-15",
         "text": "四国カルストの牧場でAIが最適な放牧ルートを試行錯誤しながら学習する方式はどれですか？",
         "choice_1": "教師あり学習",
         "choice_2": "教師なし学習",
@@ -75,7 +75,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-ai-005",
-        "course_id": "nanyo-stage-23",
+        "course_id": "nanyo-stage-16",
         "text": "佐田岬の風力発電データでMLモデルを訓練する際、データを訓練用とテスト用に分ける主な目的はどれですか？",
         "choice_1": "訓練時間を短縮するため",
         "choice_2": "モデルの汎化性能を評価するため",
@@ -117,7 +117,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-ai-008",
-        "course_id": "nanyo-stage-24",
+        "course_id": "nanyo-stage-15",
         "text": "滑床渓谷の水質センサーデータにおいて、モデル入力に使う「水温」「pH」「濁度」などの値を何と呼びますか？",
         "choice_1": "ハイパーパラメータ",
         "choice_2": "特徴量（Feature）",
@@ -131,7 +131,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-ai-009",
-        "course_id": "nanyo-stage-24",
+        "course_id": "nanyo-stage-15",
         "text": "愛南町のサンゴ観測でニューラルネットワークの基本構成要素として正しいものはどれですか？",
         "choice_1": "入力層・隠れ層・出力層",
         "choice_2": "CPU・メモリ・ディスク",
@@ -148,7 +148,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     # ============================================================
     {
         "id": "nanyo-ga-001",
-        "course_id": "nanyo-stage-24",
+        "course_id": "chuyo-stage-13",
         "text": "宇和島城の歴史ガイド文を自動生成するAIを構築したい場合、基盤となるモデルの種類として最も適切なものはどれですか？",
         "choice_1": "大規模言語モデル（LLM）",
         "choice_2": "線形回帰モデル",
@@ -218,7 +218,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-ga-006",
-        "course_id": "nanyo-stage-25",
+        "course_id": "chuyo-stage-15",
         "text": "内子町の伝統工芸品を紹介するAIで、Transformerアーキテクチャの中核メカニズムはどれですか？",
         "choice_1": "畳み込み（Convolution）",
         "choice_2": "自己注意機構（Self-Attention）",
@@ -232,7 +232,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-ga-007",
-        "course_id": "nanyo-stage-26",
+        "course_id": "chuyo-stage-13",
         "text": "滑床渓谷の自然解説を生成AIに書かせる際、出力トークン数の上限を設定する目的として正しいものはどれですか？",
         "choice_1": "モデルの精度を向上させるため",
         "choice_2": "応答の長さとコストを制御するため",
@@ -246,7 +246,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-ga-008",
-        "course_id": "nanyo-stage-26",
+        "course_id": "chuyo-stage-15",
         "text": "愛南町の真珠養殖についてLLMに質問する際、より良い回答を得るためのプロンプト手法「Few-shot」の説明はどれですか？",
         "choice_1": "モデルを再学習させること",
         "choice_2": "質問とともに数個の回答例を提示すること",
@@ -260,7 +260,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-ga-009",
-        "course_id": "nanyo-stage-26",
+        "course_id": "chuyo-stage-15",
         "text": "四国カルストの観光パンフレットをAIで多言語化する際、基盤モデルの事前学習で使われる手法はどれですか？",
         "choice_1": "大量のテキストデータで次の単語を予測する自己教師あり学習",
         "choice_2": "少量のラベル付きデータによる教師あり学習",
@@ -319,7 +319,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-fm-003",
-        "course_id": "nanyo-stage-27",
+        "course_id": "toyo-stage-16",
         "text": "内子町の文化財情報をベクトルデータベースに格納する際、テキストをベクトルに変換する処理を何と呼びますか？",
         "choice_1": "トークン化",
         "choice_2": "エンベディング（埋め込み）",
@@ -333,7 +333,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-fm-004",
-        "course_id": "nanyo-stage-27",
+        "course_id": "toyo-stage-16",
         "text": "佐田岬半島の風況データをもとにAIエージェントが自律的にレポートを生成する仕組みで、エージェントの特徴はどれですか？",
         "choice_1": "人間の指示なしに勝手に学習を続ける",
         "choice_2": "外部ツールやAPIを呼び出してタスクを実行できる",
@@ -375,7 +375,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-fm-007",
-        "course_id": "nanyo-stage-28",
+        "course_id": "toyo-stage-15",
         "text": "卯之町の歴史資料をRAGシステムで活用する際、Knowledge Baseの役割として正しいものはどれですか？",
         "choice_1": "LLMのパラメータを更新する",
         "choice_2": "外部データソースを検索可能な形で管理し、LLMに情報を提供する",
@@ -403,7 +403,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-fm-009",
-        "course_id": "nanyo-stage-28",
+        "course_id": "toyo-stage-17",
         "text": "愛南町のサンゴ調査レポートを自動生成するシステムで、Amazon Bedrockのプレイグラウンドの用途はどれですか？",
         "choice_1": "本番環境でのモデルデプロイ",
         "choice_2": "モデルの応答をテスト・比較するための実験環境",
@@ -417,7 +417,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-fm-010",
-        "course_id": "nanyo-stage-28",
+        "course_id": "toyo-stage-15",
         "text": "西予ジオパークのガイドAIが「地層の年代」に関する質問に正確に答えるため、RAGシステムで最も重要な要素はどれですか？",
         "choice_1": "モデルのパラメータ数を最大にすること",
         "choice_2": "関連性の高いドキュメントを正確に検索するリトリーバーの品質",
@@ -431,7 +431,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-fm-011",
-        "course_id": "nanyo-stage-28",
+        "course_id": "toyo-stage-16",
         "text": "宇和島市の真珠品質検査AIで、Amazon Titan Imageモデルを使用する場面として最も適切なものはどれですか？",
         "choice_1": "テキストから真珠の画像を生成する",
         "choice_2": "音声データを文字起こしする",
@@ -445,7 +445,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-fm-012",
-        "course_id": "nanyo-stage-29",
+        "course_id": "toyo-stage-17",
         "text": "大洲市の観光チャットボットで、ユーザーとの会話履歴を保持して文脈に沿った回答を生成する仕組みを何と呼びますか？",
         "choice_1": "バッチ処理",
         "choice_2": "コンバセーションメモリ（会話メモリ）",
@@ -462,7 +462,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     # ============================================================
     {
         "id": "nanyo-ra-001",
-        "course_id": "nanyo-stage-29",
+        "course_id": "chuyo-stage-16",
         "text": "宇和島市の行政AIが特定年齢層のサービス申請を不当に拒否している場合、これはAIのどの問題に該当しますか？",
         "choice_1": "レイテンシーの問題",
         "choice_2": "バイアス（偏見）の問題",
@@ -476,7 +476,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-ra-002",
-        "course_id": "nanyo-stage-29",
+        "course_id": "nanyo-stage-18",
         "text": "四国カルストの生態系監視AIの判断理由を人間が理解できるようにすることを何と呼びますか？",
         "choice_1": "スケーラビリティ",
         "choice_2": "説明可能性（Explainability）",
@@ -504,7 +504,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-ra-004",
-        "course_id": "nanyo-stage-29",
+        "course_id": "nanyo-stage-18",
         "text": "滑床渓谷の入山者管理AIシステムにおいて、「人間による監視（Human Oversight）」が重要な理由はどれですか？",
         "choice_1": "AIの計算コストを削減するため",
         "choice_2": "AIの判断に誤りがあった場合に人間が介入・修正できるようにするため",
@@ -518,7 +518,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-ra-005",
-        "course_id": "nanyo-stage-30",
+        "course_id": "nanyo-stage-19",
         "text": "愛南町の漁獲量予測AIで、モデルの判断過程が不透明な「ブラックボックス」問題を軽減するアプローチはどれですか？",
         "choice_1": "モデルのパラメータ数を増やす",
         "choice_2": "特徴量重要度やSHAP値を可視化して説明する",
@@ -532,7 +532,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-ra-006",
-        "course_id": "nanyo-stage-30",
+        "course_id": "nanyo-stage-19",
         "text": "西予市の災害予測AIにおいて、AIの倫理的利用で最も重要な原則はどれですか？",
         "choice_1": "処理速度を最優先にする",
         "choice_2": "公平性・透明性・説明可能性を確保する",
@@ -549,7 +549,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     # ============================================================
     {
         "id": "nanyo-sg-001",
-        "course_id": "nanyo-stage-30",
+        "course_id": "chuyo-stage-17",
         "text": "八幡浜港の漁獲データをML学習に使用する際、個人情報を保護するために最初に行うべき対策はどれですか？",
         "choice_1": "データを全て公開する",
         "choice_2": "個人を特定できる情報の匿名化・マスキング",
@@ -563,7 +563,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-sg-002",
-        "course_id": "nanyo-stage-30",
+        "course_id": "toyo-stage-18",
         "text": "佐田岬の風力発電AIシステムで、モデルへのアクセスを特定のユーザーのみに制限する方法はどれですか？",
         "choice_1": "モデルのパラメータ数を減らす",
         "choice_2": "IAMポリシーでアクセス制御を設定する",
@@ -577,7 +577,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-sg-003",
-        "course_id": "nanyo-stage-31",
+        "course_id": "toyo-stage-18",
         "text": "内子町の文化財デジタルアーカイブAIで、学習データの保存時に適用すべきセキュリティ対策はどれですか？",
         "choice_1": "データを圧縮するだけ",
         "choice_2": "保存時の暗号化（Encryption at Rest）",
@@ -605,7 +605,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-sg-005",
-        "course_id": "nanyo-stage-31",
+        "course_id": "toyo-stage-19",
         "text": "大洲城の来場者分析AIで、EUからの観光客データを扱う際に準拠すべき規制はどれですか？",
         "choice_1": "PCI DSS",
         "choice_2": "GDPR（一般データ保護規則）",
@@ -619,7 +619,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "nanyo-sg-006",
-        "course_id": "nanyo-stage-31",
+        "course_id": "toyo-stage-19",
         "text": "西予ジオパークのAIガイドシステムで、AIガバナンスフレームワークの主な目的はどれですか？",
         "choice_1": "AIの処理速度を最大化する",
         "choice_2": "AIの開発・運用における方針・手順・責任を組織的に管理する",
@@ -666,7 +666,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "chuyo-ai-003",
-        "course_id": "chuyo-stage-12",
+        "course_id": "nanyo-stage-17",
         "text": "石鎚山の登山者安全管理システムで、気象センサーデータから「危険」「注意」「安全」の3段階を判定したい。モデル評価指標として最も重要なものはどれですか？",
         "choice_1": "平均二乗誤差（MSE）",
         "choice_2": "再現率（Recall）を重視したF1スコア",
@@ -694,7 +694,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "chuyo-ai-005",
-        "course_id": "chuyo-stage-12",
+        "course_id": "nanyo-stage-16",
         "text": "坊っちゃん列車の運行データ分析で、特徴量間の相関が非常に高い場合に発生する問題と対策の組み合わせとして正しいものはどれですか？",
         "choice_1": "アンダーフィッティング → データ量を増やす",
         "choice_2": "多重共線性 → 主成分分析（PCA）や相関の高い特徴量の除去",
@@ -708,7 +708,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "chuyo-ai-006",
-        "course_id": "chuyo-stage-13",
+        "course_id": "nanyo-stage-17",
         "text": "伊予鉄道の乗客数予測モデルをSageMakerで構築する際、ハイパーパラメータチューニングの自動化に使用する機能はどれですか？",
         "choice_1": "SageMaker Data Wrangler",
         "choice_2": "SageMaker Automatic Model Tuning（Hyperparameter Optimization）",
@@ -809,7 +809,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "chuyo-ga-005",
-        "course_id": "chuyo-stage-14",
+        "course_id": "chuyo-stage-15",
         "text": "東温市の農業支援AIで、基盤モデルの推論パラメータTop-pとTop-kの組み合わせの効果として正しいものはどれですか？",
         "choice_1": "モデルの学習速度を制御する",
         "choice_2": "出力トークンの選択範囲を確率分布に基づいて制限し、生成テキストの品質と多様性のバランスを調整する",
@@ -837,7 +837,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "chuyo-ga-007",
-        "course_id": "chuyo-stage-14",
+        "course_id": "chuyo-stage-13",
         "text": "久万高原の林業データを要約するLLMアプリケーションで、出力品質を評価する指標としてROUGEスコアを使用する場面はどれですか？",
         "choice_1": "画像生成の品質評価",
         "choice_2": "生成されたテキスト要約と参照テキストの類似度評価",
@@ -851,7 +851,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "chuyo-ga-008",
-        "course_id": "chuyo-stage-15",
+        "course_id": "chuyo-stage-13",
         "text": "道後温泉の宿泊施設レビューを分析するLLMで、Transformerのマルチヘッドアテンションが単一アテンションより優れている理由はどれですか？",
         "choice_1": "計算量が半分になる",
         "choice_2": "異なる位置や意味的関係を同時に複数の視点から捉えることができる",
@@ -879,7 +879,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "chuyo-ga-010",
-        "course_id": "chuyo-stage-15",
+        "course_id": "chuyo-stage-13",
         "text": "松山城のバーチャルガイドで、LLMの応答を特定の形式（JSON）に制約する手法として最も適切なものはどれですか？",
         "choice_1": "モデルのパラメータを手動で書き換える",
         "choice_2": "プロンプトで出力形式を指定し、出力パーサーやガードレールで形式を強制する",
@@ -896,7 +896,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     # ============================================================
     {
         "id": "chuyo-fm-001",
-        "course_id": "chuyo-stage-15",
+        "course_id": "toyo-stage-16",
         "text": "松山城の観光情報システムをAmazon Bedrockで構築する際、Knowledge Baseを使ったRAGアーキテクチャで最初に行うべき設定はどれですか？",
         "choice_1": "LLMのファインチューニングを実行する",
         "choice_2": "S3にドキュメントを格納し、データソースとして登録してベクトルインデックスを作成する",
@@ -966,7 +966,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "chuyo-fm-006",
-        "course_id": "chuyo-stage-16",
+        "course_id": "toyo-stage-15",
         "text": "伊予鉄道の問い合わせ対応AIで、RAGのチャンク戦略を決定する際に考慮すべき要素として最も重要なものはどれですか？",
         "choice_1": "ファイルの拡張子",
         "choice_2": "チャンクサイズとオーバーラップの設定（文脈の保持と検索精度のバランス）",
@@ -994,7 +994,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "chuyo-fm-008",
-        "course_id": "chuyo-stage-17",
+        "course_id": "toyo-stage-17",
         "text": "久万高原の観光施設で、Amazon Bedrockのガードレール機能を設定する主な目的はどれですか？",
         "choice_1": "モデルの学習速度を向上させる",
         "choice_2": "不適切なコンテンツの生成を防止し、トピックの制限やPII検出などの安全対策を実装する",
@@ -1022,7 +1022,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "chuyo-fm-010",
-        "course_id": "chuyo-stage-17",
+        "course_id": "toyo-stage-15",
         "text": "松山空港の搭乗案内ボットで、Amazon Bedrock Agentsのセッション管理を使って会話コンテキストを維持する利点はどれですか？",
         "choice_1": "毎回モデルを再学習できる",
         "choice_2": "ユーザーの前回の発話内容を踏まえた一貫性のある対話が可能になる",
@@ -1050,7 +1050,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "chuyo-fm-012",
-        "course_id": "chuyo-stage-17",
+        "course_id": "toyo-stage-17",
         "text": "伊予市の水産加工会社で、製品ラベルの自動生成にAmazon Bedrockを活用する場合、モデルの出力を特定のブランドガイドラインに準拠させる最適な方法はどれですか？",
         "choice_1": "モデルを毎回ゼロから学習させる",
         "choice_2": "システムプロンプトにブランドガイドラインを詳細に記述し、Few-shot例でスタイルを示す",
@@ -1067,7 +1067,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     # ============================================================
     {
         "id": "chuyo-ra-001",
-        "course_id": "chuyo-stage-18",
+        "course_id": "nanyo-stage-18",
         "text": "松山城の入場者顔認証システムで、特定の民族グループの認識精度が低いことが判明した。この問題の根本原因と対策として最も適切なものはどれですか？",
         "choice_1": "カメラの解像度を上げる",
         "choice_2": "学習データにおける民族的多様性の不足を解消し、代表的なサンプルでデータセットを拡充する",
@@ -1095,7 +1095,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "chuyo-ra-003",
-        "course_id": "chuyo-stage-18",
+        "course_id": "nanyo-stage-19",
         "text": "砥部焼の販売価格をAIで決定するシステムで、価格決定の根拠をユーザーに説明する際に使用すべきアプローチはどれですか？",
         "choice_1": "「AIが決定した」とだけ伝える",
         "choice_2": "SHAP値や特徴量重要度を可視化し、どの要因が価格に影響したかを透明に説明する",
@@ -1109,7 +1109,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "chuyo-ra-004",
-        "course_id": "chuyo-stage-18",
+        "course_id": "nanyo-stage-19",
         "text": "伊予鉄道の運賃最適化AIで、低所得地域の利用者に不利な料金設定をしていないか検証するためにSageMaker Clarifyで測定すべき指標はどれですか？",
         "choice_1": "モデルの推論レイテンシー",
         "choice_2": "Demographic Parity（統計的均等性）やDisparate Impact（格差影響）などの公平性指標",
@@ -1137,7 +1137,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "chuyo-ra-006",
-        "course_id": "chuyo-stage-19",
+        "course_id": "chuyo-stage-16",
         "text": "面河渓の生態系保護AIで、モデルの判断に対する「透明性」を確保するために組織が実施すべき取り組みとして最も適切なものはどれですか？",
         "choice_1": "モデルのソースコードを全て公開する",
         "choice_2": "モデルカード（Model Card）を作成し、モデルの目的・限界・評価結果・適切な使用範囲を文書化する",
@@ -1154,7 +1154,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     # ============================================================
     {
         "id": "chuyo-sg-001",
-        "course_id": "chuyo-stage-19",
+        "course_id": "toyo-stage-19",
         "text": "松山城の来場者データをMLモデルの学習に使用する際、個人情報保護法に準拠するためにデータパイプラインで実装すべき対策として最も包括的なものはどれですか？",
         "choice_1": "データをバックアップするだけ",
         "choice_2": "収集時の同意取得、保存時の暗号化、利用目的の制限、不要データの定期削除を一貫して実装する",
@@ -1168,7 +1168,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "chuyo-sg-002",
-        "course_id": "chuyo-stage-19",
+        "course_id": "toyo-stage-18",
         "text": "道後温泉の予約システムAIで、Amazon Bedrockのモデル呼び出しログを監査証跡として保持する場合に使用するAWSサービスの組み合わせはどれですか？",
         "choice_1": "Amazon S3 と Amazon EC2",
         "choice_2": "AWS CloudTrail と Amazon CloudWatch Logs",
@@ -1182,7 +1182,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "chuyo-sg-003",
-        "course_id": "chuyo-stage-20",
+        "course_id": "chuyo-stage-17",
         "text": "石鎚山の登山者向けAIサービスで、SageMakerエンドポイントへのアクセスをVPC内に限定する場合に使用する仕組みはどれですか？",
         "choice_1": "パブリックサブネットにデプロイする",
         "choice_2": "VPCエンドポイント（PrivateLink）を使用してプライベートネットワーク内でアクセスする",
@@ -1196,7 +1196,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "chuyo-sg-004",
-        "course_id": "chuyo-stage-20",
+        "course_id": "toyo-stage-18",
         "text": "東温市の医療AIで患者データを学習に使用する際、データの匿名化が不十分な場合に発生するリスクと、AWSで利用可能な検出ツールの組み合わせとして正しいものはどれですか？",
         "choice_1": "モデル精度の低下 → SageMaker Debugger",
         "choice_2": "個人情報の漏洩リスク → Amazon Macie によるPII自動検出",
@@ -1244,7 +1244,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
 
     {
         "id": "toyo-ai-001",
-        "course_id": "toyo-stage-12",
+        "course_id": "nanyo-stage-17",
         "text": "しまなみ海道の交通量予測システムを構築する際、時系列データの季節性・トレンド・外部要因（天候・イベント）を統合的に扱えるMLアーキテクチャとして最も適切なものはどれですか？",
         "choice_1": "単純な線形回帰モデルで全変数を一括処理する",
         "choice_2": "LSTMやTransformerベースの時系列モデルに外部特徴量をエンコードして入力する多変量アプローチ",
@@ -1286,7 +1286,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-ai-004",
-        "course_id": "toyo-stage-12",
+        "course_id": "nanyo-stage-15",
         "text": "別子銅山跡の構造物劣化予測AIにおいて、特徴量エンジニアリングで交互作用特徴量・多項式特徴量・ドメイン知識に基づく特徴量を組み合わせる際の注意点として最も適切なものはどれですか？",
         "choice_1": "特徴量は多ければ多いほど常にモデル性能が向上する",
         "choice_2": "次元の呪いを避けるため、特徴量選択や正則化を併用し、過学習リスクと説明可能性のバランスを取る必要がある",
@@ -1314,7 +1314,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-ai-006",
-        "course_id": "toyo-stage-13",
+        "course_id": "nanyo-stage-17",
         "text": "今治造船の溶接品質予測モデルで、訓練時のバイアス-バリアンストレードオフを最適化するアプローチとして最も包括的なものはどれですか？",
         "choice_1": "モデルの複雑さを最大にしてバイアスをゼロにする",
         "choice_2": "交差検証でハイパーパラメータを調整し、正則化強度・モデル複雑度・アンサンブル手法を組み合わせて汎化誤差を最小化する",
@@ -1328,7 +1328,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-ai-007",
-        "course_id": "toyo-stage-13",
+        "course_id": "nanyo-stage-16",
         "text": "西条うちぬきの地下水位予測で、SageMakerのハイパーパラメータ最適化（HPO）においてベイズ最適化がランダムサーチやグリッドサーチより優れている理由として最も正確なものはどれですか？",
         "choice_1": "ベイズ最適化は常にグローバル最適解を保証する",
         "choice_2": "過去の評価結果から獲得関数を用いて次の探索点を選択するため、少ない試行回数で効率的に良好なパラメータ領域を特定できる",
@@ -1342,7 +1342,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-ai-008",
-        "course_id": "toyo-stage-13",
+        "course_id": "nanyo-stage-16",
         "text": "四国中央市の製紙工場で、複数のMLモデル（品質予測・需要予測・異常検知）を本番運用する際のMLOpsパイプライン設計として最も成熟度が高いアプローチはどれですか？",
         "choice_1": "各モデルを手動で個別にデプロイし、問題発生時に再訓練する",
         "choice_2": "CI/CDパイプラインでモデルの自動再訓練・A/Bテスト・カナリアデプロイ・モデルレジストリ管理・ドリフト検知を統合的に実装する",
@@ -1359,7 +1359,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     # ============================================================
     {
         "id": "toyo-ga-001",
-        "course_id": "toyo-stage-13",
+        "course_id": "chuyo-stage-14",
         "text": "しまなみ海道の多言語観光ガイドAIを構築する際、Transformerアーキテクチャのself-attention機構が従来のRNNベース翻訳モデルより優れている点として最も本質的な説明はどれですか？",
         "choice_1": "self-attentionはパラメータ数が常に少ない",
         "choice_2": "入力系列の任意の位置間の依存関係を並列に計算でき、長距離依存の捕捉と訓練の並列化を同時に実現する",
@@ -1387,7 +1387,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-ga-003",
-        "course_id": "toyo-stage-14",
+        "course_id": "chuyo-stage-14",
         "text": "村上海賊ミュージアムの展示解説AI生成システムで、Temperature・Top-p・Top-kの各デコーディングパラメータが出力に与える影響の組み合わせとして最も正確なものはどれですか？",
         "choice_1": "Temperature=0で最も創造的な出力、Top-p=1.0で最も制限された出力が得られる",
         "choice_2": "Temperatureは確率分布の平坦化を制御し、Top-pは累積確率による動的語彙制限、Top-kは候補数の固定上限を設定する",
@@ -1415,7 +1415,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-ga-005",
-        "course_id": "toyo-stage-14",
+        "course_id": "chuyo-stage-14",
         "text": "西条市の農業AIアシスタント構築で、パラメータ効率的ファインチューニング（PEFT）手法のうちLoRAが全パラメータファインチューニングに比べて有効な理由として最も技術的に正確なものはどれですか？",
         "choice_1": "LoRAは元のモデルの全重みを変更する",
         "choice_2": "LoRAは凍結された元の重み行列に低ランク分解した小さな行列を追加学習するため、メモリ使用量と計算コストを大幅に削減しつつ性能を維持できる",
@@ -1443,7 +1443,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-ga-007",
-        "course_id": "toyo-stage-14",
+        "course_id": "chuyo-stage-14",
         "text": "今治市のスマートシティ構想でマルチモーダル基盤モデルを活用する際、テキスト・画像・音声の各モダリティの埋め込みを統合する技術的アプローチとして最も先進的なものはどれですか？",
         "choice_1": "各モダリティを完全に独立したモデルで処理し結果を文字列で結合する",
         "choice_2": "共有潜在空間にCLIPやImageBindのようなcontrastive learningで各モダリティを整列させ、cross-attention機構で相互参照する統合アーキテクチャ",
@@ -1457,7 +1457,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-ga-008",
-        "course_id": "toyo-stage-15",
+        "course_id": "chuyo-stage-15",
         "text": "別子銅山の歴史文書デジタル化プロジェクトで、基盤モデルの事前学習における「スケーリング則」（Scaling Laws）が示す重要な知見として最も正確なものはどれですか？",
         "choice_1": "モデルサイズを大きくすれば学習データ量は削減できる",
         "choice_2": "モデルパラメータ数・学習データ量・計算量の3要素がべき乗則に従って性能に寄与し、これらのバランスが最適な計算効率を決定する",
@@ -1502,7 +1502,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     # ============================================================
     {
         "id": "toyo-fm-001",
-        "course_id": "toyo-stage-15",
+        "course_id": "toyo-stage-16",
         "text": "しまなみ海道観光アプリのRAGシステムで、検索精度を最大化するためのチャンキング戦略・エンベディングモデル選定・リランキングの統合設計として最も効果的なものはどれですか？",
         "choice_1": "文書全体を1つのチャンクとし、汎用エンベディングのみで検索する",
         "choice_2": "セマンティックチャンキングで意味的単位に分割し、ドメイン適応済みエンベディングでベクトル化、BM25とベクトル検索のハイブリッド後にクロスエンコーダでリランキングする",
@@ -1544,7 +1544,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-fm-004",
-        "course_id": "toyo-stage-16",
+        "course_id": "toyo-stage-15",
         "text": "西条うちぬきの水質データ分析AIで、エンベディング（ベクトル表現）を使った類似事例検索システムを構築する際、エンベディングの品質を評価・改善する手法として最も適切なものはどれですか？",
         "choice_1": "エンベディングの次元数を最大にすれば品質は常に向上する",
         "choice_2": "ドメイン固有のトリプレット（アンカー・正例・負例）で対照学習によりファインチューニングし、検索精度をMRR・nDCGで定量評価する",
@@ -1662,7 +1662,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     # ============================================================
     {
         "id": "toyo-ra-001",
-        "course_id": "toyo-stage-18",
+        "course_id": "chuyo-stage-16",
         "text": "しまなみ海道の観光レコメンドAIで、特定の島や店舗への推薦が偏るバイアスが検出された場合、公平性を担保しつつビジネス価値も維持するための包括的なバイアス軽減アプローチとして最も適切なものはどれですか？",
         "choice_1": "全ての推薦結果を完全にランダムにする",
         "choice_2": "事前処理（学習データの再サンプリング）・学習中処理（公平性制約付き最適化）・事後処理（出力の再ランキング）を組み合わせ、多段階でバイアスを軽減しつつA/Bテストで効果を測定する",
@@ -1676,7 +1676,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-ra-002",
-        "course_id": "toyo-stage-18",
+        "course_id": "chuyo-stage-16",
         "text": "今治造船の自動設計AIが生成した船舶設計案について、設計エンジニアが最終判断を行う「Human-in-the-Loop」体制を構築する際、人間の監督が最も効果的に機能するためのシステム設計として最も適切なものはどれですか？",
         "choice_1": "AIの全出力に対して人間が逐一承認する完全手動チェック",
         "choice_2": "AIの信頼度スコアに基づく段階的エスカレーション、判断根拠の可視化、人間のフィードバックを継続学習に反映するフィードバックループの統合設計",
@@ -1690,7 +1690,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-ra-003",
-        "course_id": "toyo-stage-18",
+        "course_id": "nanyo-stage-18",
         "text": "別子銅山の環境影響評価AIで、モデルの予測結果に対する説明可能性（Explainability）を確保する際、局所的説明手法（LIME/SHAP）とグローバル説明手法を組み合わせる設計として最も包括的なものはどれですか？",
         "choice_1": "SHAPの値だけを表示すれば十分な説明可能性が得られる",
         "choice_2": "グローバル特徴量重要度で全体傾向を把握し、個別予測にはSHAP/LIMEで局所説明を提供、さらに反事実的説明で「何が変われば結果が変わるか」を示す多層的説明フレームワーク",
@@ -1704,7 +1704,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-ra-004",
-        "course_id": "toyo-stage-18",
+        "course_id": "chuyo-stage-16",
         "text": "西条うちぬきの水資源管理AIが地域住民の生活に影響を与える判断を行う場合、透明性（Transparency）を確保するためのガバナンス体制として最も適切なものはどれですか？",
         "choice_1": "アルゴリズムのソースコードを全て公開する",
         "choice_2": "モデルカード（目的・限界・評価結果の文書化）、定期的な第三者監査、影響を受けるステークホルダーへの通知プロセス、異議申立て手続きを統合した透明性フレームワーク",
@@ -1718,7 +1718,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-ra-005",
-        "course_id": "toyo-stage-19",
+        "course_id": "nanyo-stage-18",
         "text": "四国中央市の製紙工場で導入するAI品質検査システムが、特定ロットの製品を不良と誤判定した場合の経済的損失と、不良品を見逃した場合の顧客影響を考慮した責任あるAI運用設計として最も適切なものはどれですか？",
         "choice_1": "閾値を極端に下げて全てを不良と判定し安全側に倒す",
         "choice_2": "ビジネスインパクト分析に基づく非対称コスト関数の設計、信頼度に応じた段階的判定（自動合格・人間レビュー・自動不合格）、判定根拠の記録と定期的な閾値見直しプロセス",
@@ -1732,7 +1732,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-ra-006",
-        "course_id": "toyo-stage-19",
+        "course_id": "nanyo-stage-19",
         "text": "村上海賊ミュージアムの来館者向けAIガイドで、歴史的事実と推測を明確に区別して提示し、誤情報のリスクを最小化するための責任あるAI設計として最も包括的なものはどれですか？",
         "choice_1": "全ての出力に「AIが生成した内容です」と注記するだけで十分",
         "choice_2": "情報源の明示と確信度表示、事実と推測の明示的ラベリング、ハルシネーション検出のためのファクトチェック層、学芸員による定期的な出力品質レビューを統合したガードレール設計",
@@ -1749,7 +1749,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     # ============================================================
     {
         "id": "toyo-sg-001",
-        "course_id": "toyo-stage-19",
+        "course_id": "chuyo-stage-17",
         "text": "今治タオルメーカーが顧客データを活用した需要予測AIを導入する際、MLパイプライン全体（データ収集→前処理→訓練→推論→廃棄）でのデータプライバシー保護として最も包括的なアプローチはどれですか？",
         "choice_1": "データを暗号化して保存するだけで十分",
         "choice_2": "差分プライバシーによる訓練データの匿名化、転送中・保存中のAES-256暗号化、データアクセスの最小権限原則、データリネージの完全な追跡、保持期間ポリシーに基づく自動削除を統合したライフサイクル管理",
@@ -1763,7 +1763,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-sg-002",
-        "course_id": "toyo-stage-19",
+        "course_id": "toyo-stage-18",
         "text": "新居浜市の工場IoTデータを用いた予知保全AIで、モデルへのアクセス制御と推論結果の監査を実現するためのセキュリティアーキテクチャとして最も適切なものはどれですか？",
         "choice_1": "APIキーを全ユーザーで共有して認証する",
         "choice_2": "IAMロールベースのモデルエンドポイントアクセス制御、推論リクエスト・レスポンスの全量ログ記録、異常アクセスパターンの自動検知、モデルバージョン管理とロールバック機能の統合",
@@ -1777,7 +1777,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-sg-003",
-        "course_id": "toyo-stage-20",
+        "course_id": "chuyo-stage-17",
         "text": "西条市の農業AIで収集する農家の土壌データ・収穫量データを、個人情報保護法とAI規制に準拠して管理するためのガバナンスフレームワークとして最も適切なものはどれですか？",
         "choice_1": "技術的な暗号化のみで法的コンプライアンスは達成できる",
         "choice_2": "データ分類体系の確立、利用目的の明確化と同意管理、データ処理影響評価（DPIA）の実施、定期的なコンプライアンス監査、インシデント対応計画を含む統合ガバナンスフレームワーク",
@@ -1791,7 +1791,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-sg-004",
-        "course_id": "toyo-stage-20",
+        "course_id": "toyo-stage-19",
         "text": "しまなみ海道の交通管理AIシステムにおいて、敵対的攻撃（Adversarial Attack）からモデルを保護し、安全な推論環境を維持するためのセキュリティ対策として最も包括的なものはどれですか？",
         "choice_1": "ファイアウォールでネットワークを保護するだけで十分",
         "choice_2": "入力バリデーションによる異常入力検知、敵対的訓練によるモデルのロバスト性向上、推論環境の隔離（VPC・プライベートサブネット）、モデル出力の異常検知モニタリングの多層防御",
@@ -1805,7 +1805,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-sg-005",
-        "course_id": "toyo-stage-20",
+        "course_id": "toyo-stage-19",
         "text": "四国中央市の製紙会社が生成AIサービス（Amazon Bedrock）を業務利用する際、企業の機密情報（製造ノウハウ・顧客情報）が外部に漏洩しないようにするためのセキュリティ設計として最も適切なものはどれですか？",
         "choice_1": "利用規約でデータ漏洩の責任をユーザーに転嫁する",
         "choice_2": "VPCエンドポイント経由のプライベートアクセス、Bedrock Guardrailsによる機密情報フィルタリング、IAMポリシーでのモデル利用制限、CloudTrailによる全API呼び出しの監査ログ記録の統合",
@@ -1819,7 +1819,7 @@ EXTRA_QUESTIONS_2: list[dict] = [
     },
     {
         "id": "toyo-sg-006",
-        "course_id": "toyo-stage-20",
+        "course_id": "chuyo-stage-17",
         "text": "来島海峡大橋の構造モニタリングAIを含むクリティカルインフラシステムで、AIモデルのライフサイクル全体（開発→テスト→本番→廃棄）にわたるガバナンスとコンプライアンス管理として最も成熟度の高いアプローチはどれですか？",
         "choice_1": "本番デプロイ時に一度だけセキュリティレビューを実施する",
         "choice_2": "モデルリスク管理フレームワーク（開発段階のリスク評価・テスト段階の検証基準・本番のContinuous Monitoring・モデル廃棄時のデータ消去証明）とCI/CDパイプラインへのセキュリティゲート統合",

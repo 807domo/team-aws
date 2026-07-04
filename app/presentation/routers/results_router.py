@@ -16,7 +16,7 @@ from app.domain.quiz_service import QuizService
 from app.domain.results_service import ResultsService
 from app.presentation.dependencies import get_current_user_id, get_results_service
 
-from app.data.user_record_repository import UserRecordRepository
+from app.data.repository_factory import get_user_record_repository
 from app.domain.level_calculator import (
     calculate_level,
     calculate_xp_gauge,
@@ -57,7 +57,7 @@ async def dashboard(
     dashboard_data = results_service.get_dashboard_data(user_id)
 
     # ユーザーのXP/レベル情報を取得
-    user_record_repo = UserRecordRepository(db)
+    user_record_repo = get_user_record_repository(db)
     user_xp_data = user_record_repo.get_user_xp(user_id)
     total_xp = user_xp_data["total_xp"]
 
@@ -122,6 +122,7 @@ async def dashboard(
         label = d.strftime("%m/%d")
         daily_labels.append(label)
         daily_values.append(daily_counts_map.get(str(d), 0))
+
 
     return templates.TemplateResponse(
         request,

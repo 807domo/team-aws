@@ -16,11 +16,43 @@ AI ドメイン:
   - Responsible AI
 """
 
+import hashlib
+import random
+
 from sqlalchemy.orm import Session
 
 from app.data.models import CourseModel, QuestionModel
 from app.data.seed_data_extra import EXTRA_QUESTIONS
 from app.data.seed_data_extra2 import EXTRA_QUESTIONS_2
+
+
+def shuffle_choices(question_data: dict) -> dict:
+    """問題の選択肢をシャッフルし、correct_choice_indexを更新する。
+    IDに基づく決定論的シャッフル。
+    冪等性を確保するため、選択肢をソートして正規化してからシャッフルする。"""
+    seed = int(hashlib.md5(question_data["id"].encode()).hexdigest(), 16) % (2**32)
+    rng = random.Random(seed)
+
+    choices = [
+        question_data["choice_1"],
+        question_data["choice_2"],
+        question_data["choice_3"],
+        question_data["choice_4"],
+    ]
+    correct_answer = choices[question_data["correct_choice_index"]]
+
+    # 冪等性を確保するため、ソートして正規化してからシャッフル
+    choices_sorted = sorted(choices)
+    rng.shuffle(choices_sorted)
+    new_correct_index = choices_sorted.index(correct_answer)
+
+    result = dict(question_data)
+    result["choice_1"] = choices_sorted[0]
+    result["choice_2"] = choices_sorted[1]
+    result["choice_3"] = choices_sorted[2]
+    result["choice_4"] = choices_sorted[3]
+    result["correct_choice_index"] = new_correct_index
+    return result
 
 
 # =============================================================================
@@ -308,6 +340,112 @@ COURSES = [
         "difficulty": "上級",
         "description": "品質基準認定の伝統産業",
     },
+    {
+        "id": "nanyo-stage-15",
+        "name": "ステージ15：四万十川源流",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "松野町の清流と共にAI/MLの基礎概念を学ぶ",
+    },
+    {
+        "id": "nanyo-stage-16",
+        "name": "ステージ16：南楽園",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "宇和島の日本庭園と共に機械学習入門を学ぶ",
+    },
+    {
+        "id": "nanyo-stage-17",
+        "name": "ステージ17：御荘湾サンゴ",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "愛南町のサンゴと共に責任あるAIを学ぶ",
+    },
+    {
+        "id": "nanyo-stage-18",
+        "name": "ステージ18：肱川あらし",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "大洲の気象現象と共にAWSのAIサービスを学ぶ",
+    },
+    {
+        "id": "nanyo-stage-19",
+        "name": "ステージ19：宇和島真珠",
+        "region": "初級",
+        "difficulty": "基礎",
+        "description": "真珠養殖の知恵と共にデータ活用を学ぶ",
+    },
+    {
+        "id": "chuyo-stage-13",
+        "name": "ステージ13：坊っちゃん列車",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "松山のレトロ列車と共に生成AIの基礎を学ぶ",
+    },
+    {
+        "id": "chuyo-stage-14",
+        "name": "ステージ14：愛媛県庁本館",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "歴史的庁舎と共にプロンプト設計を学ぶ",
+    },
+    {
+        "id": "chuyo-stage-15",
+        "name": "ステージ15：松山総合公園",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "展望台からの景色と共にLLMの活用を学ぶ",
+    },
+    {
+        "id": "chuyo-stage-16",
+        "name": "ステージ16：三津浜港",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "港町の歴史と共にAmazon Bedrockを学ぶ",
+    },
+    {
+        "id": "chuyo-stage-17",
+        "name": "ステージ17：石鎚スキー場",
+        "region": "中級",
+        "difficulty": "中級",
+        "description": "四国唯一のスキー場と共にRAGを学ぶ",
+    },
+    {
+        "id": "toyo-stage-15",
+        "name": "ステージ15：瀬戸内しまなみ",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "島々の絶景と共に基盤モデルの応用を学ぶ",
+    },
+    {
+        "id": "toyo-stage-16",
+        "name": "ステージ16：東平産業遺産",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "東洋のマチュピチュと共にAIセキュリティを学ぶ",
+    },
+    {
+        "id": "toyo-stage-17",
+        "name": "ステージ17：石鎚山系",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "西日本最高峰と共にMLOpsを学ぶ",
+    },
+    {
+        "id": "toyo-stage-18",
+        "name": "ステージ18：今治造船",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "日本最大の造船業と共にAIガバナンスを学ぶ",
+    },
+    {
+        "id": "toyo-stage-19",
+        "name": "ステージ19：四国中央紙産業",
+        "region": "上級",
+        "difficulty": "上級",
+        "description": "紙のまちの技術革新と共にAI設計を学ぶ",
+    },
+
 ]
 
 
@@ -1801,12 +1939,16 @@ QUESTIONS = [
     # =========================================================================
     # 文化財コース問題（各コース4問 × 9コース = 36問）
     # =========================================================================
+
 ]
 
 # 文化財問題は別ファイルからインポート
 from app.data.bunkazai_questions import BUNKAZAI_QUESTIONS  # noqa: E402
 
 QUESTIONS.extend(BUNKAZAI_QUESTIONS)
+
+from app.data.extra_questions import EXTRA_QUESTIONS as EXTRA_QUESTIONS_3  # noqa: E402
+QUESTIONS.extend(EXTRA_QUESTIONS_3)
 
 # =============================================================================
 # シーディング関数
@@ -1859,19 +2001,21 @@ def seed_database(db_session: Session) -> bool:
         if qid in seen_ids:
             continue
         seen_ids.add(qid)
+        # 選択肢をシャッフルしてcorrect_choice_indexの分布を均等化
+        shuffled = shuffle_choices(question_data)
         question = QuestionModel(
             id=qid,
-            course_id=question_data["course_id"],
-            text=question_data["text"],
-            choice_1=question_data["choice_1"],
-            choice_2=question_data["choice_2"],
-            choice_3=question_data["choice_3"],
-            choice_4=question_data["choice_4"],
-            correct_choice_index=question_data["correct_choice_index"],
-            ehime_trivia=question_data["ehime_trivia"],
-            aws_ai_explanation=question_data["aws_ai_explanation"],
-            difficulty=question_data["difficulty"],
-            exam_domain=question_data["exam_domain"],
+            course_id=shuffled["course_id"],
+            text=shuffled["text"],
+            choice_1=shuffled["choice_1"],
+            choice_2=shuffled["choice_2"],
+            choice_3=shuffled["choice_3"],
+            choice_4=shuffled["choice_4"],
+            correct_choice_index=shuffled["correct_choice_index"],
+            ehime_trivia=shuffled["ehime_trivia"],
+            aws_ai_explanation=shuffled["aws_ai_explanation"],
+            difficulty=shuffled["difficulty"],
+            exam_domain=shuffled["exam_domain"],
         )
         db_session.add(question)
 

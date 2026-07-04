@@ -8,3 +8,5 @@ boto3>=1.43
 httpx>=0.28
 google-genai>=1.0
 gunicorn>=22.0
+mangum>=0.19
+
