@@ -15,8 +15,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from app.data.database import get_db
-from app.data.question_repository import QuestionRepository
-from app.data.user_record_repository import UserRecordRepository
+from app.data.repository_factory import get_question_repository, get_user_record_repository
 from app.domain.gemini_question_generator import GeminiQuestionGenerator
 from app.domain.models import AnswerRecord, Question, WeakArea
 from app.domain.scoring import identify_weak_areas
@@ -50,8 +49,8 @@ async def start_ai_practice(
 
     弱点分析→問題生成→最初の問題表示の流れ。
     """
-    user_record_repo = UserRecordRepository(db)
-    question_repo = QuestionRepository(db)
+    user_record_repo = get_user_record_repository(db)
+    question_repo = get_question_repository(db)
     generator = _get_generator()
 
     # ユーザーの回答記録を取得

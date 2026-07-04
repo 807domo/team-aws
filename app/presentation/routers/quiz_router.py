@@ -14,7 +14,6 @@ from fastapi import APIRouter, Depends, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
-from app.data.question_repository import QuestionRepository
 from app.domain.models import Question
 from app.domain.quiz_service import QuizService
 from app.presentation.dependencies import get_current_user_id, get_question_repository, get_quiz_service
@@ -82,7 +81,7 @@ async def show_question(
     request: Request,
     index: int = 0,
     quiz_service: QuizService = Depends(get_quiz_service),
-    question_repo: QuestionRepository = Depends(get_question_repository),
+    question_repo=Depends(get_question_repository),
 ):
     """現在の問題を表示する。
 
@@ -141,7 +140,7 @@ async def submit_answer(
     choice_index: int = Form(...),
     question_index: int = Form(...),
     quiz_service: QuizService = Depends(get_quiz_service),
-    question_repo: QuestionRepository = Depends(get_question_repository),
+    question_repo=Depends(get_question_repository),
 ):
     """回答を送信し、正誤フィードバックを表示する。
 
@@ -205,7 +204,7 @@ async def show_explanation(
     question_index: int = 0,
     save_failed: bool = False,
     quiz_service: QuizService = Depends(get_quiz_service),
-    question_repo: QuestionRepository = Depends(get_question_repository),
+    question_repo=Depends(get_question_repository),
 ):
     """解説画面を表示する。
 

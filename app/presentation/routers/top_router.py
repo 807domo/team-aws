@@ -18,11 +18,9 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
-from app.data.course_repository import CourseRepository
 from app.data.database import get_db
 from app.data.models import AnswerRecordModel, BookmarkModel, QuestionModel
-from app.data.question_repository import QuestionRepository
-from app.data.user_record_repository import UserRecordRepository
+from app.data.repository_factory import get_course_repository, get_question_repository, get_user_record_repository
 from app.domain.badge_service import check_badges
 from app.domain.level_calculator import calculate_level, calculate_xp_gauge
 from app.domain.models import CourseInfo, Region, RegionMapData, UserStatus
@@ -78,7 +76,7 @@ def _calculate_streak(user_id: str, db: Session) -> int:
 def _safe_get_user_status(user_id: str, db: Session) -> UserStatus:
     """ユーザーステータスを安全に取得する。DB異常時はデフォルト値を返す。"""
     try:
-        user_record_repo = UserRecordRepository(db)
+        user_record_repo = get_user_record_repository(db)
         user_xp_data = user_record_repo.get_user_xp(user_id)
         total_xp = user_xp_data["total_xp"]
         level = calculate_level(total_xp)
@@ -120,9 +118,9 @@ def _safe_get_user_status(user_id: str, db: Session) -> UserStatus:
 
 def _get_region_map_data(
     region: Region,
-    course_repo: CourseRepository,
-    question_repo: QuestionRepository,
-    user_record_repo: UserRecordRepository,
+    course_repo,
+    question_repo,
+    user_record_repo,
     user_id: str,
     suspended_sessions: dict[str, int] | None = None,
 ) -> RegionMapData:
@@ -269,9 +267,9 @@ async def rpg_top_screen(
         suspended_sessions[sess.course_id] = answered
 
     # 各地域のマップデータを構築
-    course_repo = CourseRepository(db)
-    question_repo = QuestionRepository(db)
-    user_record_repo = UserRecordRepository(db)
+    course_repo = get_course_repository(db)
+    question_repo = get_question_repository(db)
+    user_record_repo = get_user_record_repository(db)
 
     regions = []
     for region in Region:
@@ -323,9 +321,9 @@ async def get_region_courses(
         region_enum = Region.NANYO
 
     # 地域のマップデータを構築
-    course_repo = CourseRepository(db)
-    question_repo = QuestionRepository(db)
-    user_record_repo = UserRecordRepository(db)
+    course_repo = get_course_repository(db)
+    question_repo = get_question_repository(db)
+    user_record_repo = get_user_record_repository(db)
 
     # 中断中セッション情報を取得
     from app.data.models import AnswerRecordModel, QuizSessionModel
@@ -390,9 +388,9 @@ async def get_region_summary(
         region_enum = Region.NANYO
 
     # リポジトリの準備
-    course_repo = CourseRepository(db)
-    question_repo = QuestionRepository(db)
-    user_record_repo = UserRecordRepository(db)
+    course_repo = get_course_repository(db)
+    question_repo = get_question_repository(db)
+    user_record_repo = get_user_record_repository(db)
 
     # 地域のコースを取得
     courses = course_repo.get_courses_by_region(region_enum)
