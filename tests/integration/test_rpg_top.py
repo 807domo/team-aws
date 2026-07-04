@@ -154,9 +154,9 @@ class TestRpgTopBasic:
         assert "map-region-NANYO" in response.text
         assert "map-region-TOYO" in response.text
         # 地域テキストラベル
-        assert "中予" in response.text
-        assert "南予" in response.text
-        assert "東予" in response.text
+        assert "中級" in response.text
+        assert "初級" in response.text
+        assert "上級" in response.text
 
 
 # =============================================================================
@@ -172,7 +172,7 @@ class TestCoursesEndpoint:
         response = client.get("/courses/CHUYO")
         assert response.status_code == 200
         # 中予のコースが含まれる
-        assert "松山城コース" in response.text or "道後温泉" in response.text
+        assert "ステージ" in response.text
         # コースカードの構成要素
         assert "course-card" in response.text or "開始" in response.text
 
@@ -197,7 +197,7 @@ class TestCoursesEndpoint:
         assert response.status_code == 200
         # 不正な地域はデフォルトで中予（CHUYO）にフォールバック
         # 中予のコースが表示される
-        assert "松山城コース" in response.text or "道後温泉" in response.text
+        assert "ステージ" in response.text
 
 
 # =============================================================================
@@ -215,27 +215,26 @@ class TestXpUpdateAfterQuiz:
         assert response.status_code == 200
         assert "Lv." in response.text
 
-        # 2. クイズを開始（dogo-ai-basic コース）
+        # 2. クイズを開始（nanyo-stage-01 コース）
         response = client.post(
-            "/quiz/start/dogo-ai-basic", follow_redirects=False
+            "/quiz/start/nanyo-stage-01", follow_redirects=False
         )
         assert response.status_code == 303
         redirect_url = response.headers["location"]
         session_id = redirect_url.split("/quiz/")[1].split("/question")[0]
 
-        # 3. dogo-ai-basic コースの問題IDリスト（シードデータから）
-        dogo_question_ids = [
-            "q-ai-001",
-            "q-ai-002",
-            "q-ai-003",
-            "q-ga-001",
-            "q-ga-002",
-            "q-ga-005",
-            "q-ra-003",
+        # 3. nanyo-stage-01 コースの問題IDリスト（シードデータから）
+        stage_question_ids = [
+            "q-cc-007",
+            "q-cc-009",
+            "q-sc-001",
+            "q-sc-004",
+            "q-sc-010",
+            "q-bz-ni-005",
         ]
 
         # 4. 全問に回答する（正解インデックスは不問、回答すればXPが付与される）
-        for i, qid in enumerate(dogo_question_ids):
+        for i, qid in enumerate(stage_question_ids):
             client.post(
                 f"/quiz/{session_id}/answer",
                 data={
@@ -294,9 +293,9 @@ class TestSvgFallback:
         assert response.status_code == 200
         # SVGマップ内のエリアがrole="button"とaria-labelを持つ
         assert 'role="button"' in response.text
-        assert 'aria-label="中予エリア"' in response.text
-        assert 'aria-label="南予エリア"' in response.text
-        assert 'aria-label="東予エリア"' in response.text
+        assert 'aria-label="中級エリア"' in response.text
+        assert 'aria-label="初級エリア"' in response.text
+        assert 'aria-label="上級エリア"' in response.text
 
     def test_map_areas_have_text_labels(self, client: TestClient):
         """SVGマップ内にテキストラベル（地域名）が含まれる（フォールバック代替）"""

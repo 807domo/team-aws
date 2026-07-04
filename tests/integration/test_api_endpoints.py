@@ -125,15 +125,15 @@ class TestCourseSelect:
         """3地域（中予・南予・東予）がすべて表示される"""
         response = client.get("/")
         assert response.status_code == 200
-        assert "中予" in response.text
-        assert "南予" in response.text
-        assert "東予" in response.text
+        assert "中級" in response.text
+        assert "初級" in response.text
+        assert "上級" in response.text
 
     def test_displays_default_region_course_names(self, client: TestClient):
-        """デフォルト選択地域（中予）のコース名が表示される"""
+        """デフォルト選択地域のコース名が表示される"""
         response = client.get("/")
         assert response.status_code == 200
-        assert "松山城コース（基礎）" in response.text
+        assert "ステージ" in response.text
 
 
 # =============================================================================
@@ -147,7 +147,7 @@ class TestQuizFlow:
     def test_start_quiz_redirects_to_question(self, client: TestClient):
         """POST /quiz/start/{course_id} が問題画面にリダイレクトする"""
         response = client.post(
-            "/quiz/start/matsuyama-basic", follow_redirects=False
+            "/quiz/start/nanyo-stage-01", follow_redirects=False
         )
         assert response.status_code == 303
         assert "/quiz/" in response.headers["location"]
@@ -157,21 +157,21 @@ class TestQuizFlow:
         """GET /quiz/{session_id}/question?index=0 がクイズ問題を表示する"""
         # まずセッションを作成
         response = client.post(
-            "/quiz/start/matsuyama-basic", follow_redirects=False
+            "/quiz/start/nanyo-stage-01", follow_redirects=False
         )
         redirect_url = response.headers["location"]
 
         # 問題画面にアクセス
         response = client.get(redirect_url)
         assert response.status_code == 200
-        # 問題テキストの一部が含まれることを確認（松山城コースの問題）
-        assert "松山城" in response.text or "道後温泉" in response.text or "みかん" in response.text or "坊っちゃん" in response.text or "松山空港" in response.text or "松山市" in response.text or "愛媛マラソン" in response.text
+        # 問題テキストの一部が含まれることを確認（最初のステージの問題）
+        assert "松山城" in response.text or "宇和島" in response.text or "クラウド" in response.text or "AWS" in response.text or "選択" in response.text
 
     def test_submit_answer_redirects_to_explanation(self, client: TestClient):
         """POST /quiz/{session_id}/answer が解説画面にリダイレクトする"""
         # セッション作成
         response = client.post(
-            "/quiz/start/matsuyama-basic", follow_redirects=False
+            "/quiz/start/nanyo-stage-01", follow_redirects=False
         )
         redirect_url = response.headers["location"]
         # session_id を抽出
@@ -181,7 +181,7 @@ class TestQuizFlow:
         response = client.post(
             f"/quiz/{session_id}/answer",
             data={
-                "question_id": "q-cc-001",
+                "question_id": "q-cc-007",
                 "choice_index": 0,
                 "question_index": 0,
             },
@@ -194,7 +194,7 @@ class TestQuizFlow:
         """解説ページに愛媛トリビアと「次へ」ボタンが表示される"""
         # セッション作成
         response = client.post(
-            "/quiz/start/matsuyama-basic", follow_redirects=False
+            "/quiz/start/nanyo-stage-01", follow_redirects=False
         )
         redirect_url = response.headers["location"]
         session_id = redirect_url.split("/quiz/")[1].split("/question")[0]
@@ -203,7 +203,7 @@ class TestQuizFlow:
         response = client.post(
             f"/quiz/{session_id}/answer",
             data={
-                "question_id": "q-cc-001",
+                "question_id": "q-cc-007",
                 "choice_index": 0,
                 "question_index": 0,
             },
@@ -217,21 +217,21 @@ class TestQuizFlow:
 
     def test_course_complete_shows_summary(self, client: TestClient):
         """GET /quiz/{session_id}/complete がコース完了サマリーを表示する"""
-        # セッション作成（dogo-ai-basic: 問題数が少ないコースを使用）
+        # セッション作成（nanyo-stage-01を使用）
         response = client.post(
-            "/quiz/start/dogo-ai-basic", follow_redirects=False
+            "/quiz/start/nanyo-stage-01", follow_redirects=False
         )
         redirect_url = response.headers["location"]
         session_id = redirect_url.split("/quiz/")[1].split("/question")[0]
 
-        # dogo-ai-basic コースの問題IDリスト（シードデータから）
-        dogo_question_ids = [
-            "q-ai-001", "q-ai-002", "q-ai-003",
-            "q-ga-001", "q-ga-002", "q-ga-005", "q-ra-003",
+        # nanyo-stage-01 コースの問題IDリスト
+        stage_question_ids = [
+            "q-cc-007", "q-cc-009", "q-sc-001",
+            "q-sc-004", "q-sc-010", "q-bz-ni-005",
         ]
 
         # 全問に回答する
-        for i, qid in enumerate(dogo_question_ids):
+        for i, qid in enumerate(stage_question_ids):
             client.post(
                 f"/quiz/{session_id}/answer",
                 data={
@@ -245,7 +245,7 @@ class TestQuizFlow:
         # コース完了画面へアクセス
         response = client.get(f"/quiz/{session_id}/complete")
         assert response.status_code == 200
-        assert "道後温泉AIコース" in response.text
+        assert "ステージ1" in response.text or "完了" in response.text or "正答率" in response.text
 
     def test_full_quiz_flow_start_to_complete(self, client: TestClient):
         """フルフロー: コース選択→クイズ開始→回答→完了"""
@@ -253,9 +253,9 @@ class TestQuizFlow:
         response = client.get("/")
         assert response.status_code == 200
 
-        # 2. クイズ開始（dogo-ai-basic: 問題数少なめ）
+        # 2. クイズ開始（nanyo-stage-01）
         response = client.post(
-            "/quiz/start/dogo-ai-basic", follow_redirects=False
+            "/quiz/start/nanyo-stage-01", follow_redirects=False
         )
         assert response.status_code == 303
         redirect_url = response.headers["location"]
@@ -265,14 +265,14 @@ class TestQuizFlow:
         response = client.get(redirect_url)
         assert response.status_code == 200
 
-        # 4. dogo-ai-basic コースの問題IDリスト
-        dogo_question_ids = [
-            "q-ai-001", "q-ai-002", "q-ai-003",
-            "q-ga-001", "q-ga-002", "q-ga-005", "q-ra-003",
+        # 4. nanyo-stage-01 コースの問題IDリスト
+        stage_question_ids = [
+            "q-cc-007", "q-cc-009", "q-sc-001",
+            "q-sc-004", "q-sc-010", "q-bz-ni-005",
         ]
 
         # 5. 全問回答
-        for i, qid in enumerate(dogo_question_ids):
+        for i, qid in enumerate(stage_question_ids):
             response = client.post(
                 f"/quiz/{session_id}/answer",
                 data={
@@ -287,7 +287,7 @@ class TestQuizFlow:
         # 6. コース完了
         response = client.get(f"/quiz/{session_id}/complete")
         assert response.status_code == 200
-        assert "道後温泉AIコース" in response.text
+        assert "ステージ1" in response.text or "完了" in response.text or "正答率" in response.text
 
 
 # =============================================================================

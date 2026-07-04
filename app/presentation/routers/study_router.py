@@ -25,8 +25,7 @@ async def study_page(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse(
         request,
         "study.html",
-        {
-            "request": request,
+        context={
             "glossary": glossary,
         },
     )

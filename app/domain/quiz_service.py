@@ -214,35 +214,6 @@ class QuizService:
         ]
         return len(session_records)
 
-        # セッション作成
-        session_id = str(uuid.uuid4())
-        now = datetime.now()
-
-        db_session = QuizSessionModel(
-            id=session_id,
-            user_id=user_id,
-            course_id=course_id,
-            started_at=now,
-            completed_at=None,
-            status=SessionStatus.IN_PROGRESS.value,
-        )
-        self._db.add(db_session)
-        self._db.commit()
-
-        quiz_session = QuizSession(
-            id=session_id,
-            user_id=user_id,
-            course_id=course_id,
-            started_at=now,
-            completed_at=None,
-            status=SessionStatus.IN_PROGRESS,
-        )
-
-        # コースの問題一覧を取得
-        questions = self._question_repo.get_questions_by_course(course_id)
-
-        return quiz_session, questions
-
     # =========================================================================
     # 回答送信・正誤判定
     # =========================================================================

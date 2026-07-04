@@ -97,6 +97,7 @@ class AuthContextMiddleware(BaseHTTPMiddleware):
         request.state.current_user_name = None
 
         if user_id:
+            db = None
             try:
                 from app.data.database import SessionLocal
                 from app.data.models import UserModel
@@ -105,9 +106,11 @@ class AuthContextMiddleware(BaseHTTPMiddleware):
                 user = db.query(UserModel).filter(UserModel.id == user_id).first()
                 if user:
                     request.state.current_user_name = user.display_name
-                db.close()
             except Exception:
                 pass
+            finally:
+                if db is not None:
+                    db.close()
 
         response = await call_next(request)
         return response

@@ -49,11 +49,15 @@ async def review_mistakes(
     incorrect_question_ids = [r[0] for r in incorrect_records]
 
     # その後正解した問題IDを除外（復習済み）はしない — 全不正解を表示
-    # 問題詳細を取得
+    # 問題詳細を一括取得（N+1回避）
     questions_by_domain: dict[str, list] = {}
-    for qid in incorrect_question_ids:
-        question = db.query(QuestionModel).filter(QuestionModel.id == qid).first()
-        if question:
+    if incorrect_question_ids:
+        questions = (
+            db.query(QuestionModel)
+            .filter(QuestionModel.id.in_(incorrect_question_ids))
+            .all()
+        )
+        for question in questions:
             domain = question.exam_domain or "その他"
             if domain not in questions_by_domain:
                 questions_by_domain[domain] = []
@@ -100,12 +104,12 @@ async def start_review(
     if not incorrect_question_ids:
         return RedirectResponse(url="/review/mistakes", status_code=303)
 
-    # 問題を取得
-    questions = []
-    for qid in incorrect_question_ids:
-        q = db.query(QuestionModel).filter(QuestionModel.id == qid).first()
-        if q:
-            questions.append(q)
+    # 問題を一括取得（N+1回避）
+    questions = (
+        db.query(QuestionModel)
+        .filter(QuestionModel.id.in_(incorrect_question_ids))
+        .all()
+    )
 
     if not questions:
         return RedirectResponse(url="/review/mistakes", status_code=303)
