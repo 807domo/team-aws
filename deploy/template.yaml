@@ -1,0 +1,358 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  EhimeAI2026 - 愛媛探索AIクイズ Lambda + DynamoDB + S3 デプロイメント
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 512
+    Tags:
+      Project: EhimeAI2026
+
+Parameters:
+  Environment:
+    Type: String
+    Default: prod
+    AllowedValues:
+      - prod
+      - staging
+    Description: デプロイ環境
+
+Resources:
+  # ===========================================================================
+  # IAM Role
+  # ===========================================================================
+  EhimeAI2026LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: EhimeAI2026-lambda-execution-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: EhimeAI2026-dynamodb-access
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+                  - dynamodb:DeleteItem
+                  - dynamodb:Query
+                  - dynamodb:Scan
+                  - dynamodb:BatchWriteItem
+                  - dynamodb:BatchGetItem
+                Resource:
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/EhimeAI2026-*'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/EhimeAI2026-*/index/*'
+        - PolicyName: EhimeAI2026-s3-access
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:ListBucket
+                Resource:
+                  - !GetAtt StaticFilesBucket.Arn
+                  - !Sub '${StaticFilesBucket.Arn}/*'
+      Tags:
+        - Key: Project
+          Value: EhimeAI2026
+
+  # ===========================================================================
+  # Lambda Function (Docker-based)
+  # ===========================================================================
+  EhimeAI2026Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: EhimeAI2026-api
+      PackageType: Image
+      Role: !GetAtt EhimeAI2026LambdaExecutionRole.Arn
+      Environment:
+        Variables:
+          USE_DYNAMODB: "1"
+          AWS_REGION_NAME: !Ref AWS::Region
+          STATIC_FILES_BUCKET: !Ref StaticFilesBucket
+          ENVIRONMENT: !Ref Environment
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref EhimeAI2026HttpApi
+            Path: /{proxy+}
+            Method: ANY
+        RootEvent:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref EhimeAI2026HttpApi
+            Path: /
+            Method: ANY
+      Tags:
+        Project: EhimeAI2026
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ../
+      DockerTag: latest
+
+  # ===========================================================================
+  # API Gateway (HTTP API)
+  # ===========================================================================
+  EhimeAI2026HttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: !Ref Environment
+      Tags:
+        Project: EhimeAI2026
+
+  # ===========================================================================
+  # S3 Bucket for Static Files
+  # ===========================================================================
+  StaticFilesBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'ehimeai2026-static-${AWS::AccountId}'
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Project
+          Value: EhimeAI2026
+
+  # ===========================================================================
+  # DynamoDB Tables
+  # ===========================================================================
+  UsersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: EhimeAI2026-users
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      Tags:
+        - Key: Project
+          Value: EhimeAI2026
+
+  CoursesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: EhimeAI2026-courses
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      Tags:
+        - Key: Project
+          Value: EhimeAI2026
+
+  QuestionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: EhimeAI2026-questions
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: course_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: course_id-index
+          KeySchema:
+            - AttributeName: course_id
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      Tags:
+        - Key: Project
+          Value: EhimeAI2026
+
+  AnswerRecordsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: EhimeAI2026-answer_records
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: user_id
+          AttributeType: S
+        - AttributeName: course_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: user_id-index
+          KeySchema:
+            - AttributeName: user_id
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+        - IndexName: user_course-index
+          KeySchema:
+            - AttributeName: user_id
+              KeyType: HASH
+            - AttributeName: course_id
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      Tags:
+        - Key: Project
+          Value: EhimeAI2026
+
+  QuizSessionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: EhimeAI2026-quiz_sessions
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: user_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: user_id-index
+          KeySchema:
+            - AttributeName: user_id
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      Tags:
+        - Key: Project
+          Value: EhimeAI2026
+
+  MockExamSessionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: EhimeAI2026-mock_exam_sessions
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: user_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: user_id-index
+          KeySchema:
+            - AttributeName: user_id
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      Tags:
+        - Key: Project
+          Value: EhimeAI2026
+
+  MockExamResultsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: EhimeAI2026-mock_exam_results
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: user_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: user_id-index
+          KeySchema:
+            - AttributeName: user_id
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      Tags:
+        - Key: Project
+          Value: EhimeAI2026
+
+  BookmarksTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: EhimeAI2026-bookmarks
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: user_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: user_id-index
+          KeySchema:
+            - AttributeName: user_id
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      Tags:
+        - Key: Project
+          Value: EhimeAI2026
+
+  GlossaryTermsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: EhimeAI2026-glossary_terms
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: category
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: category-index
+          KeySchema:
+            - AttributeName: category
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      Tags:
+        - Key: Project
+          Value: EhimeAI2026
+
+# ===========================================================================
+# Outputs
+# ===========================================================================
+Outputs:
+  ApiUrl:
+    Description: API Gateway endpoint URL
+    Value: !Sub 'https://${EhimeAI2026HttpApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/'
+
+  StaticBucketName:
+    Description: S3 bucket for static files
+    Value: !Ref StaticFilesBucket
+
+  LambdaFunctionArn:
+    Description: Lambda function ARN
+    Value: !GetAtt EhimeAI2026Function.Arn
