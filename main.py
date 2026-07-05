@@ -29,35 +29,39 @@ async def lifespan(app: FastAPI):
     """アプリケーション起動時・終了時の処理。
 
     起動時にデータベーステーブルを作成し、初期データを投入する。
+    DynamoDB モード（Lambda環境）ではSQLite初期化をスキップする。
     """
-    # 起動時: テーブル作成
-    create_tables()
+    import os
+    use_dynamodb = os.environ.get("USE_DYNAMODB", "0") == "1"
 
-    # 起動時: マイグレーション実行（既存テーブルへのカラム追加等）
-    db = SessionLocal()
-    try:
-        run_migrations(db)
-    finally:
-        db.close()
+    if not use_dynamodb:
+        # SQLite モード（ローカル開発時のみ）
+        create_tables()
 
-    # 起動時: シードデータ投入（データが空の場合のみ）
-    db = SessionLocal()
-    try:
-        seeded = seed_database(db)
-        if seeded:
-            logger.info("シードデータを投入しました")
-    finally:
-        db.close()
+        db = SessionLocal()
+        try:
+            run_migrations(db)
+        finally:
+            db.close()
 
-    # 起動時: 用語集データ投入
-    db = SessionLocal()
-    try:
-        from app.data.glossary_seed import seed_glossary
-        seeded = seed_glossary(db)
-        if seeded:
-            logger.info("用語集データを投入しました")
-    finally:
-        db.close()
+        db = SessionLocal()
+        try:
+            seeded = seed_database(db)
+            if seeded:
+                logger.info("シードデータを投入しました")
+        finally:
+            db.close()
+
+        db = SessionLocal()
+        try:
+            from app.data.glossary_seed import seed_glossary
+            seeded = seed_glossary(db)
+            if seeded:
+                logger.info("用語集データを投入しました")
+        finally:
+            db.close()
+    else:
+        logger.info("DynamoDB モードで起動（SQLite初期化スキップ）")
 
     yield
     # 終了時: クリーンアップ（必要に応じて追加）
@@ -88,9 +92,16 @@ from app.domain.auth_service import AuthService
 
 
 class AuthContextMiddleware(BaseHTTPMiddleware):
-    """リクエストスコープでログインユーザー名をrequest.stateに設定するミドルウェア。"""
+    """リクエストスコープでログインユーザー名をrequest.stateに設定するミドルウェア。
+
+    repository_factory パターンを使用し、USE_DYNAMODB 環境変数に基づき
+    自動的にバックエンド（DynamoDB/SQLAlchemy）を切り替える。
+    """
 
     async def dispatch(self, request, call_next):
+        import os
+        from app.data.repository_factory import get_user_repository
+
         token = request.cookies.get("session_token")
         user_id = AuthService.get_user_id_from_session(token)
 
@@ -99,13 +110,20 @@ class AuthContextMiddleware(BaseHTTPMiddleware):
         if user_id:
             db = None
             try:
-                from app.data.database import SessionLocal
-                from app.data.models import UserModel
+                use_dynamodb = os.environ.get("USE_DYNAMODB", "0") == "1"
+                if use_dynamodb:
+                    user_repo = get_user_repository()
+                else:
+                    db = SessionLocal()
+                    try:
+                        user_repo = get_user_repository(db)
+                    except Exception:
+                        db.close()
+                        raise
 
-                db = SessionLocal()
-                user = db.query(UserModel).filter(UserModel.id == user_id).first()
+                user = user_repo.get_by_id(user_id)
                 if user:
-                    request.state.current_user_name = user.display_name
+                    request.state.current_user_name = user["display_name"]
             except Exception:
                 pass
             finally:
@@ -178,17 +196,22 @@ async def requires_login_handler(request: Request, exc: RequiresLoginException):
     return RedirectResponse(url="/auth/login", status_code=303)
 
 
-# 注意: 汎用Exceptionハンドラーはデバッグ中は無効化
-# @app.exception_handler(Exception)
-# async def unhandled_exception_handler(
-#     request: Request, exc: Exception
-# ) -> HTMLResponse:
-#     """未処理の例外をキャッチしてユーザーフレンドリーなエラーページを返す。"""
-#     logger.error("未処理の例外: %s: %s", type(exc).__name__, str(exc))
-#     return HTMLResponse(
-#         content=f"<html><body><h1>Error</h1><pre>{type(exc).__name__}: {exc}</pre></body></html>",
-#         status_code=500,
-#     )
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(
+    request: Request, exc: Exception
+) -> HTMLResponse:
+    """未処理の例外をキャッチしてエラーページを返す。"""
+    logger.error("未処理の例外: %s: %s", type(exc).__name__, str(exc))
+    return templates.TemplateResponse(
+        request,
+        "error.html",
+        context={
+            "error_title": "エラー (500)",
+            "error_message": "サーバー内部でエラーが発生しました。しばらくしてからお試しください。",
+            "retry_url": None,
+        },
+        status_code=500,
+    )
 
 
 # =============================================================================

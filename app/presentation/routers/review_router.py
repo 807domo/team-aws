@@ -19,7 +19,8 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from app.data.database import get_db
-from app.data.models import AnswerRecordModel, QuestionModel
+from app.data.repository_factory import get_user_record_repository, get_question_repository
+from app.domain.models import AnswerRecord
 from app.presentation.dependencies import get_current_user_id
 
 router = APIRouter(prefix="/review", tags=["review"])
@@ -36,28 +37,18 @@ async def review_mistakes(
     user_id: str = Depends(get_current_user_id),
 ):
     """不正解問題の一覧を表示する。"""
-    # 不正解だった問題IDを取得（重複排除）
-    incorrect_records = (
-        db.query(AnswerRecordModel.question_id)
-        .filter(
-            AnswerRecordModel.user_id == user_id,
-            AnswerRecordModel.is_correct == False,
-        )
-        .distinct()
-        .all()
-    )
-    incorrect_question_ids = [r[0] for r in incorrect_records]
+    user_record_repo = get_user_record_repository(db)
+    question_repo = get_question_repository(db)
 
-    # その後正解した問題IDを除外（復習済み）はしない — 全不正解を表示
-    # 問題詳細を一括取得（N+1回避）
+    # 不正解だった問題IDを取得（重複排除）
+    all_records = user_record_repo.get_records_by_user(user_id)
+    incorrect_question_ids = list({r.question_id for r in all_records if not r.is_correct})
+
+    # 問題詳細を取得
     questions_by_domain: dict[str, list] = {}
-    if incorrect_question_ids:
-        questions = (
-            db.query(QuestionModel)
-            .filter(QuestionModel.id.in_(incorrect_question_ids))
-            .all()
-        )
-        for question in questions:
+    for qid in incorrect_question_ids:
+        question = question_repo.get_question_by_id(qid)
+        if question:
             domain = question.exam_domain or "その他"
             if domain not in questions_by_domain:
                 questions_by_domain[domain] = []
@@ -86,30 +77,25 @@ async def start_review(
     user_id: str = Depends(get_current_user_id),
 ):
     """復習クイズを開始する。"""
+    user_record_repo = get_user_record_repository(db)
+    question_repo = get_question_repository(db)
+
     form = await request.form()
     mode = form.get("mode", "all")  # "all" or "random5"
 
     # 不正解問題を取得
-    incorrect_records = (
-        db.query(AnswerRecordModel.question_id)
-        .filter(
-            AnswerRecordModel.user_id == user_id,
-            AnswerRecordModel.is_correct == False,
-        )
-        .distinct()
-        .all()
-    )
-    incorrect_question_ids = [r[0] for r in incorrect_records]
+    all_records = user_record_repo.get_records_by_user(user_id)
+    incorrect_question_ids = list({r.question_id for r in all_records if not r.is_correct})
 
     if not incorrect_question_ids:
         return RedirectResponse(url="/review/mistakes", status_code=303)
 
-    # 問題を一括取得（N+1回避）
-    questions = (
-        db.query(QuestionModel)
-        .filter(QuestionModel.id.in_(incorrect_question_ids))
-        .all()
-    )
+    # 問題を取得
+    questions = []
+    for qid in incorrect_question_ids:
+        q = question_repo.get_question_by_id(qid)
+        if q:
+            questions.append(q)
 
     if not questions:
         return RedirectResponse(url="/review/mistakes", status_code=303)
@@ -194,7 +180,8 @@ async def submit_review_answer(
 
     # DB記録
     try:
-        record = AnswerRecordModel(
+        user_record_repo = get_user_record_repository(db)
+        record = AnswerRecord(
             id=str(uuid.uuid4()),
             user_id=user_id,
             question_id=question.id,
@@ -203,10 +190,9 @@ async def submit_review_answer(
             is_correct=is_correct,
             answered_at=datetime.now(),
         )
-        db.add(record)
-        db.commit()
+        user_record_repo.save_answer_record(record)
     except Exception:
-        db.rollback()
+        pass
 
     session["current_index"] += 1
 

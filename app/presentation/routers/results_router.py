@@ -46,9 +46,8 @@ async def dashboard(
     学習履歴がない場合は「まだ学習履歴がありません」メッセージを表示する。
     日別学習量グラフ（過去30日）も表示する。
     """
+    from collections import Counter
     from datetime import date, timedelta
-    from sqlalchemy import func as sa_func
-    from app.data.models import AnswerRecordModel
 
     # クイズ画面から離脱した場合、進行中セッションを中断扱いにする
     quiz_service = QuizService(db)
@@ -100,21 +99,15 @@ async def dashboard(
     # 過去30日の日別回答数を集計
     today = date.today()
     thirty_days_ago = today - timedelta(days=29)
-    daily_counts_raw = (
-        db.query(
-            sa_func.date(AnswerRecordModel.answered_at).label("day"),
-            sa_func.count(AnswerRecordModel.id).label("count"),
-        )
-        .filter(
-            AnswerRecordModel.user_id == user_id,
-            sa_func.date(AnswerRecordModel.answered_at) >= thirty_days_ago,
-        )
-        .group_by(sa_func.date(AnswerRecordModel.answered_at))
-        .all()
-    )
+
+    all_records = user_record_repo.get_records_by_user(user_id)
+    daily_counts_map: dict[str, int] = Counter()
+    for r in all_records:
+        record_date = r.answered_at.date()
+        if record_date >= thirty_days_ago:
+            daily_counts_map[str(record_date)] += 1
 
     # 30日分の全日付を生成し、回答数がない日は0にする
-    daily_counts_map = {str(r[0]): r[1] for r in daily_counts_raw}
     daily_labels = []
     daily_values = []
     for i in range(30):
@@ -179,26 +172,49 @@ async def mock_exam_history(
     user_id: str = Depends(get_current_user_id),
 ):
     """模擬試験の受験履歴を表示する。"""
-    from app.data.models import MockExamResultModel
+    import os
 
-    results = (
-        db.query(MockExamResultModel)
-        .filter(MockExamResultModel.user_id == user_id)
-        .order_by(MockExamResultModel.completed_at.desc())
-        .all()
-    )
+    if os.environ.get("USE_DYNAMODB", "0") == "1":
+        from boto3.dynamodb.conditions import Key as DynamoKey
+        from app.data.dynamodb import query_by_index
 
-    history = [
-        {
-            "exam_type": r.exam_type,
-            "total_questions": r.total_questions,
-            "correct_count": r.correct_count,
-            "score_percentage": r.score_percentage,
-            "grade": r.grade,
-            "completed_at": r.completed_at.strftime("%Y/%m/%d %H:%M"),
-        }
-        for r in results
-    ]
+        items = query_by_index(
+            "mock_exam_results", "user_id-index", DynamoKey("user_id").eq(user_id)
+        )
+        items.sort(key=lambda x: x.get("completed_at", ""), reverse=True)
+        history = [
+            {
+                "exam_type": r.get("exam_type", ""),
+                "total_questions": int(r.get("total_questions", 0)),
+                "correct_count": int(r.get("correct_count", 0)),
+                "score_percentage": float(r.get("score_percentage", 0)),
+                "grade": r.get("grade", ""),
+                "completed_at": r.get("completed_at", "")[:16]
+                .replace("T", " ")
+                .replace("-", "/", 2),
+            }
+            for r in items
+        ]
+    else:
+        from app.data.models import MockExamResultModel
+
+        results = (
+            db.query(MockExamResultModel)
+            .filter(MockExamResultModel.user_id == user_id)
+            .order_by(MockExamResultModel.completed_at.desc())
+            .all()
+        )
+        history = [
+            {
+                "exam_type": r.exam_type,
+                "total_questions": r.total_questions,
+                "correct_count": r.correct_count,
+                "score_percentage": r.score_percentage,
+                "grade": r.grade,
+                "completed_at": r.completed_at.strftime("%Y/%m/%d %H:%M"),
+            }
+            for r in results
+        ]
 
     return templates.TemplateResponse(
         request,

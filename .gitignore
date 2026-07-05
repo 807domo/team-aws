@@ -28,3 +28,9 @@ Thumbs.db
 test_integration.db
 # 環境変数（APIキー）
 .env
+
+# Lambda デプロイ用ZIP
+lambda_deploy.zip
+app_code.zip
+lambda_package/
+test_results.txt

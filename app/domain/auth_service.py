@@ -3,18 +3,23 @@
 
 ユーザーの新規登録・ログイン・セッション管理を行うサービスクラス。
 プロトタイプ用のシンプルなCookieセッション方式を採用。
+USE_DYNAMODB=1 の場合はDynamoDBベースの認証セッションストアを使用する。
 """
 
 from __future__ import annotations
 
 import hashlib
+import os
 import secrets
+import time
 import uuid
+from datetime import datetime, timezone
 from typing import Optional
 
 from sqlalchemy.orm import Session
 
-from app.data.models import UserModel
+from app.data.dynamodb import get_item, put_item, delete_item
+from app.data.repository_factory import get_user_repository
 
 
 # セッション管理（インメモリ）
@@ -58,6 +63,10 @@ class AuthService:
 
     def __init__(self, db_session: Session) -> None:
         self._db = db_session
+        self._user_repo = get_user_repository(db_session)
+        self._use_dynamodb = os.environ.get("USE_DYNAMODB", "0") == "1"
+        if self._use_dynamodb:
+            self._auth_session_store = DynamoDBAuthSessionStore()
 
     def register(self, display_name: str, password: str) -> tuple[str, str]:
         """新規ユーザーを登録する。
@@ -83,25 +92,14 @@ class AuthService:
             raise ValueError("パスワードは4文字以上にしてください")
 
         # 同名ユーザーの重複チェック
-        existing = (
-            self._db.query(UserModel)
-            .filter(UserModel.display_name == display_name)
-            .first()
-        )
+        existing = self._user_repo.get_by_display_name(display_name)
         if existing:
             raise ValueError("この表示名は既に使用されています")
 
         # ユーザー作成
         user_id = str(uuid.uuid4())
         hashed_pw = hash_password(password)
-
-        user = UserModel(
-            id=user_id,
-            display_name=display_name,
-            password_hash=hashed_pw,
-        )
-        self._db.add(user)
-        self._db.commit()
+        self._user_repo.create(user_id, display_name, hashed_pw)
 
         # セッション作成
         token = self._create_session(user_id)
@@ -124,24 +122,20 @@ class AuthService:
         if not display_name or not password:
             raise ValueError("表示名とパスワードを入力してください")
 
-        user = (
-            self._db.query(UserModel)
-            .filter(UserModel.display_name == display_name)
-            .first()
-        )
+        user = self._user_repo.get_by_display_name(display_name)
         if user is None:
             raise ValueError("表示名またはパスワードが正しくありません")
 
         # パスワード未設定のユーザー（既存シードデータ等）
-        if not user.password_hash:
+        if not user["password_hash"]:
             raise ValueError("表示名またはパスワードが正しくありません")
 
-        if not verify_password(password, user.password_hash):
+        if not verify_password(password, user["password_hash"]):
             raise ValueError("表示名またはパスワードが正しくありません")
 
         # セッション作成
-        token = self._create_session(user.id)
-        return user.id, token
+        token = self._create_session(user["id"])
+        return user["id"], token
 
     def logout(self, session_token: str) -> None:
         """ログアウト（セッション無効化）。
@@ -149,7 +143,10 @@ class AuthService:
         Args:
             session_token: セッショントークン
         """
-        _active_sessions.pop(session_token, None)
+        if self._use_dynamodb:
+            self._auth_session_store.delete_session(session_token)
+        else:
+            _active_sessions.pop(session_token, None)
 
     @staticmethod
     def get_user_id_from_session(session_token: Optional[str]) -> Optional[str]:
@@ -163,10 +160,14 @@ class AuthService:
         """
         if not session_token:
             return None
+        # DynamoDB mode
+        if os.environ.get("USE_DYNAMODB", "0") == "1":
+            store = DynamoDBAuthSessionStore()
+            return store.get_user_id(session_token)
+        # In-memory mode
         return _active_sessions.get(session_token)
 
-    @staticmethod
-    def _create_session(user_id: str) -> str:
+    def _create_session(self, user_id: str) -> str:
         """セッションを作成しトークンを返す。
 
         Args:
@@ -175,6 +176,63 @@ class AuthService:
         Returns:
             セッショントークン
         """
+        if self._use_dynamodb:
+            return self._auth_session_store.create_session(user_id)
         token = secrets.token_urlsafe(32)
         _active_sessions[token] = user_id
         return token
+
+
+class DynamoDBAuthSessionStore:
+    """DynamoDBベースの認証セッションストア。
+
+    セッショントークンとユーザーIDの対応をDynamoDB `sessions`テーブルに保存する。
+    TTL属性による自動期限切れを活用する。
+    """
+
+    def create_session(self, user_id: str) -> str:
+        """セッションを作成しトークンを返す。
+
+        トークンを生成し、DynamoDB `sessions`テーブルに保存する。
+        セッションの有効期限はTTL属性で24時間に設定される。
+
+        Args:
+            user_id: ユーザーID
+
+        Returns:
+            生成されたセッショントークン
+        """
+        token = secrets.token_urlsafe(32)
+        now = datetime.now(timezone.utc)
+        expires_at = int(time.time()) + 24 * 60 * 60  # 24時間後のUnixエポック
+
+        item = {
+            "token": token,
+            "user_id": user_id,
+            "created_at": now.isoformat(),
+            "expires_at": expires_at,
+        }
+        put_item("sessions", item)
+        return token
+
+    def get_user_id(self, session_token: str) -> Optional[str]:
+        """セッショントークンからユーザーIDを取得する。
+
+        Args:
+            session_token: セッショントークン
+
+        Returns:
+            ユーザーID。トークンが無効または期限切れの場合はNone。
+        """
+        item = get_item("sessions", {"token": session_token})
+        if item is None:
+            return None
+        return item.get("user_id")
+
+    def delete_session(self, session_token: str) -> None:
+        """セッションを削除する（ログアウト）。
+
+        Args:
+            session_token: 削除するセッショントークン
+        """
+        delete_item("sessions", {"token": session_token})
