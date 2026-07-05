@@ -259,7 +259,7 @@ def _create_in_memory_session():
     course = CourseModel(
         id="test-course-001",
         name="テストコース",
-        region="中予",
+        region="中級",
         difficulty="基礎",
         description="テスト用コース",
     )
@@ -286,7 +286,7 @@ valid_question_for_repo = st.fixed_dictionaries(
             "Cloud Concepts",
             "Security and Compliance",
             "Cloud Technology and Services",
-            "AI and ML Fundamentals",
+            "Fundamentals of AI and ML",
         ]),
     }
 )

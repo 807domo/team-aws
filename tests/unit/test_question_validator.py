@@ -188,10 +188,12 @@ class TestValidateQuestion:
             "Cloud Concepts",
             "Security and Compliance",
             "Cloud Technology and Services",
-            "Billing Pricing and Support",
-            "AI and ML Fundamentals",
-            "Generative AI",
-            "Responsible AI",
+            "Billing, Pricing, and Support",
+            "Fundamentals of AI and ML",
+            "Fundamentals of Generative AI",
+            "Applications of Foundation Models",
+            "Guidelines for Responsible AI",
+            "Security, Compliance, and Governance for AI Solutions",
         ],
     )
     def test_valid_exam_domains(self, domain: str):

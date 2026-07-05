@@ -108,6 +108,7 @@ class AuthContextMiddleware(BaseHTTPMiddleware):
         request.state.current_user_name = None
 
         if user_id:
+            db = None
             try:
                 use_dynamodb = os.environ.get("USE_DYNAMODB", "0") == "1"
                 if use_dynamodb:
@@ -123,11 +124,11 @@ class AuthContextMiddleware(BaseHTTPMiddleware):
                 user = user_repo.get_by_id(user_id)
                 if user:
                     request.state.current_user_name = user["display_name"]
-
-                if not use_dynamodb:
-                    db.close()
             except Exception:
                 pass
+            finally:
+                if db is not None:
+                    db.close()
 
         response = await call_next(request)
         return response

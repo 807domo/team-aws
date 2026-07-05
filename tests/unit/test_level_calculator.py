@@ -33,8 +33,9 @@ class TestCalculateLevel:
         assert calculate_level(400) == 3
 
     def test_calculate_level_max_xp(self):
-        """XP=980100 → Level 99（最大レベル）"""
-        assert calculate_level(980_100) == 99
+        """XP=MAX_XP以上 → MAX_LEVEL"""
+        from app.domain.level_calculator import MAX_LEVEL, MAX_XP
+        assert calculate_level(MAX_XP) == MAX_LEVEL
 
 
 class TestXpThresholdForLevel:

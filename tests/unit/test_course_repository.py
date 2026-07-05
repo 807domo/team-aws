@@ -27,28 +27,28 @@ def _seed_courses(session: Session) -> None:
         CourseModel(
             id="course-chuyo-basic",
             name="松山城コース（基礎）",
-            region="中予",
+            region="中級",
             difficulty="基礎",
             description="松山城を題材にしたAWS基礎コース",
         ),
         CourseModel(
             id="course-chuyo-intermediate",
             name="道後温泉コース（中級）",
-            region="中予",
+            region="中級",
             difficulty="中級",
             description="道後温泉を題材にしたAWS中級コース",
         ),
         CourseModel(
             id="course-nanyo-basic",
             name="宇和島コース（基礎）",
-            region="南予",
+            region="初級",
             difficulty="基礎",
             description="宇和島を題材にしたAI基礎コース",
         ),
         CourseModel(
             id="course-toyo-advanced",
             name="しまなみ海道コース（上級）",
-            region="東予",
+            region="上級",
             difficulty="上級",
             description="しまなみ海道を題材にしたAWS上級コース",
         ),
@@ -113,12 +113,12 @@ class TestGetCoursesByRegion:
 
     def test_region_with_no_courses_returns_empty(self):
         session = _create_test_session()
-        # 中予のコースのみ追加
+        # 中級のコースのみ追加
         session.add(
             CourseModel(
                 id="course-1",
                 name="テストコース",
-                region="中予",
+                region="中級",
                 difficulty="基礎",
                 description="テスト",
             )

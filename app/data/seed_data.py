@@ -16,11 +16,43 @@ AI ドメイン:
   - Responsible AI
 """
 
+import hashlib
+import random
+
 from sqlalchemy.orm import Session
 
 from app.data.models import CourseModel, QuestionModel
 from app.data.seed_data_extra import EXTRA_QUESTIONS
 from app.data.seed_data_extra2 import EXTRA_QUESTIONS_2
+
+
+def shuffle_choices(question_data: dict) -> dict:
+    """問題の選択肢をシャッフルし、correct_choice_indexを更新する。
+    IDに基づく決定論的シャッフル。
+    冪等性を確保するため、選択肢をソートして正規化してからシャッフルする。"""
+    seed = int(hashlib.md5(question_data["id"].encode()).hexdigest(), 16) % (2**32)
+    rng = random.Random(seed)
+
+    choices = [
+        question_data["choice_1"],
+        question_data["choice_2"],
+        question_data["choice_3"],
+        question_data["choice_4"],
+    ]
+    correct_answer = choices[question_data["correct_choice_index"]]
+
+    # 冪等性を確保するため、ソートして正規化してからシャッフル
+    choices_sorted = sorted(choices)
+    rng.shuffle(choices_sorted)
+    new_correct_index = choices_sorted.index(correct_answer)
+
+    result = dict(question_data)
+    result["choice_1"] = choices_sorted[0]
+    result["choice_2"] = choices_sorted[1]
+    result["choice_3"] = choices_sorted[2]
+    result["choice_4"] = choices_sorted[3]
+    result["correct_choice_index"] = new_correct_index
+    return result
 
 
 # =============================================================================
@@ -33,280 +65,280 @@ COURSES = [
         "name": "ステージ1：宇和島城",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "現存12天守の一つ、国の重要文化財",
+        "description": "現存12天守の宇和島城と共にクラウド基礎を学ぶ",
     },
     {
         "id": "nanyo-stage-02",
         "name": "ステージ2：遊子水荷浦の段畑",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "国の重要文化的景観、石垣の階段畑",
+        "description": "石垣の段畑と共にストレージサービスを学ぶ",
     },
     {
         "id": "nanyo-stage-03",
         "name": "ステージ3：開明学校",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "国の重要文化財、明治の擬洋風校舎",
+        "description": "明治の擬洋風校舎と共にネットワーク基礎を学ぶ",
     },
     {
         "id": "nanyo-stage-04",
         "name": "ステージ4：篠山の原生林",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "国の天然記念物、アケボノツツジ群落",
+        "description": "篠山の原生林と共にクラウドの料金モデルを学ぶ",
     },
     {
         "id": "nanyo-stage-05",
         "name": "ステージ5：内子座",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "国の重要文化財、大正時代の芝居小屋",
+        "description": "大正の芝居小屋と共にコンピューティングを学ぶ",
     },
     {
         "id": "nanyo-stage-06",
         "name": "ステージ6：卯之町の町並み",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "重要伝統的建造物群保存地区",
+        "description": "伝統的建造物群と共にアクセス制御を学ぶ",
     },
     {
         "id": "nanyo-stage-07",
         "name": "ステージ7：日土小学校",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "国の重要文化財、モダニズム建築",
+        "description": "モダニズム建築と共にデータベースを学ぶ",
     },
     {
         "id": "nanyo-stage-08",
         "name": "ステージ8：大洲城",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "木造復元天守、伝統工法で再建",
+        "description": "木造復元天守と共にデータ保護を学ぶ",
     },
     {
         "id": "nanyo-stage-09",
         "name": "ステージ9：佐田岬灯台",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "四国最西端、佐田岬半島",
+        "description": "四国最西端の灯台と共にコンプライアンスを学ぶ",
     },
     {
         "id": "nanyo-stage-10",
         "name": "ステージ10：天赦園",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "国の名勝、伊達家の池泉回遊式庭園",
+        "description": "伊達家庭園と共にAWS料金・サポートを学ぶ",
     },
     {
         "id": "toyo-stage-01",
         "name": "ステージ1：大山祇神社",
         "region": "上級",
         "difficulty": "上級",
-        "description": "国宝8件所蔵、日本有数の神社",
+        "description": "国宝甲冑の大山祇神社と共にマルチリージョンDRを学ぶ",
     },
     {
         "id": "toyo-stage-02",
         "name": "ステージ2：来島海峡大橋",
         "region": "上級",
         "difficulty": "上級",
-        "description": "世界初の三連吊橋",
+        "description": "世界初三連吊橋と共にコンテナオーケストレーションを学ぶ",
     },
     {
         "id": "toyo-stage-03",
         "name": "ステージ3：別子銅山遺産",
         "region": "上級",
         "difficulty": "上級",
-        "description": "近代化産業遺産、東洋のマチュピチュ",
+        "description": "東洋のマチュピチュと共にWAF・DDoS防御を学ぶ",
     },
     {
         "id": "toyo-stage-04",
         "name": "ステージ4：四国中央和紙",
         "region": "上級",
         "difficulty": "上級",
-        "description": "県無形文化財、手漉き和紙の技術",
+        "description": "紙のまちの伝統技術と共にワークフロー設計を学ぶ",
     },
     {
         "id": "toyo-stage-05",
         "name": "ステージ5：西条うちぬき",
         "region": "上級",
         "difficulty": "上級",
-        "description": "日本名水百選、自噴水群",
+        "description": "日本名水百選と共にデータレイク分析基盤を学ぶ",
     },
     {
         "id": "toyo-stage-06",
         "name": "ステージ6：村上海賊ミュージアム",
         "region": "上級",
         "difficulty": "上級",
-        "description": "日本遺産第一号",
+        "description": "日本遺産第一号と共にOrganizationsガバナンスを学ぶ",
     },
     {
         "id": "toyo-stage-07",
         "name": "ステージ7：旧広瀬邸",
         "region": "上級",
         "difficulty": "上級",
-        "description": "国の重要文化財、住友家別邸",
+        "description": "住友家別邸と共にAurora Global DBを学ぶ",
     },
     {
         "id": "toyo-stage-08",
         "name": "ステージ8：石鎚山",
         "region": "上級",
         "difficulty": "上級",
-        "description": "西日本最高峰、修験道の霊山",
+        "description": "西日本最高峰と共にリアルタイムデータ処理を学ぶ",
     },
     {
         "id": "toyo-stage-09",
         "name": "ステージ9：今治城",
         "region": "上級",
         "difficulty": "上級",
-        "description": "日本三大水城、藤堂高虎築城",
+        "description": "日本三大水城と共にサービスメッシュを学ぶ",
     },
     {
         "id": "toyo-stage-10",
         "name": "ステージ10：西条祭り",
         "region": "上級",
         "difficulty": "上級",
-        "description": "市無形民俗文化財、だんじり150台",
+        "description": "だんじり150台の祭りと共にIaC応用を学ぶ",
     },
     {
         "id": "chuyo-stage-01",
         "name": "ステージ1：松山城",
         "region": "中級",
         "difficulty": "中級",
-        "description": "国の重要文化財、連立式天守",
+        "description": "連立式天守の松山城と共にVPC設計を学ぶ",
     },
     {
         "id": "chuyo-stage-02",
         "name": "ステージ2：道後温泉本館",
         "region": "中級",
         "difficulty": "中級",
-        "description": "国の重要文化財、日本最古の温泉",
+        "description": "日本最古の温泉と共にAuto Scaling監視を学ぶ",
     },
     {
         "id": "chuyo-stage-03",
         "name": "ステージ3：石手寺",
         "region": "中級",
         "difficulty": "中級",
-        "description": "国宝二王門、四国霊場第51番",
+        "description": "国宝二王門の石手寺と共にCloudFormationを学ぶ",
     },
     {
         "id": "chuyo-stage-04",
         "name": "ステージ4：太山寺本堂",
         "region": "中級",
         "difficulty": "中級",
-        "description": "国宝、鎌倉時代の建築",
+        "description": "国宝建造物の太山寺と共にサーバーレス設計を学ぶ",
     },
     {
         "id": "chuyo-stage-05",
         "name": "ステージ5：萬翠荘",
         "region": "中級",
         "difficulty": "中級",
-        "description": "国の重要文化財、大正洋館",
+        "description": "大正洋館の萬翠荘と共にS3ライフサイクルを学ぶ",
     },
     {
         "id": "chuyo-stage-06",
         "name": "ステージ6：伊佐爾波神社",
         "region": "中級",
         "difficulty": "中級",
-        "description": "国の重要文化財、八幡造社殿",
+        "description": "八幡造社殿と共にX-Ray・コンテナ運用を学ぶ",
     },
     {
         "id": "chuyo-stage-07",
         "name": "ステージ7：岩屋寺",
         "region": "中級",
         "difficulty": "中級",
-        "description": "国の重要文化財、四国霊場第45番",
+        "description": "巨大岩壁の岩屋寺と共にVPCエンドポイントを学ぶ",
     },
     {
         "id": "chuyo-stage-08",
         "name": "ステージ8：砥部焼",
         "region": "中級",
         "difficulty": "中級",
-        "description": "国の伝統的工芸品、240年の歴史",
+        "description": "伝統工芸品の砥部焼と共にACM・HTTPS設計を学ぶ",
     },
     {
         "id": "nanyo-stage-11",
         "name": "ステージ11：明石寺",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "四国八十八箇所第43番札所",
+        "description": "四国霊場43番と共にS3・EC2の基礎を学ぶ",
     },
     {
         "id": "nanyo-stage-12",
         "name": "ステージ12：龍光寺",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "四国霊場第41番、神仏習合の霊場",
+        "description": "神仏習合の霊場と共にIAM・RDSを学ぶ",
     },
     {
         "id": "nanyo-stage-13",
         "name": "ステージ13：外泊石垣の里",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "石垣集落の独特な景観",
+        "description": "石垣集落と共にLambda・バージョニングを学ぶ",
     },
     {
         "id": "nanyo-stage-14",
         "name": "ステージ14：滑床渓谷",
         "region": "初級",
         "difficulty": "基礎",
-        "description": "日本の滝百選・雪輪の滝",
+        "description": "雪輪の滝と共にELB・VPC・コスト管理を学ぶ",
     },
     {
         "id": "chuyo-stage-09",
         "name": "ステージ9：湯築城跡",
         "region": "中級",
         "difficulty": "中級",
-        "description": "国の史跡、河野氏の居城",
+        "description": "河野氏の湯築城跡と共にNATゲートウェイを学ぶ",
     },
     {
         "id": "chuyo-stage-10",
         "name": "ステージ10：子規堂",
         "region": "中級",
         "difficulty": "中級",
-        "description": "正岡子規ゆかりの文学史跡",
+        "description": "正岡子規ゆかりの地と共にEventBridgeを学ぶ",
     },
     {
         "id": "chuyo-stage-11",
         "name": "ステージ11：久万高原・面河渓",
         "region": "中級",
         "difficulty": "中級",
-        "description": "国の名勝、四国最大の渓谷",
+        "description": "四国最大渓谷と共にCloudWatch Logsを学ぶ",
     },
     {
         "id": "chuyo-stage-12",
         "name": "ステージ12：興居島船踊り",
         "region": "中級",
         "difficulty": "中級",
-        "description": "県指定無形民俗文化財",
+        "description": "興居島の船踊りと共にIaC実践を学ぶ",
     },
     {
         "id": "toyo-stage-11",
         "name": "ステージ11：新居浜太鼓祭り",
         "region": "上級",
         "difficulty": "上級",
-        "description": "四国三大祭り、太鼓台",
+        "description": "四国三大祭りと共にBlue/Greenデプロイを学ぶ",
     },
     {
         "id": "toyo-stage-12",
         "name": "ステージ12：耕三寺",
         "region": "上級",
         "difficulty": "上級",
-        "description": "国登録有形文化財、西の日光",
+        "description": "西の日光と共にデータガバナンスを学ぶ",
     },
     {
         "id": "toyo-stage-13",
         "name": "ステージ13：保国寺",
         "region": "上級",
         "difficulty": "上級",
-        "description": "県指定有形文化財、室町時代建築",
+        "description": "室町建築の古刹と共に脅威検出を学ぶ",
     },
     {
         "id": "toyo-stage-14",
         "name": "ステージ14：今治タオル",
         "region": "上級",
         "difficulty": "上級",
-        "description": "品質基準認定の伝統産業",
+        "description": "120年の伝統産業と共にDevSecOpsを学ぶ",
     },
     {
         "id": "nanyo-stage-15",
@@ -1969,19 +2001,21 @@ def seed_database(db_session: Session) -> bool:
         if qid in seen_ids:
             continue
         seen_ids.add(qid)
+        # 選択肢をシャッフルしてcorrect_choice_indexの分布を均等化
+        shuffled = shuffle_choices(question_data)
         question = QuestionModel(
             id=qid,
-            course_id=question_data["course_id"],
-            text=question_data["text"],
-            choice_1=question_data["choice_1"],
-            choice_2=question_data["choice_2"],
-            choice_3=question_data["choice_3"],
-            choice_4=question_data["choice_4"],
-            correct_choice_index=question_data["correct_choice_index"],
-            ehime_trivia=question_data["ehime_trivia"],
-            aws_ai_explanation=question_data["aws_ai_explanation"],
-            difficulty=question_data["difficulty"],
-            exam_domain=question_data["exam_domain"],
+            course_id=shuffled["course_id"],
+            text=shuffled["text"],
+            choice_1=shuffled["choice_1"],
+            choice_2=shuffled["choice_2"],
+            choice_3=shuffled["choice_3"],
+            choice_4=shuffled["choice_4"],
+            correct_choice_index=shuffled["correct_choice_index"],
+            ehime_trivia=shuffled["ehime_trivia"],
+            aws_ai_explanation=shuffled["aws_ai_explanation"],
+            difficulty=shuffled["difficulty"],
+            exam_domain=shuffled["exam_domain"],
         )
         db_session.add(question)
 
