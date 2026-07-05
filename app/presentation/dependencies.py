@@ -9,10 +9,12 @@ FastAPI の Depends() で使用する依存性注入関数を定義する。
 from fastapi import Depends, Request
 from sqlalchemy.orm import Session
 
-from app.data.course_repository import CourseRepository
 from app.data.database import get_db
-from app.data.question_repository import QuestionRepository
-from app.data.user_record_repository import UserRecordRepository
+from app.data.repository_factory import (
+    get_course_repository as _get_course_repo,
+    get_question_repository as _get_question_repo,
+    get_user_record_repository as _get_user_record_repo,
+)
 from app.domain.auth_service import AuthService
 from app.domain.mock_exam_engine import MockExamEngine
 from app.domain.quiz_service import QuizService
@@ -53,19 +55,19 @@ class RequiresLoginException(Exception):
 # =============================================================================
 
 
-def get_course_repository(db: Session = Depends(get_db)) -> CourseRepository:
+def get_course_repository(db: Session = Depends(get_db)):
     """CourseRepository インスタンスを生成する。"""
-    return CourseRepository(db)
+    return _get_course_repo(db)
 
 
-def get_question_repository(db: Session = Depends(get_db)) -> QuestionRepository:
+def get_question_repository(db: Session = Depends(get_db)):
     """QuestionRepository インスタンスを生成する。"""
-    return QuestionRepository(db)
+    return _get_question_repo(db)
 
 
-def get_user_record_repository(db: Session = Depends(get_db)) -> UserRecordRepository:
+def get_user_record_repository(db: Session = Depends(get_db)):
     """UserRecordRepository インスタンスを生成する。"""
-    return UserRecordRepository(db)
+    return _get_user_record_repo(db)
 
 
 # =============================================================================
@@ -79,15 +81,13 @@ def get_quiz_service(db: Session = Depends(get_db)) -> QuizService:
 
 
 def get_results_service(
-    user_record_repo: UserRecordRepository = Depends(get_user_record_repository),
-    course_repo: CourseRepository = Depends(get_course_repository),
-    question_repo: QuestionRepository = Depends(get_question_repository),
+    db: Session = Depends(get_db),
 ) -> ResultsService:
     """ResultsService インスタンスを生成する。"""
     return ResultsService(
-        user_record_repository=user_record_repo,
-        course_repository=course_repo,
-        question_repository=question_repo,
+        user_record_repository=_get_user_record_repo(db),
+        course_repository=_get_course_repo(db),
+        question_repository=_get_question_repo(db),
     )
 
 
@@ -96,10 +96,10 @@ _mock_exam_engine_instance: MockExamEngine | None = None
 
 
 def get_mock_exam_engine(
-    question_repo: QuestionRepository = Depends(get_question_repository),
+    db: Session = Depends(get_db),
 ) -> MockExamEngine:
     """MockExamEngine シングルトンインスタンスを返す。"""
     global _mock_exam_engine_instance
     if _mock_exam_engine_instance is None:
-        _mock_exam_engine_instance = MockExamEngine(question_repository=question_repo)
+        _mock_exam_engine_instance = MockExamEngine(question_repository=_get_question_repo(db))
     return _mock_exam_engine_instance
