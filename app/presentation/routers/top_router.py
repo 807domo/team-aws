@@ -9,21 +9,25 @@ GET /bookmarks でブックマーク一覧ページを表示する。
 POST /bookmark/{question_id} でブックマーク追加/削除を行う。
 """
 
-import uuid
 from datetime import date, timedelta
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
-from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.data.database import get_db
-from app.data.models import AnswerRecordModel, BookmarkModel, QuestionModel
-from app.data.repository_factory import get_course_repository, get_question_repository, get_user_record_repository
+from app.data.repository_factory import (
+    get_bookmark_repository,
+    get_course_repository,
+    get_question_repository,
+    get_session_repository,
+    get_user_record_repository,
+    get_user_repository,
+)
 from app.domain.badge_service import check_badges
 from app.domain.level_calculator import calculate_level, calculate_xp_gauge
-from app.domain.models import CourseInfo, Region, RegionMapData, UserStatus
+from app.domain.models import CourseInfo, Region, RegionMapData, SessionStatus, UserStatus
 from app.domain.progress_calculator import ProgressStatus, calculate_region_progress
 from app.domain.quiz_service import QuizService
 from app.domain.title_master import get_title
@@ -40,20 +44,13 @@ PROGRESS_FILL_COLORS: dict[ProgressStatus, str] = {
 }
 
 
-def _calculate_streak(user_id: str, db: Session) -> int:
+def _calculate_streak(user_id: str, user_record_repo) -> int:
     """今日から遡って連続で回答した日数を計算する。"""
-    records = (
-        db.query(func.date(AnswerRecordModel.answered_at))
-        .filter(AnswerRecordModel.user_id == user_id)
-        .distinct()
-        .all()
-    )
+    records = user_record_repo.get_records_by_user(user_id)
     if not records:
         return 0
 
-    answered_dates = sorted(
-        {date.fromisoformat(str(r[0])) for r in records}, reverse=True
-    )
+    answered_dates = sorted({r.answered_at.date() for r in records}, reverse=True)
     today = date.today()
 
     if not answered_dates or (
@@ -84,16 +81,12 @@ def _safe_get_user_status(user_id: str, db: Session) -> UserStatus:
         gauge = calculate_xp_gauge(total_xp, level)
 
         # display_name取得
-        from app.data.models import UserModel
-
-        user = db.query(UserModel).filter(UserModel.id == user_id).first()
+        user_repo = get_user_repository(db)
+        user_data = user_repo.get_by_id(user_id)
         display_name = "ゲスト"
-        if user and user.display_name:
-            display_name = (
-                user.display_name[:20] + "…"
-                if len(user.display_name) > 20
-                else user.display_name
-            )
+        if user_data and user_data.get("display_name"):
+            dn = user_data["display_name"]
+            display_name = dn[:20] + "…" if len(dn) > 20 else dn
 
         return UserStatus(
             display_name=display_name,
@@ -232,45 +225,30 @@ async def rpg_top_screen(
     # ユーザーステータスを安全に取得
     user_status = _safe_get_user_status(user_id, db)
 
+    # リポジトリの準備
+    course_repo = get_course_repository(db)
+    question_repo = get_question_repository(db)
+    user_record_repo = get_user_record_repository(db)
+
     # ストリーク日数を計算
-    streak_days = _calculate_streak(user_id, db)
+    streak_days = _calculate_streak(user_id, user_record_repo)
 
     # バッジ獲得数を計算
     badges = check_badges(user_id, db)
     earned_badge_count = sum(1 for b in badges if b["earned"])
 
     # 中断中セッションの情報を取得
-    from app.data.models import QuizSessionModel
-    from app.domain.models import SessionStatus
+    session_repo = get_session_repository(db)
+    suspended_sessions_list = session_repo.get_by_user_and_status(user_id, SessionStatus.SUSPENDED)
 
-    suspended_sessions_raw = (
-        db.query(QuizSessionModel)
-        .filter(
-            QuizSessionModel.user_id == user_id,
-            QuizSessionModel.status == SessionStatus.SUSPENDED.value,
-        )
-        .all()
-    )
     # {course_id: answered_count} を構築
     suspended_sessions: dict[str, int] = {}
-    for sess in suspended_sessions_raw:
-        from app.data.models import AnswerRecordModel
-        answered = (
-            db.query(AnswerRecordModel)
-            .filter(
-                AnswerRecordModel.user_id == user_id,
-                AnswerRecordModel.course_id == sess.course_id,
-                AnswerRecordModel.answered_at >= sess.started_at,
-            )
-            .count()
-        )
+    for sess in suspended_sessions_list:
+        records = user_record_repo.get_records_by_user_and_course(user_id, sess.course_id)
+        answered = len([r for r in records if r.answered_at >= sess.started_at])
         suspended_sessions[sess.course_id] = answered
 
     # 各地域のマップデータを構築
-    course_repo = get_course_repository(db)
-    question_repo = get_question_repository(db)
-    user_record_repo = get_user_record_repository(db)
-
     regions = []
     for region in Region:
         region_data = _get_region_map_data(
@@ -326,28 +304,13 @@ async def get_region_courses(
     user_record_repo = get_user_record_repository(db)
 
     # 中断中セッション情報を取得
-    from app.data.models import AnswerRecordModel, QuizSessionModel
-    from app.domain.models import SessionStatus
+    session_repo = get_session_repository(db)
+    suspended_sessions_list = session_repo.get_by_user_and_status(user_id, SessionStatus.SUSPENDED)
 
-    suspended_sessions_raw = (
-        db.query(QuizSessionModel)
-        .filter(
-            QuizSessionModel.user_id == user_id,
-            QuizSessionModel.status == SessionStatus.SUSPENDED.value,
-        )
-        .all()
-    )
     suspended_sessions: dict[str, int] = {}
-    for sess in suspended_sessions_raw:
-        answered = (
-            db.query(AnswerRecordModel)
-            .filter(
-                AnswerRecordModel.user_id == user_id,
-                AnswerRecordModel.course_id == sess.course_id,
-                AnswerRecordModel.answered_at >= sess.started_at,
-            )
-            .count()
-        )
+    for sess in suspended_sessions_list:
+        records = user_record_repo.get_records_by_user_and_course(user_id, sess.course_id)
+        answered = len([r for r in records if r.answered_at >= sess.started_at])
         suspended_sessions[sess.course_id] = answered
 
     region_data = _get_region_map_data(
@@ -473,26 +436,8 @@ async def toggle_bookmark(
     user_id: str = Depends(get_current_user_id),
 ):
     """ブックマークの追加/削除をトグルする。"""
-    existing = (
-        db.query(BookmarkModel)
-        .filter(
-            BookmarkModel.user_id == user_id,
-            BookmarkModel.question_id == question_id,
-        )
-        .first()
-    )
-
-    if existing:
-        db.delete(existing)
-        db.commit()
-    else:
-        bookmark = BookmarkModel(
-            id=str(uuid.uuid4()),
-            user_id=user_id,
-            question_id=question_id,
-        )
-        db.add(bookmark)
-        db.commit()
+    bookmark_repo = get_bookmark_repository(db)
+    bookmark_repo.toggle(user_id, question_id)
 
     # リファラーがあればそこに戻る、なければブックマーク一覧へ
     referer = request.headers.get("referer")
@@ -508,22 +453,27 @@ async def bookmarks_page(
     user_id: str = Depends(get_current_user_id),
 ):
     """ブックマーク一覧ページを表示する。"""
-    bookmark_records = (
-        db.query(BookmarkModel)
-        .filter(BookmarkModel.user_id == user_id)
-        .order_by(BookmarkModel.created_at.desc())
-        .all()
-    )
+    bookmark_repo = get_bookmark_repository(db)
+    question_repo = get_question_repository(db)
+    bookmark_records = bookmark_repo.get_by_user(user_id)
 
     bookmarks = []
     for bm in bookmark_records:
-        question = db.query(QuestionModel).filter(QuestionModel.id == bm.question_id).first()
+        question = question_repo.get_question_by_id(bm["question_id"])
         if question:
+            created_at_val = bm.get("created_at")
+            if created_at_val:
+                if isinstance(created_at_val, str):
+                    created_at_display = created_at_val[:10].replace("-", "/")
+                else:
+                    created_at_display = created_at_val.strftime("%Y/%m/%d")
+            else:
+                created_at_display = ""
             bookmarks.append({
-                "question_id": bm.question_id,
+                "question_id": bm["question_id"],
                 "text": question.text,
                 "domain": question.exam_domain or "その他",
-                "created_at": bm.created_at.strftime("%Y/%m/%d") if bm.created_at else "",
+                "created_at": created_at_display,
             })
 
     return templates.TemplateResponse(

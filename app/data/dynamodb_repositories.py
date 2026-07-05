@@ -16,6 +16,7 @@ from boto3.dynamodb.conditions import Attr, Key
 
 from app.data.dynamodb import (
     batch_write_items,
+    delete_item,
     get_item,
     get_table,
     is_dynamodb_enabled,
@@ -23,7 +24,15 @@ from app.data.dynamodb import (
     query_by_index,
     scan_table,
 )
-from app.domain.models import AnswerRecord, Course, Difficulty, Question, Region
+from app.domain.models import (
+    AnswerRecord,
+    Course,
+    Difficulty,
+    Question,
+    QuizSession,
+    Region,
+    SessionStatus,
+)
 from app.domain.question_validator import validate_question
 from app.domain.scoring import calculate_accuracy_rate
 
@@ -39,7 +48,8 @@ class DynamoDBCourseRepository:
     def get_all_courses(self) -> list[Course]:
         """全コースを取得する"""
         items = scan_table("courses")
-        return [self._to_domain(item) for item in items]
+        courses = [self._to_domain(item) for item in items]
+        return sorted(courses, key=lambda x: x.id)
 
     def get_courses_by_region(self, region: Region) -> list[Course]:
         """指定された地域のコースを取得する"""
@@ -57,7 +67,8 @@ class DynamoDBCourseRepository:
             )
             items.extend(response.get("Items", []))
 
-        return [self._to_domain(item) for item in items]
+        courses = [self._to_domain(item) for item in items]
+        return sorted(courses, key=lambda x: x.id)
 
     def get_course_by_id(self, course_id: str) -> Optional[Course]:
         """IDを指定してコースを取得する。存在しない場合は None を返す"""
@@ -353,3 +364,379 @@ class DynamoDBGlossaryRepository:
                 {"term": item["term"], "description": item["description"]}
             )
         return result
+
+
+# =============================================================================
+# DynamoDBUserRepository
+# =============================================================================
+
+
+class DynamoDBUserRepository:
+    """DynamoDB を使用したユーザーリポジトリ"""
+
+    def create(self, user_id: str, display_name: str, password_hash: str) -> None:
+        """ユーザーを作成する。
+
+        Args:
+            user_id: ユーザーID
+            display_name: 表示名
+            password_hash: ハッシュ化済みパスワード
+        """
+        item = {
+            "id": user_id,
+            "display_name": display_name,
+            "password_hash": password_hash,
+            "created_at": datetime.now().isoformat(),
+            "total_xp": 0,
+            "level": 1,
+        }
+        put_item("users", item)
+
+    def get_by_id(self, user_id: str) -> Optional[dict]:
+        """IDを指定してユーザーを取得する。存在しない場合は None を返す。
+
+        Args:
+            user_id: ユーザーID
+
+        Returns:
+            ユーザー情報辞書 or None
+        """
+        item = get_item("users", {"id": user_id})
+        if item is None:
+            return None
+        return self._to_dict(item)
+
+    def get_by_display_name(self, display_name: str) -> Optional[dict]:
+        """表示名を指定してユーザーを取得する。存在しない場合は None を返す。
+
+        テーブルスキャン＋フィルタで検索する（ユーザー数少量のため許容）。
+
+        Args:
+            display_name: 表示名
+
+        Returns:
+            ユーザー情報辞書 or None
+        """
+        items = scan_table("users")
+        for item in items:
+            if item.get("display_name") == display_name:
+                return self._to_dict(item)
+        return None
+
+    @staticmethod
+    def _to_dict(item: dict) -> dict:
+        """DynamoDB アイテムを標準辞書形式に変換する。"""
+        return {
+            "id": item["id"],
+            "display_name": item["display_name"],
+            "password_hash": item["password_hash"],
+            "created_at": item.get("created_at", ""),
+            "total_xp": int(item.get("total_xp", 0)),
+            "level": int(item.get("level", 1)),
+        }
+
+
+# =============================================================================
+# DynamoDBBookmarkRepository
+# =============================================================================
+
+
+class DynamoDBBookmarkRepository:
+    """DynamoDB を使用したブックマークリポジトリ"""
+
+    def add(self, user_id: str, question_id: str) -> str:
+        """ブックマークを追加する。
+
+        UUIDを生成してブックマークを永続化する。
+
+        Args:
+            user_id: ユーザーID
+            question_id: 問題ID
+
+        Returns:
+            生成されたブックマークID
+        """
+        bookmark_id = str(uuid.uuid4())
+        item = {
+            "id": bookmark_id,
+            "user_id": user_id,
+            "question_id": question_id,
+            "created_at": datetime.now().isoformat(),
+        }
+        put_item("bookmarks", item)
+        return bookmark_id
+
+    def remove(self, user_id: str, question_id: str) -> bool:
+        """ブックマークを削除する。
+
+        GSI user_id-index でクエリし、question_id に一致するアイテムを削除する。
+
+        Args:
+            user_id: ユーザーID
+            question_id: 問題ID
+
+        Returns:
+            削除できた場合True、対象が存在しなかった場合False
+        """
+        items = query_by_index(
+            "bookmarks",
+            "user_id-index",
+            Key("user_id").eq(user_id),
+        )
+        target = next(
+            (item for item in items if item.get("question_id") == question_id),
+            None,
+        )
+        if target is None:
+            return False
+        delete_item("bookmarks", {"id": target["id"]})
+        return True
+
+    def toggle(self, user_id: str, question_id: str) -> bool:
+        """ブックマークをトグルする。
+
+        既にブックマークが存在する場合は削除し、存在しない場合は追加する。
+
+        Args:
+            user_id: ユーザーID
+            question_id: 問題ID
+
+        Returns:
+            追加した場合True、削除した場合False
+        """
+        if self.exists(user_id, question_id):
+            self.remove(user_id, question_id)
+            return False
+        else:
+            self.add(user_id, question_id)
+            return True
+
+    def get_by_user(self, user_id: str) -> list[dict]:
+        """ユーザーのブックマーク一覧を取得する。
+
+        GSI user_id-index でクエリし、created_at 降順（新しい順）でソートして返す。
+
+        Args:
+            user_id: ユーザーID
+
+        Returns:
+            ブックマーク情報のリスト。各要素は {id, user_id, question_id, created_at} の辞書。
+        """
+        items = query_by_index(
+            "bookmarks",
+            "user_id-index",
+            Key("user_id").eq(user_id),
+        )
+        # created_at 降順でソート
+        items.sort(key=lambda x: x.get("created_at", ""), reverse=True)
+        return [
+            {
+                "id": item["id"],
+                "user_id": item["user_id"],
+                "question_id": item["question_id"],
+                "created_at": item.get("created_at", ""),
+            }
+            for item in items
+        ]
+
+    def exists(self, user_id: str, question_id: str) -> bool:
+        """ブックマークが存在するか確認する。
+
+        GSI user_id-index でクエリし、question_id に一致するアイテムがあるか確認する。
+
+        Args:
+            user_id: ユーザーID
+            question_id: 問題ID
+
+        Returns:
+            存在する場合True、しない場合False
+        """
+        items = query_by_index(
+            "bookmarks",
+            "user_id-index",
+            Key("user_id").eq(user_id),
+        )
+        return any(item.get("question_id") == question_id for item in items)
+
+
+# =============================================================================
+# DynamoDBSessionRepository
+# =============================================================================
+
+
+class DynamoDBSessionRepository:
+    """DynamoDB を使用したクイズセッションリポジトリ"""
+
+    def create(self, quiz_session: QuizSession) -> QuizSession:
+        """新しいクイズセッションを作成する。
+
+        Args:
+            quiz_session: 作成するクイズセッションのドメインオブジェクト
+
+        Returns:
+            作成されたクイズセッションのドメインオブジェクト
+        """
+        item = {
+            "id": quiz_session.id,
+            "user_id": quiz_session.user_id,
+            "course_id": quiz_session.course_id,
+            "started_at": quiz_session.started_at.isoformat(),
+            "completed_at": (
+                quiz_session.completed_at.isoformat()
+                if quiz_session.completed_at
+                else None
+            ),
+            "status": quiz_session.status.value,
+        }
+        put_item("quiz_sessions", item)
+        return quiz_session
+
+    def get_by_id(self, session_id: str) -> Optional[QuizSession]:
+        """セッションIDを指定してクイズセッションを取得する。
+
+        Args:
+            session_id: クイズセッションID
+
+        Returns:
+            該当するQuizSessionオブジェクト。存在しない場合はNone。
+        """
+        item = get_item("quiz_sessions", {"id": session_id})
+        if item is None:
+            return None
+        return self._to_domain(item)
+
+    def get_by_user_and_status(
+        self, user_id: str, status: SessionStatus
+    ) -> list[QuizSession]:
+        """ユーザーIDとステータスを指定してセッション一覧を取得する。
+
+        GSI `user_id-index` でuser_idをクエリし、statusでPythonフィルタする。
+
+        Args:
+            user_id: ユーザーID
+            status: セッションステータス
+
+        Returns:
+            条件に合致するQuizSessionオブジェクトのリスト
+        """
+        items = query_by_index(
+            "quiz_sessions",
+            "user_id-index",
+            Key("user_id").eq(user_id),
+        )
+        return [
+            self._to_domain(item)
+            for item in items
+            if item.get("status") == status.value
+        ]
+
+    def get_by_user_course_status(
+        self, user_id: str, course_id: str, statuses: list[SessionStatus]
+    ) -> list[QuizSession]:
+        """ユーザーID、コースID、ステータスリストを指定してセッション一覧を取得する。
+
+        GSI `user_id-index` でuser_idをクエリし、course_idとstatusesでPythonフィルタする。
+
+        Args:
+            user_id: ユーザーID
+            course_id: コースID
+            statuses: 検索対象のセッションステータスリスト
+
+        Returns:
+            条件に合致するQuizSessionオブジェクトのリスト（started_at降順）
+        """
+        status_values = [s.value for s in statuses]
+        items = query_by_index(
+            "quiz_sessions",
+            "user_id-index",
+            Key("user_id").eq(user_id),
+        )
+        filtered = [
+            self._to_domain(item)
+            for item in items
+            if item.get("course_id") == course_id
+            and item.get("status") in status_values
+        ]
+        # started_at降順でソート（SQLAlchemy版と同じ動作）
+        filtered.sort(key=lambda s: s.started_at, reverse=True)
+        return filtered
+
+    def update_status(
+        self,
+        session_id: str,
+        status: SessionStatus,
+        completed_at: Optional[datetime] = None,
+    ) -> None:
+        """セッションのステータスを更新する。
+
+        Args:
+            session_id: クイズセッションID
+            status: 更新先のセッションステータス
+            completed_at: 完了日時（COMPLETED時に設定）
+        """
+        table = get_table("quiz_sessions")
+        update_expr = "SET #st = :status"
+        expr_names = {"#st": "status"}
+        expr_values: dict = {":status": status.value}
+
+        if completed_at is not None:
+            update_expr += ", completed_at = :completed_at"
+            expr_values[":completed_at"] = completed_at.isoformat()
+
+        table.update_item(
+            Key={"id": session_id},
+            UpdateExpression=update_expr,
+            ExpressionAttributeNames=expr_names,
+            ExpressionAttributeValues=expr_values,
+        )
+
+    def get_in_progress_by_user_except_course(
+        self, user_id: str, exclude_course_id: str
+    ) -> list[QuizSession]:
+        """指定コース以外のユーザーのIN_PROGRESSセッションを取得する。
+
+        GSI `user_id-index` でuser_idをクエリし、
+        status==IN_PROGRESS かつ course_id != exclude_course_id でPythonフィルタする。
+
+        Args:
+            user_id: ユーザーID
+            exclude_course_id: 除外するコースID
+
+        Returns:
+            条件に合致するQuizSessionオブジェクトのリスト
+        """
+        items = query_by_index(
+            "quiz_sessions",
+            "user_id-index",
+            Key("user_id").eq(user_id),
+        )
+        return [
+            self._to_domain(item)
+            for item in items
+            if item.get("status") == SessionStatus.IN_PROGRESS.value
+            and item.get("course_id") != exclude_course_id
+        ]
+
+    @staticmethod
+    def _to_domain(item: dict) -> QuizSession:
+        """DynamoDB アイテムをドメイン QuizSession に変換する。"""
+        started_at = item.get("started_at")
+        if isinstance(started_at, str):
+            started_at = datetime.fromisoformat(started_at)
+        elif started_at is None:
+            started_at = datetime.now()
+
+        completed_at = item.get("completed_at")
+        if isinstance(completed_at, str):
+            completed_at = datetime.fromisoformat(completed_at)
+        else:
+            completed_at = None
+
+        return QuizSession(
+            id=item["id"],
+            user_id=item["user_id"],
+            course_id=item["course_id"],
+            started_at=started_at,
+            completed_at=completed_at,
+            status=SessionStatus(item["status"]),
+        )

@@ -14,6 +14,7 @@ Lambda 環境では自動的に DynamoDB を使用し、ローカル開発では
   - EhimeAI2026-mock_exam_results (PK: id, GSI: user_id-index)
   - EhimeAI2026-bookmarks (PK: id, GSI: user_id-index)
   - EhimeAI2026-glossary_terms (PK: id, GSI: category-index)
+  - EhimeAI2026-sessions (PK: id)
 """
 
 import os
@@ -55,6 +56,7 @@ TABLE_NAMES = {
     "mock_exam_results": f"{TABLE_PREFIX}mock_exam_results",
     "bookmarks": f"{TABLE_PREFIX}bookmarks",
     "glossary_terms": f"{TABLE_PREFIX}glossary_terms",
+    "sessions": f"{TABLE_PREFIX}sessions",
 }
 
 

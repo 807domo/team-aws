@@ -6,10 +6,16 @@
 
 from datetime import date, timedelta
 
-from sqlalchemy import func
 from sqlalchemy.orm import Session
 
-from app.data.models import AnswerRecordModel, QuestionModel, CourseModel
+from app.data.repository_factory import (
+    get_course_repository,
+    get_question_repository,
+    get_user_record_repository,
+    get_user_repository,
+)
+from app.domain.level_calculator import calculate_level
+from app.domain.models import Region
 
 
 # バッジ定義
@@ -98,20 +104,21 @@ BADGE_DEFINITIONS = [
 
 def _calculate_streak(user_id: str, db: Session) -> int:
     """今日から遡って連続で回答した日数を計算する。"""
-    records = (
-        db.query(func.date(AnswerRecordModel.answered_at))
-        .filter(AnswerRecordModel.user_id == user_id)
-        .distinct()
-        .all()
-    )
+    user_record_repo = get_user_record_repository(db)
+    records = user_record_repo.get_records_by_user(user_id)
+
     if not records:
         return 0
 
-    answered_dates = sorted({date.fromisoformat(str(r[0])) for r in records}, reverse=True)
+    answered_dates = sorted(
+        {r.answered_at.date() for r in records}, reverse=True
+    )
     today = date.today()
 
     # 今日か昨日に回答がなければストリーク0
-    if not answered_dates or (answered_dates[0] != today and answered_dates[0] != today - timedelta(days=1)):
+    if not answered_dates or (
+        answered_dates[0] != today and answered_dates[0] != today - timedelta(days=1)
+    ):
         return 0
 
     streak = 0
@@ -126,26 +133,25 @@ def _calculate_streak(user_id: str, db: Session) -> int:
     return streak
 
 
-def _check_region_complete(user_id: str, region: str, db: Session) -> bool:
+def _check_region_complete(user_id: str, region: Region, db: Session) -> bool:
     """指定リージョンの全コースが完了しているか確認する。"""
-    courses = db.query(CourseModel).filter(CourseModel.region == region).all()
+    course_repo = get_course_repository(db)
+    question_repo = get_question_repository(db)
+    user_record_repo = get_user_record_repository(db)
+
+    courses = course_repo.get_courses_by_region(region)
     if not courses:
         return False
 
     for course in courses:
-        questions = db.query(QuestionModel).filter(QuestionModel.course_id == course.id).all()
+        questions = question_repo.get_questions_by_course(course.id)
         if not questions:
             continue
         question_ids = {q.id for q in questions}
-        correct_ids = set(
-            r[0] for r in db.query(AnswerRecordModel.question_id)
-            .filter(
-                AnswerRecordModel.user_id == user_id,
-                AnswerRecordModel.course_id == course.id,
-                AnswerRecordModel.is_correct == True,
-            )
-            .all()
+        course_records = user_record_repo.get_records_by_user_and_course(
+            user_id, course.id
         )
+        correct_ids = {r.question_id for r in course_records if r.is_correct}
         if not question_ids.issubset(correct_ids):
             return False
 
@@ -156,22 +162,17 @@ def check_badges(user_id: str, db: Session) -> list[dict]:
     """ユーザーが獲得済みのバッジリストを返す。"""
     earned = []
 
+    user_record_repo = get_user_record_repository(db)
+    question_repo = get_question_repository(db)
+
+    # 全回答記録を取得
+    all_records = user_record_repo.get_records_by_user(user_id)
+
     # 回答数
-    total_answers = (
-        db.query(func.count(AnswerRecordModel.id))
-        .filter(AnswerRecordModel.user_id == user_id)
-        .scalar()
-    ) or 0
+    total_answers = len(all_records)
 
     # 正解数
-    correct_count = (
-        db.query(func.count(AnswerRecordModel.id))
-        .filter(
-            AnswerRecordModel.user_id == user_id,
-            AnswerRecordModel.is_correct == True,
-        )
-        .scalar()
-    ) or 0
+    correct_count = sum(1 for r in all_records if r.is_correct)
 
     # first_correct
     if correct_count >= 1:
@@ -186,51 +187,32 @@ def check_badges(user_id: str, db: Session) -> list[dict]:
         earned.append("questions_100")
 
     # perfect_stage: コースの全問正解（不正解なし）
-    from sqlalchemy import and_
-    courses_with_answers = (
-        db.query(AnswerRecordModel.course_id)
-        .filter(AnswerRecordModel.user_id == user_id)
-        .distinct()
-        .all()
-    )
-    for (course_id,) in courses_with_answers:
+    courses_with_answers = {r.course_id for r in all_records}
+    for course_id in courses_with_answers:
         if course_id == "custom-stage":
             continue
-        questions = db.query(QuestionModel).filter(QuestionModel.course_id == course_id).all()
+        questions = question_repo.get_questions_by_course(course_id)
         if not questions:
             continue
         question_ids = {q.id for q in questions}
-        # このコースの全問正解記録を確認
-        correct_ids = set(
-            r[0] for r in db.query(AnswerRecordModel.question_id)
-            .filter(
-                AnswerRecordModel.user_id == user_id,
-                AnswerRecordModel.course_id == course_id,
-                AnswerRecordModel.is_correct == True,
-            )
-            .all()
-        )
+        # このコースの回答記録をフィルタ
+        course_records = [r for r in all_records if r.course_id == course_id]
+        correct_ids = {r.question_id for r in course_records if r.is_correct}
         if question_ids.issubset(correct_ids):
             # 不正解が1つもないか確認
-            incorrect_exists = (
-                db.query(func.count(AnswerRecordModel.id))
-                .filter(
-                    AnswerRecordModel.user_id == user_id,
-                    AnswerRecordModel.course_id == course_id,
-                    AnswerRecordModel.is_correct == False,
-                )
-                .scalar()
+            incorrect_exists = any(
+                not r.is_correct for r in course_records
             )
             if not incorrect_exists:
                 earned.append("perfect_stage")
                 break
 
     # all_nanyo, all_chuyo, all_toyo
-    if _check_region_complete(user_id, "南予", db):
+    if _check_region_complete(user_id, Region.NANYO, db):
         earned.append("all_nanyo")
-    if _check_region_complete(user_id, "中予", db):
+    if _check_region_complete(user_id, Region.CHUYO, db):
         earned.append("all_chuyo")
-    if _check_region_complete(user_id, "東予", db):
+    if _check_region_complete(user_id, Region.TOYO, db):
         earned.append("all_toyo")
 
     # streak
@@ -241,23 +223,15 @@ def check_badges(user_id: str, db: Session) -> list[dict]:
         earned.append("streak_7")
 
     # ai_practice: AI弱点練習を1回でも完了したか
-    ai_records = (
-        db.query(func.count(AnswerRecordModel.id))
-        .filter(
-            AnswerRecordModel.user_id == user_id,
-            AnswerRecordModel.course_id == "ai-practice",
-        )
-        .scalar()
-    ) or 0
-    if ai_records > 0:
+    ai_records = [r for r in all_records if r.course_id == "ai-practice"]
+    if len(ai_records) > 0:
         earned.append("ai_practice")
 
     # 称号バッジ: レベルに基づく
-    from app.data.models import UserModel
-    from app.domain.level_calculator import calculate_level
-    user = db.query(UserModel).filter(UserModel.id == user_id).first()
-    if user:
-        user_level = calculate_level(user.total_xp or 0)
+    user_repo = get_user_repository(db)
+    user_data = user_repo.get_by_id(user_id)
+    if user_data:
+        user_level = calculate_level(user_data.get("total_xp") or 0)
         if user_level >= 3:
             earned.append("title_researcher")
         if user_level >= 6:
