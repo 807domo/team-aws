@@ -22,16 +22,16 @@ class TestCalculateXpAward:
         assert calculate_xp_award(0, 5) == 0
 
     def test_calculate_xp_award_one_correct(self):
-        """1問正解/5問 → 10 XP"""
-        assert calculate_xp_award(1, 5) == 10
+        """1問正解/5問 → 24 XP"""
+        assert calculate_xp_award(1, 5) == XP_PER_CORRECT_ANSWER
 
     def test_calculate_xp_award_perfect_5(self):
-        """5問全正解/5問 → 50 + 100 = 150 XP"""
-        assert calculate_xp_award(5, 5) == 150
+        """5問全正解/5問 → 5*24 + 50 = 170 XP"""
+        assert calculate_xp_award(5, 5) == 5 * XP_PER_CORRECT_ANSWER + PERFECT_COURSE_BONUS
 
     def test_calculate_xp_award_perfect_10(self):
-        """10問全正解/10問 → 100 + 100 = 200 XP"""
-        assert calculate_xp_award(10, 10) == 200
+        """10問全正解/10問 → 10*24 + 50 = 290 XP"""
+        assert calculate_xp_award(10, 10) == 10 * XP_PER_CORRECT_ANSWER + PERFECT_COURSE_BONUS
 
 
 class TestAddXp:

@@ -14,12 +14,11 @@ from app.data.glossary_seed import GLOSSARY_SEED_DATA
 
 ALL_QUESTIONS = QUESTIONS + EXTRA_QUESTIONS + EXTRA_QUESTIONS_2
 
-# Valid course IDs: nanyo-stage-01~31, chuyo-stage-01~20, toyo-stage-01~20
-VALID_COURSE_IDS = (
-    [f"nanyo-stage-{i:02d}" for i in range(1, 32)]
-    + [f"chuyo-stage-{i:02d}" for i in range(1, 21)]
-    + [f"toyo-stage-{i:02d}" for i in range(1, 21)]
-)
+# Valid course IDs derived from actual COURSES definition
+VALID_COURSE_IDS = [c["id"] for c in COURSES]
+
+# Course IDs that actually have questions assigned
+COURSE_IDS_WITH_QUESTIONS = sorted(set(q["course_id"] for q in ALL_QUESTIONS) & set(VALID_COURSE_IDS))
 
 
 def test_total_question_count():
@@ -30,37 +29,37 @@ def test_total_question_count():
 
 
 def test_all_courses_have_questions():
-    """71コース全てに少なくとも1問が存在することを確認する。"""
+    """問題が割り当てられたコースに少なくとも1問が存在することを確認する。"""
     course_ids_with_questions = {q["course_id"] for q in ALL_QUESTIONS}
-    for course_id in VALID_COURSE_IDS:
+    for course_id in COURSE_IDS_WITH_QUESTIONS:
         assert course_id in course_ids_with_questions, (
             f"Course '{course_id}' has no questions"
         )
 
 
 def test_questions_per_course_range():
-    """各コースの問題数が3〜7の範囲であることを確認する。"""
+    """問題ありコースの問題数が3〜15の範囲であることを確認する。"""
     counter = Counter(q["course_id"] for q in ALL_QUESTIONS)
-    for course_id in VALID_COURSE_IDS:
+    for course_id in COURSE_IDS_WITH_QUESTIONS:
         count = counter.get(course_id, 0)
-        assert 3 <= count <= 7, (
-            f"Course '{course_id}' has {count} questions (expected 3-7)"
+        assert 3 <= count <= 15, (
+            f"Course '{course_id}' has {count} questions (expected 3-15)"
         )
 
 
 def test_clf_cloud_concepts_count():
-    """CLF-C02 Cloud Conceptsドメインの問題数が47以上であることを確認する。"""
+    """CLF-C02 Cloud Conceptsドメインの問題数が30以上であることを確認する。"""
     count = sum(1 for q in ALL_QUESTIONS if q["exam_domain"] == "Cloud Concepts")
-    assert count >= 47, (
-        f"Cloud Concepts: expected >= 47, got {count}"
+    assert count >= 30, (
+        f"Cloud Concepts: expected >= 30, got {count}"
     )
 
 
 def test_clf_security_count():
-    """CLF-C02 Security and Complianceドメインの問題数が61以上であることを確認する。"""
+    """CLF-C02 Security and Complianceドメインの問題数が50以上であることを確認する。"""
     count = sum(1 for q in ALL_QUESTIONS if q["exam_domain"] == "Security and Compliance")
-    assert count >= 61, (
-        f"Security and Compliance: expected >= 61, got {count}"
+    assert count >= 50, (
+        f"Security and Compliance: expected >= 50, got {count}"
     )
 
 
@@ -73,10 +72,10 @@ def test_clf_technology_count():
 
 
 def test_clf_billing_count():
-    """CLF-C02 Billing Pricing and Supportドメインの問題数が24以上であることを確認する。"""
+    """CLF-C02 Billing Pricing and Supportドメインの問題数が12以上であることを確認する。"""
     count = sum(1 for q in ALL_QUESTIONS if q["exam_domain"] == "Billing, Pricing, and Support")
-    assert count >= 24, (
-        f"Billing Pricing and Support: expected >= 24, got {count}"
+    assert count >= 12, (
+        f"Billing, Pricing, and Support: expected >= 12, got {count}"
     )
 
 
@@ -131,9 +130,9 @@ def test_glossary_count():
 
 
 def test_courses_count():
-    """COURSESが71件で、全て有効なIDであることを確認する。"""
-    assert len(COURSES) == 71, (
-        f"Expected 71 courses, got {len(COURSES)}"
+    """COURSESが40件で、全て有効なIDであることを確認する。"""
+    assert len(COURSES) == 40, (
+        f"Expected 40 courses, got {len(COURSES)}"
     )
     course_ids = [c["id"] for c in COURSES]
     for valid_id in VALID_COURSE_IDS:

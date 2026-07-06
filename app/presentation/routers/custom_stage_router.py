@@ -35,8 +35,16 @@ async def create_stage_page(
     user_id: str = Depends(get_current_user_id),
 ):
     """カスタムステージ作成画面を表示。分野・問題数・難易度を設定できる。"""
-    from app.data.seed_data import QUESTIONS
-    domains = sorted(set(q.get("exam_domain", "") for q in QUESTIONS if q.get("exam_domain")))
+    from app.data.models import QuestionModel as QM
+
+    # DBから全問題のexam_domainを取得（重複排除）
+    domain_rows = (
+        db.query(QM.exam_domain)
+        .filter(QM.exam_domain != None, QM.exam_domain != "")
+        .distinct()
+        .all()
+    )
+    domains = sorted(r[0] for r in domain_rows)
 
     return templates.TemplateResponse(
         request,
@@ -53,6 +61,7 @@ async def start_custom_stage(
 ):
     """設定に基づいて問題をランダム選択しカスタムステージを開始する。"""
     import random
+    from app.data.models import QuestionModel as QM
 
     form = await request.form()
     selected_domains = form.getlist("domains")
@@ -62,26 +71,24 @@ async def start_custom_stage(
     if not selected_domains:
         return RedirectResponse(url="/custom-stage/create", status_code=303)
 
-    # 条件に合う問題をフィルタリング
-    from app.data.seed_data import QUESTIONS
-    candidates = [
-        q for q in QUESTIONS
-        if q.get("exam_domain") in selected_domains
-        and (difficulty == "all" or q.get("difficulty") == difficulty)
-    ]
+    # DBから条件に合う問題をフィルタリング
+    query = db.query(QM).filter(QM.exam_domain.in_(selected_domains))
+    if difficulty != "all":
+        query = query.filter(QM.difficulty == difficulty)
+    candidate_models = query.all()
 
-    if not candidates:
+    if not candidate_models:
         return RedirectResponse(url="/custom-stage/create", status_code=303)
 
     # ランダムに指定数を選択
-    count = min(count, len(candidates))
-    selected = random.sample(candidates, count)
+    count = min(count, len(candidate_models))
+    selected_models = random.sample(candidate_models, count)
 
     # Questionオブジェクトに変換
     question_repo = get_question_repository(db)
     questions = []
-    for q_data in selected:
-        q = question_repo.get_question_by_id(q_data["id"])
+    for model in selected_models:
+        q = question_repo.get_question_by_id(model.id)
         if q:
             questions.append(q)
 

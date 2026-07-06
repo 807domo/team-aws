@@ -57,3 +57,39 @@ def get_glossary_repository(session: Optional[Session] = None):
         from app.data.glossary_repository import GlossaryRepository
 
         return GlossaryRepository(session)
+
+
+def get_session_repository(session: Optional[Session] = None):
+    """クイズセッションリポジトリを取得する。"""
+    if os.environ.get("USE_DYNAMODB", "0") == "1":
+        from app.data.dynamodb_repositories import DynamoDBSessionRepository
+
+        return DynamoDBSessionRepository()
+    else:
+        from app.data.session_repository import SessionRepository
+
+        return SessionRepository(session)
+
+
+def get_bookmark_repository(session: Optional[Session] = None):
+    """ブックマークリポジトリを取得する。"""
+    if os.environ.get("USE_DYNAMODB", "0") == "1":
+        from app.data.dynamodb_repositories import DynamoDBBookmarkRepository
+
+        return DynamoDBBookmarkRepository()
+    else:
+        from app.data.bookmark_repository import BookmarkRepository
+
+        return BookmarkRepository(session)
+
+
+def get_user_repository(session: Optional[Session] = None):
+    """ユーザーリポジトリを取得する。"""
+    if os.environ.get("USE_DYNAMODB", "0") == "1":
+        from app.data.dynamodb_repositories import DynamoDBUserRepository
+
+        return DynamoDBUserRepository()
+    else:
+        from app.data.user_repository import UserRepository
+
+        return UserRepository(session)

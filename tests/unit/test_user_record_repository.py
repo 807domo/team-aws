@@ -34,14 +34,14 @@ def session():
     course = CourseModel(
         id="course-1",
         name="松山城コース",
-        region="中予",
+        region="中級",
         difficulty="基礎",
         description="テストコース",
     )
     course2 = CourseModel(
         id="course-2",
         name="道後温泉コース",
-        region="中予",
+        region="中級",
         difficulty="中級",
         description="テストコース2",
     )
