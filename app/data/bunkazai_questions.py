@@ -11,7 +11,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-nb-001",
         "course_id": "nanyo-stage-10",
-        "text": "宇和島城は現存12天守の一つで国の重要文化財です。文化財のデジタルアーカイブを安全に長期保存するのに最適なAWSサービスはどれですか？",
+        "text": "天赦園は宇和島藩七代藩主伊達宗紀が築いた池泉回遊式庭園で国の名勝です。文化財のデジタルアーカイブを安全に長期保存するのに最適なAWSサービスはどれですか？",
         "choice_1": "Amazon S3 Glacier",
         "choice_2": "Amazon EC2",
         "choice_3": "AWS Lambda",
@@ -25,7 +25,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-nb-002",
         "course_id": "nanyo-stage-10",
-        "text": "遊子水荷浦の段畑は国の重要文化的景観に選定されています。大量の写真データをオブジェクトとして保存するAWSサービスはどれですか？",
+        "text": "天赦園は藤棚と書院が見事な伊達家の大名庭園で国の名勝に指定されています。大量の写真データをオブジェクトとして保存するAWSサービスはどれですか？",
         "choice_1": "Amazon RDS",
         "choice_2": "Amazon S3",
         "choice_3": "Amazon DynamoDB",
@@ -39,13 +39,13 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-nb-003",
         "course_id": "nanyo-stage-10",
-        "text": "明石寺は四国八十八箇所第43番札所で県指定有形文化財です。Webサイトを世界中から高速にアクセスできるようにするサービスはどれですか？",
+        "text": "天赦園は伊達家の大名庭園で国の名勝に指定されています。Webサイトを世界中から高速にアクセスできるようにするサービスはどれですか？",
         "choice_1": "Amazon VPC",
         "choice_2": "AWS IAM",
         "choice_3": "Amazon CloudFront",
         "choice_4": "Amazon SQS",
         "correct_choice_index": 2,
-        "ehime_trivia": "宇和島鯛めしは生の鯛を特製ダレと卵で食べる郷土料理で、南予独特の食文化です。",
+        "ehime_trivia": "天赦園の名は伊達宗紀が隠居の心境を「天赦」と表し命名。園内には伊達家ゆかりの藤棚があり、4月下旬に白紫の花が池面に映る景観が見事です。",
         "aws_ai_explanation": "Amazon CloudFrontは世界中のエッジロケーションからコンテンツをキャッシュ配信するCDNサービスです。文化財紹介サイトを海外観光客にも高速に提供できます。",
         "difficulty": "基礎",
         "exam_domain": "Cloud Technology and Services",
@@ -53,13 +53,13 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-nb-004",
         "course_id": "nanyo-stage-10",
-        "text": "愛南町の篠山は原生林が国の天然記念物に指定されています。AWSで「使った分だけ支払う」料金モデルを何と呼びますか？",
+        "text": "天赦園は宇和島市にある池泉回遊式庭園で、伊達宗紀が隠居の場として築庭しました。AWSで「使った分だけ支払う」料金モデルを何と呼びますか？",
         "choice_1": "固定料金制",
         "choice_2": "従量課金（Pay-as-you-go）",
         "choice_3": "前払い制",
         "choice_4": "定額サブスクリプション",
         "correct_choice_index": 1,
-        "ehime_trivia": "和霊神社は宇和島市にある大社で、毎年7月の和霊大祭は四国最大級の夏祭りです。",
+        "ehime_trivia": "天赦園の池泉回遊式庭園には四季折々の花木が植えられ、伊達家の大名庭園として格式高い造りが残る国の名勝です。",
         "aws_ai_explanation": "従量課金（Pay-as-you-go）はクラウドの基本原則で、使用したリソース量に応じて課金されます。文化財のデジタルアーカイブも、アクセスが少ない時期はコストを抑えられます。",
         "difficulty": "基礎",
         "exam_domain": "Cloud Concepts",
@@ -68,7 +68,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-ni-001",
         "course_id": "nanyo-stage-09",
-        "text": "開明学校は明治15年建築の擬洋風校舎で国の重要文化財です。AWS上でWebアプリのトラフィックを複数サーバーに分散するサービスはどれですか？",
+        "text": "佐田岬灯台は四国最西端に立つ白亜の灯台で、豊予海峡を望む名所です。AWS上でWebアプリのトラフィックを複数サーバーに分散するサービスはどれですか？",
         "choice_1": "Amazon S3",
         "choice_2": "Elastic Load Balancing",
         "choice_3": "AWS KMS",
@@ -82,7 +82,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-ni-002",
         "course_id": "nanyo-stage-04",
-        "text": "卯之町の町並みは重要伝統的建造物群保存地区です。AWSでデータベースの自動バックアップとリードレプリカを提供するマネージドサービスはどれですか？",
+        "text": "篠山は愛南町にある標高1065mの山で、暖地性原生林が国の天然記念物に指定されています。AWSでデータベースの自動バックアップとリードレプリカを提供するマネージドサービスはどれですか？",
         "choice_1": "Amazon RDS",
         "choice_2": "Amazon S3",
         "choice_3": "AWS Lambda",
@@ -96,7 +96,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-ni-003",
         "course_id": "nanyo-stage-05",
-        "text": "大洲城は2004年に木造で復元された名城です。インフラをコードで管理し再現性のある環境を構築するAWSサービスはどれですか？",
+        "text": "内子座は1916年に建てられた木造二階建ての芝居小屋で国の重要文化財です。インフラをコードで管理し再現性のある環境を構築するAWSサービスはどれですか？",
         "choice_1": "Amazon EC2",
         "choice_2": "AWS CloudFormation",
         "choice_3": "Amazon VPC",
@@ -110,7 +110,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-ni-004",
         "course_id": "nanyo-stage-06",
-        "text": "八幡浜市の日土小学校は戦後モダニズム建築の傑作で国の重要文化財です。AWSでリソースの設定変更を継続的に監視するサービスはどれですか？",
+        "text": "卯之町は西予市にある重要伝統的建造物群保存地区で、宇和島藩の在郷町として栄えた町並みです。AWSでリソースの設定変更を継続的に監視するサービスはどれですか？",
         "choice_1": "AWS Config",
         "choice_2": "Amazon S3",
         "choice_3": "AWS Lambda",
@@ -125,7 +125,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-na-001",
         "course_id": "nanyo-stage-08",
-        "text": "内子座は1916年建築の芝居小屋で国の重要文化財です。マイクロサービス間の非同期通信でシステムの耐障害性を高めるAWSサービスはどれですか？",
+        "text": "大洲城は2004年に明治期の古写真を基に木造で忠実に復元された天守で全国初の事例です。マイクロサービス間の非同期通信でシステムの耐障害性を高めるAWSサービスはどれですか？",
         "choice_1": "Amazon SQS",
         "choice_2": "Amazon S3",
         "choice_3": "Amazon EC2",
@@ -139,7 +139,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-na-002",
         "course_id": "nanyo-stage-09",
-        "text": "外泊石垣の里は独特の石垣集落景観を持ちます。ゼロトラストセキュリティモデルにおけるAWSのベストプラクティスはどれですか？",
+        "text": "佐田岬灯台は四国最西端の佐田岬半島先端に立ち、豊予海峡を挟んで大分県を望めます。ゼロトラストセキュリティモデルにおけるAWSのベストプラクティスはどれですか？",
         "choice_1": "社内ネットワークからのアクセスは全て信頼する",
         "choice_2": "全リクエストを検証し、最小権限の原則を適用する",
         "choice_3": "VPNのみでセキュリティを確保する",
@@ -154,7 +154,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-tb-001",
         "course_id": "toyo-stage-09",
-        "text": "大山祇神社は国宝8件・重要文化財76件を所蔵する日本有数の神社です。AWSでデータの暗号鍵を管理するサービスはどれですか？",
+        "text": "今治城は1602年に藤堂高虎が築城した日本三大水城の一つで、堀に海水を引き入れた構造が特徴です。AWSでデータの暗号鍵を管理するサービスはどれですか？",
         "choice_1": "AWS KMS",
         "choice_2": "Amazon EC2",
         "choice_3": "Amazon S3",
@@ -168,7 +168,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-tb-002",
         "course_id": "toyo-stage-09",
-        "text": "西条祭りのだんじりは市の無形民俗文化財です。イベント駆動型でサーバー管理不要にコードを実行するサービスはどれですか？",
+        "text": "今治城は藤堂高虎が築いた日本屈指の海城で、堀には海水魚が泳ぐ珍しい城です。イベント駆動型でサーバー管理不要にコードを実行するサービスはどれですか？",
         "choice_1": "Amazon RDS",
         "choice_2": "AWS Lambda",
         "choice_3": "Amazon VPC",
@@ -182,7 +182,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-tb-003",
         "course_id": "toyo-stage-09",
-        "text": "石鎚神社は西日本最高峰の石鎚山を神体とする信仰の聖地です。AWSのリージョンについて正しい説明はどれですか？",
+        "text": "今治城は県史跡に指定された水城で、現在の天守は1980年に再建されました。AWSのリージョンについて正しい説明はどれですか？",
         "choice_1": "リージョンは世界に1つしかない",
         "choice_2": "各リージョンは複数のAZで構成され地理的に独立している",
         "choice_3": "リージョン間のデータ転送は常に無料",
@@ -211,7 +211,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-ti-001",
         "course_id": "toyo-stage-10",
-        "text": "別子銅山の産業遺産群は近代化産業遺産に認定されています。AWSでVPC内のネットワークトラフィックログを取得するサービスはどれですか？",
+        "text": "西条祭りは毎年10月に開催され、約150台のだんじり・みこし・太鼓台が練り歩く四国最大級の祭りです。AWSでVPC内のネットワークトラフィックログを取得するサービスはどれですか？",
         "choice_1": "VPC Flow Logs",
         "choice_2": "Amazon S3",
         "choice_3": "Amazon RDS",
@@ -225,7 +225,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-ti-002",
         "course_id": "toyo-stage-10",
-        "text": "旧広瀬邸は新居浜市の重要文化財で住友家の別邸です。AWSでキーバリュー型データをミリ秒レイテンシーで処理するNoSQLサービスはどれですか？",
+        "text": "西条祭りの伊曽乃神社祭礼ではだんじり約80台が宮入りし、川入りは感動的な光景です。AWSでキーバリュー型データをミリ秒レイテンシーで処理するNoSQLサービスはどれですか？",
         "choice_1": "Amazon DynamoDB",
         "choice_2": "Amazon RDS",
         "choice_3": "Amazon Redshift",
@@ -239,7 +239,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-ti-003",
         "course_id": "toyo-stage-10",
-        "text": "新居浜太鼓祭りの太鼓台は市の有形民俗文化財です。AWSでPub/Sub型メッセージを複数のサービスに同時配信する仕組みはどれですか？",
+        "text": "西条祭りは加茂川での川入りがクライマックスで、市の無形民俗文化財に指定されています。AWSでPub/Sub型メッセージを複数のサービスに同時配信する仕組みはどれですか？",
         "choice_1": "Amazon SNS",
         "choice_2": "Amazon S3",
         "choice_3": "Amazon EC2",
@@ -253,7 +253,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-ti-004",
         "course_id": "toyo-stage-10",
-        "text": "村上海賊ミュージアムは日本遺産第一号の関連施設です。AWSでデータレイクを構築する基本構成として適切なものはどれですか？",
+        "text": "西条祭りのだんじりは精巧な彫刻と金糸の刺繍幕が特徴的な文化財です。AWSでデータレイクを構築する基本構成として適切なものはどれですか？",
         "choice_1": "S3 + Athena + Glue",
         "choice_2": "EC2 + EBS + Route 53",
         "choice_3": "Lambda + SNS + SQS",
@@ -268,7 +268,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-ta-001",
         "course_id": "toyo-stage-06",
-        "text": "大山祇神社所蔵の赤糸威胴丸鎧は国宝です。AWS WAFの主な機能として正しいものはどれですか？",
+        "text": "村上海賊ミュージアムは今治市宮窪町にあり、瀬戸内海を支配した村上水軍の歴史を展示する日本遺産第一号の関連施設です。AWS WAFの主な機能として正しいものはどれですか？",
         "choice_1": "データベースのバックアップを自動化する",
         "choice_2": "Webアプリへの悪意あるリクエスト（SQLインジェクション等）をフィルタリングする",
         "choice_3": "EC2インスタンスのCPU使用率を監視する",
@@ -282,7 +282,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-ta-002",
         "course_id": "toyo-stage-05",
-        "text": "しまなみ海道沿いの島々には多数の寺社仏閣が点在します。マルチアカウント環境で一元的にセキュリティを管理するAWSサービスはどれですか？",
+        "text": "西条うちぬきは地下水が自噴する全国的にも珍しい現象で、日本名水百選に選ばれています。マルチアカウント環境で一元的にセキュリティを管理するAWSサービスはどれですか？",
         "choice_1": "AWS Organizations + AWS Control Tower",
         "choice_2": "Amazon S3 + CloudFront",
         "choice_3": "Amazon RDS + ElastiCache",
@@ -297,7 +297,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-cb-001",
         "course_id": "chuyo-stage-08",
-        "text": "道後温泉本館は国の重要文化財で日本最古の温泉建築です。クラウドで高い可用性を実現するための基本概念はどれですか？",
+        "text": "砥部焼は砥部町で約240年の歴史を持つ磁器で、国の伝統的工芸品に指定されています。クラウドで高い可用性を実現するための基本概念はどれですか？",
         "choice_1": "単一サーバーでの運用",
         "choice_2": "複数のAZにリソースを分散配置する冗長構成",
         "choice_3": "常に手動でサーバーを再起動する",
@@ -311,7 +311,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-cb-002",
         "course_id": "chuyo-stage-08",
-        "text": "松山城は現存12天守の一つで国の重要文化財です。AWSで仮想サーバーを起動するサービスはどれですか？",
+        "text": "砥部焼は厚手の白磁に呉須の手描き模様が特徴で、約100の窯元が砥部町にあります。AWSで仮想サーバーを起動するサービスはどれですか？",
         "choice_1": "Amazon EC2",
         "choice_2": "Amazon S3",
         "choice_3": "Amazon SQS",
@@ -325,13 +325,13 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-cb-003",
         "course_id": "chuyo-stage-08",
-        "text": "石手寺は四国霊場第51番札所で国宝の二王門を持ちます。クラウドの利点として正しいものはどれですか？",
+        "text": "砥部焼は1976年に国の伝統的工芸品に指定され、砥部焼まつりでは多くの陶芸ファンが訪れます。クラウドの利点として正しいものはどれですか？",
         "choice_1": "初期投資が大きく必要",
         "choice_2": "必要な時に必要な分だけリソースを調達できる俊敏性",
         "choice_3": "物理サーバーを自分で管理する必要がある",
         "choice_4": "容量の変更に数ヶ月かかる",
         "correct_choice_index": 1,
-        "ehime_trivia": "砥部動物園は愛媛県立の動物園で、約170種の動物を飼育する四国最大級の動物園として家族連れに人気です。",
+        "ehime_trivia": "砥部焼は砥部町で約240年の歴史を持つ磁器で、白磁に藍色の唐草模様が特徴。1976年に国の伝統的工芸品に指定され、約100の窯元が技を競っています。",
         "aws_ai_explanation": "クラウドの俊敏性（Agility）とは、リソースを数分で世界中にデプロイし、迅速に実験・拡張・縮小できることです。物理インフラの調達を待つ必要がありません。",
         "difficulty": "中級",
         "exam_domain": "Cloud Concepts",
@@ -339,7 +339,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-cb-004",
         "course_id": "chuyo-stage-08",
-        "text": "伊佐爾波神社は全国に3例しかない八幡造の社殿で国の重要文化財です。AWSで不正アクセスを検知するサービスはどれですか？",
+        "text": "砥部焼の窯元を巡る陶街道五十三次では各窯元の個性豊かな作品を直接購入できます。AWSで不正アクセスを検知するサービスはどれですか？",
         "choice_1": "Amazon GuardDuty",
         "choice_2": "Amazon S3",
         "choice_3": "Amazon RDS",
@@ -354,7 +354,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-ci-001",
         "course_id": "chuyo-stage-07",
-        "text": "萬翠荘は大正時代のフランス風洋館で国の重要文化財です。AWSでHTTPS証明書を管理するサービスはどれですか？",
+        "text": "岩屋寺は久万高原町の標高700mにある四国八十八箇所第45番札所で、巨大な岩壁に囲まれた境内が特徴です。AWSでHTTPS証明書を管理するサービスはどれですか？",
         "choice_1": "AWS Certificate Manager",
         "choice_2": "Amazon EC2",
         "choice_3": "Amazon DynamoDB",
@@ -368,7 +368,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-ci-002",
         "course_id": "chuyo-stage-01",
-        "text": "太山寺本堂は鎌倉時代建築の国宝です。AWSでアプリのパフォーマンスを監視しボトルネックを特定するサービスはどれですか？",
+        "text": "松山城は標高132mの勝山山頂に建つ連立式天守で、21棟の建造物が国の重要文化財に指定されています。AWSでアプリのパフォーマンスを監視しボトルネックを特定するサービスはどれですか？",
         "choice_1": "AWS X-Ray",
         "choice_2": "Amazon S3",
         "choice_3": "AWS IAM",
@@ -382,7 +382,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-ci-003",
         "course_id": "chuyo-stage-02",
-        "text": "砥部焼は国の伝統的工芸品に指定された磁器です。AWSでコンテナイメージを保存・管理するレジストリサービスはどれですか？",
+        "text": "道後温泉本館は1894年建築の公衆浴場で、木造三層楼の建築が国の重要文化財に指定されています。AWSでコンテナイメージを保存・管理するレジストリサービスはどれですか？",
         "choice_1": "Amazon ECR",
         "choice_2": "Amazon S3",
         "choice_3": "Amazon RDS",
@@ -396,7 +396,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-ci-004",
         "course_id": "chuyo-stage-03",
-        "text": "久万高原町の岩屋寺は切り立つ岩壁に建つ四国霊場第45番札所です。AWSでサーバーレスにAPIを公開するサービスはどれですか？",
+        "text": "石手寺は松山市にある四国八十八箇所第51番札所で、二王門は国宝に指定されています。AWSでサーバーレスにAPIを公開するサービスはどれですか？",
         "choice_1": "Amazon API Gateway",
         "choice_2": "Amazon EBS",
         "choice_3": "Amazon Glacier",
@@ -411,7 +411,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-ca-001",
         "course_id": "chuyo-stage-04",
-        "text": "石手寺二王門は鎌倉時代の国宝建造物です。AWSでDDoS攻撃からアプリケーションを保護するサービスはどれですか？",
+        "text": "太山寺本堂は松山市にある1305年建築の入母屋造で、愛媛県内の建造物で唯一の国宝です。AWSでDDoS攻撃からアプリケーションを保護するサービスはどれですか？",
         "choice_1": "AWS Shield Advanced",
         "choice_2": "Amazon S3",
         "choice_3": "Amazon RDS",
@@ -425,7 +425,7 @@ BUNKAZAI_QUESTIONS = [
     {
         "id": "q-bz-ca-002",
         "course_id": "chuyo-stage-06",
-        "text": "松山市の湯築城跡は国の史跡で中世の城郭遺跡です。Amazon EventBridgeが提供する主な機能はどれですか？",
+        "text": "伊佐爾波神社は道後温泉近くの丘に鎮座し、全国に3例しかない八幡造の社殿が国の重要文化財です。Amazon EventBridgeが提供する主な機能はどれですか？",
         "choice_1": "イベントバスを介した異なるサービス間のイベントルーティングとフィルタリング",
         "choice_2": "ブロックストレージの提供",
         "choice_3": "DNS名前解決",
@@ -444,13 +444,13 @@ BUNKAZAI_QUESTIONS_EXTRA = [
     {
         "id": "q-bz-nb-005",
         "course_id": "nanyo-stage-10",
-        "text": "西予市の四国西予ジオパークは地質遺産として認定されています。AWSで複数のサービスの稼働状況を一元監視するサービスはどれですか？",
+        "text": "天赦園は池泉回遊式庭園で、藤棚と四季の花木が楽しめる国の名勝です。AWSで複数のサービスの稼働状況を一元監視するサービスはどれですか？",
         "choice_1": "Amazon CloudWatch",
         "choice_2": "Amazon S3",
         "choice_3": "AWS IAM",
         "choice_4": "Amazon Route 53",
         "correct_choice_index": 0,
-        "ehime_trivia": "宇和島市の九島は2016年に橋が開通した離島で、のどかな漁村風景が魅力です。",
+        "ehime_trivia": "天赦園は宇和島藩七代藩主伊達宗紀が1866年に築いた庭園で、池の中島に建つ書院「潜淵館」から眺める藤棚と池泉の景色が格別です。",
         "aws_ai_explanation": "Amazon CloudWatchはAWSリソースとアプリケーションのメトリクス・ログ・アラームを一元管理する監視サービスです。ダッシュボードで稼働状況を可視化できます。",
         "difficulty": "中級",
         "exam_domain": "Cloud Technology and Services",
@@ -459,7 +459,7 @@ BUNKAZAI_QUESTIONS_EXTRA = [
     {
         "id": "q-bz-ni-005",
         "course_id": "nanyo-stage-01",
-        "text": "宇和島市の多賀神社は県指定有形文化財の本殿を持ちます。AWSでオンプレミスとクラウドを専用線で接続するサービスはどれですか？",
+        "text": "宇和島城天守は1666年に伊達宗利が建てた現存12天守の一つで国の重要文化財です。AWSでオンプレミスとクラウドを専用線で接続するサービスはどれですか？",
         "choice_1": "AWS Direct Connect",
         "choice_2": "Amazon CloudFront",
         "choice_3": "Amazon S3",
@@ -474,7 +474,7 @@ BUNKAZAI_QUESTIONS_EXTRA = [
     {
         "id": "q-bz-na-003",
         "course_id": "nanyo-stage-02",
-        "text": "西予市の四国カルスト県立自然公園は希少な地形です。AWSでコンテナオーケストレーションをサーバーレスで行うサービスはどれですか？",
+        "text": "遊子水荷浦の段畑は宇和島市の急斜面に石垣を積んで作られた階段状の畑で、国の重要文化的景観です。AWSでコンテナオーケストレーションをサーバーレスで行うサービスはどれですか？",
         "choice_1": "Amazon ECS with Fargate",
         "choice_2": "Amazon S3",
         "choice_3": "Amazon Route 53",
@@ -489,7 +489,7 @@ BUNKAZAI_QUESTIONS_EXTRA = [
     {
         "id": "q-bz-tb-005",
         "course_id": "toyo-stage-09",
-        "text": "四国中央市の手漉き和紙の技術は県の無形文化財です。AWSでファイルを共有するストレージサービスはどれですか？",
+        "text": "今治城は吹揚公園として整備され、瀬戸内海を望む眺望と桜の名所として親しまれています。AWSでファイルを共有するストレージサービスはどれですか？",
         "choice_1": "Amazon EFS",
         "choice_2": "Amazon SQS",
         "choice_3": "AWS IAM",
@@ -504,7 +504,7 @@ BUNKAZAI_QUESTIONS_EXTRA = [
     {
         "id": "q-bz-ti-005",
         "course_id": "toyo-stage-06",
-        "text": "伊予国分寺は奈良時代に創建された県指定有形文化財です。DNSでドメイン名をIPアドレスに解決するAWSサービスはどれですか？",
+        "text": "村上海賊ミュージアムは瀬戸内海を支配した村上水軍の歴史資料を展示する日本遺産第一号の関連施設です。DNSでドメイン名をIPアドレスに解決するAWSサービスはどれですか？",
         "choice_1": "Amazon Route 53",
         "choice_2": "Amazon CloudFront",
         "choice_3": "Elastic Load Balancing",
@@ -519,7 +519,7 @@ BUNKAZAI_QUESTIONS_EXTRA = [
     {
         "id": "q-bz-ta-003",
         "course_id": "toyo-stage-10",
-        "text": "四国中央市の手漉き和紙は伝統産業として地域を支えています。AWS Step Functionsの主な用途として正しいものはどれですか？",
+        "text": "西条祭りの伊曽乃神社は創建2000年以上の歴史を持つ古社で、祭りの中心的な神社です。AWS Step Functionsの主な用途として正しいものはどれですか？",
         "choice_1": "静的ウェブサイトのホスティング",
         "choice_2": "複数のAWSサービスを組み合わせたワークフローのオーケストレーション",
         "choice_3": "データベースのクエリ最適化",
@@ -534,7 +534,7 @@ BUNKAZAI_QUESTIONS_EXTRA = [
     {
         "id": "q-bz-cb-005",
         "course_id": "chuyo-stage-08",
-        "text": "松山市の子規堂は正岡子規ゆかりの文学史跡です。AWSでアプリケーションログを収集・検索するサービスはどれですか？",
+        "text": "砥部焼伝統産業会館では砥部焼の歴史や製作工程を学べ、絵付け体験も楽しめます。AWSでアプリケーションログを収集・検索するサービスはどれですか？",
         "choice_1": "Amazon CloudWatch Logs",
         "choice_2": "Amazon RDS",
         "choice_3": "AWS Lambda",
@@ -549,7 +549,7 @@ BUNKAZAI_QUESTIONS_EXTRA = [
     {
         "id": "q-bz-ci-005",
         "course_id": "chuyo-stage-07",
-        "text": "松山市の興居島船踊りは県指定無形民俗文化財です。AWSでイベント駆動型アーキテクチャにおけるメッセージの順序保証を実現するサービスはどれですか？",
+        "text": "岩屋寺の大師堂は重要文化財に指定され、久万高原町の「四国の軽井沢」と呼ばれる高原に位置します。AWSでイベント駆動型アーキテクチャにおけるメッセージの順序保証を実現するサービスはどれですか？",
         "choice_1": "Amazon SQS FIFO",
         "choice_2": "Amazon S3",
         "choice_3": "Amazon EC2",
@@ -564,7 +564,7 @@ BUNKAZAI_QUESTIONS_EXTRA = [
     {
         "id": "q-bz-ca-003",
         "course_id": "chuyo-stage-01",
-        "text": "久米官衙遺跡群は松山市の国史跡で古代の役所跡です。AWSでデータ暗号化における「エンベロープ暗号化」とは何ですか？",
+        "text": "松山城は加藤嘉明が1602年に築城を開始した日本三大平山城の一つで、登り石垣が珍しい構造です。AWSでデータ暗号化における「エンベロープ暗号化」とは何ですか？",
         "choice_1": "データキーでデータを暗号化し、マスターキーでデータキーを暗号化する二重構造",
         "choice_2": "データを2回暗号化する方式",
         "choice_3": "暗号化せずにアクセスを制限する方式",
