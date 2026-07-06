@@ -28,10 +28,11 @@ class GeminiQuestionGenerator:
 
     弱点ドメインに基づいてAWS/AI関連の4択問題を生成する。
     GEMINI_API_KEY 環境変数が未設定の場合は利用不可を通知する。
+    ユーザーごとのAPIキーにも対応。
     """
 
-    def __init__(self) -> None:
-        self._api_key = os.environ.get("GEMINI_API_KEY", "")
+    def __init__(self, api_key: Optional[str] = None) -> None:
+        self._api_key = api_key or os.environ.get("GEMINI_API_KEY", "")
         self._client = None
 
         if self._api_key:

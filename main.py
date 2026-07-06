@@ -230,6 +230,10 @@ from app.presentation.routers.review_router import router as review_router
 
 app.include_router(review_router)
 
+from app.presentation.routers.settings_router import router as settings_router
+
+app.include_router(settings_router)
+
 
 # =============================================================================
 # Lambda handler (Mangum adapter)

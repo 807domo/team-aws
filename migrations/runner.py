@@ -19,6 +19,7 @@ MIGRATION_MODULES = [
     "migrations.003_add_extra_questions",
     "migrations.004_create_bookmarks_table",
     "migrations.005_shuffle_answer_positions",
+    "migrations.006_add_user_api_key",
 ]
 
 

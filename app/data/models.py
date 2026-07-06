@@ -74,6 +74,7 @@ class UserModel(Base):
     level: Mapped[int] = mapped_column(
         Integer, nullable=False, server_default=text("1")
     )
+    gemini_api_key: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     # リレーション
     answer_records: Mapped[list["AnswerRecordModel"]] = relationship(

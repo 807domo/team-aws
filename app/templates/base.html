@@ -35,6 +35,7 @@
                     <span class="text-orange-300">|</span>
                     {% if request.state.current_user_name %}
                     <span class="text-orange-200 text-sm">{{ request.state.current_user_name }}</span>
+                    <a href="/settings" class="text-white hover:text-orange-200 text-sm" title="設定">⚙️</a>
                     <a href="/auth/logout" class="text-white hover:text-orange-200 text-sm"
                        onclick="return confirm('ログアウトしますか？')">ログアウト</a>
                     {% else %}

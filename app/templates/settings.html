@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}設定 - 愛媛探索AIクイズ{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">⚙️ 設定</h1>
+
+    {% if message %}
+    <div class="mb-4 p-4 rounded-lg {% if message_type == 'success' %}bg-green-50 text-green-700 border border-green-200{% else %}bg-red-50 text-red-700 border border-red-200{% endif %}">
+        {{ message }}
+    </div>
+    {% endif %}
+
+    <!-- Gemini APIキー設定 -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-lg font-bold text-gray-800 mb-2">🔑 Gemini APIキー</h2>
+        <p class="text-sm text-gray-600 mb-4">
+            AI弱点練習で使用するGoogle Gemini APIキーを設定します。<br>
+            <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener"
+               class="text-blue-600 hover:underline">Google AI Studio</a>
+            で無料のAPIキーを取得できます。
+        </p>
+
+        <form method="post" action="/settings/api-key" class="space-y-4">
+            <div>
+                <label for="api_key" class="block text-sm font-medium text-gray-700 mb-1">
+                    APIキー
+                </label>
+                <div class="flex gap-2">
+                    <input type="password" id="api_key" name="api_key"
+                           value="{{ current_key_masked }}"
+                           placeholder="APIキーを入力..."
+                           class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                           autocomplete="off">
+                    <button type="button" onclick="toggleKeyVisibility()" id="toggle-btn"
+                            class="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors text-sm">
+                        👁 表示
+                    </button>
+                </div>
+                {% if has_key %}
+                <p class="text-xs text-green-600 mt-1">✓ APIキーが設定されています</p>
+                {% else %}
+                <p class="text-xs text-gray-500 mt-1">未設定（環境変数のキーが使われます）</p>
+                {% endif %}
+            </div>
+
+            <div class="flex gap-3">
+                <button type="submit"
+                        class="bg-orange-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-orange-700 transition-colors">
+                    💾 保存
+                </button>
+                {% if has_key %}
+                <button type="submit" name="action" value="delete"
+                        class="bg-red-100 text-red-700 px-4 py-2 rounded-lg font-medium hover:bg-red-200 transition-colors text-sm"
+                        onclick="return confirm('APIキーを削除しますか？')">
+                    🗑 削除
+                </button>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    <!-- 説明 -->
+    <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+        <h3 class="font-semibold text-blue-800 mb-2">💡 ヒント</h3>
+        <ul class="text-sm text-blue-700 space-y-1">
+            <li>• APIキーはサーバーに暗号化せず保存されます（開発環境用）</li>
+            <li>• 個人のAPIキーが設定されている場合、そちらが優先されます</li>
+            <li>• 設定しない場合はシステムの共有キー（環境変数）が使用されます</li>
+            <li>• Gemini APIの無料枠: 1分あたり15リクエスト / 1日あたり1500リクエスト</li>
+        </ul>
+    </div>
+
+    <div class="mt-6">
+        <a href="/" class="text-orange-600 hover:underline">← トップに戻る</a>
+    </div>
+</div>
+
+<script>
+function toggleKeyVisibility() {
+    var input = document.getElementById('api_key');
+    var btn = document.getElementById('toggle-btn');
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈 隠す';
+    } else {
+        input.type = 'password';
+        btn.textContent = '👁 表示';
+    }
+}
+</script>
+{% endblock %}

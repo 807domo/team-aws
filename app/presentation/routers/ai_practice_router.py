@@ -28,12 +28,16 @@ templates = Jinja2Templates(directory="app/templates")
 
 MIN_ANSWERS_FOR_AI = 5  # AI生成に必要な最低回答数
 
-# シングルトンインスタンス
+# シングルトンインスタンス（環境変数キー用）
 _generator: GeminiQuestionGenerator | None = None
 
 
-def _get_generator() -> GeminiQuestionGenerator:
+def _get_generator(user_api_key: str | None = None) -> GeminiQuestionGenerator:
+    """ユーザーのAPIキーがあればそちらを優先してジェネレーターを返す。"""
     global _generator
+    if user_api_key:
+        # ユーザー固有キーがある場合は毎回新規作成
+        return GeminiQuestionGenerator(api_key=user_api_key)
     if _generator is None:
         _generator = GeminiQuestionGenerator()
     return _generator
@@ -49,9 +53,16 @@ async def start_ai_practice(
 
     弱点分析→問題生成→最初の問題表示の流れ。
     """
+    from app.data.models import UserModel
+
     user_record_repo = get_user_record_repository(db)
     question_repo = get_question_repository(db)
-    generator = _get_generator()
+
+    # ユーザーのAPIキーを取得
+    user = db.query(UserModel).filter(UserModel.id == user_id).first()
+    user_api_key = getattr(user, "gemini_api_key", None) if user else None
+
+    generator = _get_generator(user_api_key)
 
     # ユーザーの回答記録を取得
     records = user_record_repo.get_records_by_user(user_id)
