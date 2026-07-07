@@ -436,5 +436,10 @@ class MockExamEngine:
                 "AI and ML Fundamentals",
                 "Generative AI",
                 "Responsible AI",
+                "Fundamentals of AI and ML",
+                "Fundamentals of Generative AI",
+                "Applications of Foundation Models",
+                "Guidelines for Responsible AI",
+                "Security, Compliance, and Governance for AI Solutions",
             ]
         return []
