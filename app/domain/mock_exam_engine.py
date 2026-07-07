@@ -434,7 +434,12 @@ class MockExamEngine:
         elif exam_type == ExamType.AI_PRACTITIONER:
             return [
                 "AI and ML Fundamentals",
+                "Fundamentals of AI and ML",
                 "Generative AI",
+                "Fundamentals of Generative AI",
                 "Responsible AI",
+                "Guidelines for Responsible AI",
+                "Applications of Foundation Models",
+                "Security, Compliance, and Governance for AI Solutions",
             ]
         return []

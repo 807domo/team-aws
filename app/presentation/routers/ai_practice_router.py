@@ -123,9 +123,9 @@ async def start_ai_practice(
                 },
             )
 
-        # 問題を生成（全弱点領域をまとめて1回のAPIコールで10問生成）
+        # 問題を生成（全弱点領域をまとめて1回のAPIコールで5問生成）
         try:
-            questions = generator.generate_questions_batch(weak_areas[:3], total_count=10)
+            questions = generator.generate_questions_batch(weak_areas[:2], total_count=5)
         except Exception as e:
             logger.error("AI問題生成エラー: %s", str(e))
             return templates.TemplateResponse(

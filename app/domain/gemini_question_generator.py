@@ -115,6 +115,7 @@ class GeminiQuestionGenerator:
 - 形式: 4択問題（正解は1つのみ）
 - 各ドメインからバランスよく出題すること
 - 難易度: 基礎〜中級レベルで理解を深める内容にする
+- 簡潔に出力すること（解説は50-100文字程度）
 
 ## 出力形式（JSON配列のみ返すこと）
 [
@@ -144,7 +145,7 @@ class GeminiQuestionGenerator:
                 contents=prompt,
                 config=types.GenerateContentConfig(
                     temperature=0.8,
-                    max_output_tokens=8192,
+                    max_output_tokens=4096,
                     response_mime_type="application/json",
                 ),
             )
