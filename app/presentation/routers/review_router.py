@@ -76,12 +76,13 @@ async def start_review(
     db: Session = Depends(get_db),
     user_id: str = Depends(get_current_user_id),
 ):
-    """復習クイズを開始する。"""
+    """復習クイズを開始する（分野フィルター対応）。"""
     user_record_repo = get_user_record_repository(db)
     question_repo = get_question_repository(db)
 
     form = await request.form()
     mode = form.get("mode", "all")  # "all" or "random5"
+    selected_domains = form.getlist("domains")  # 選択された分野
 
     # 不正解問題を取得
     all_records = user_record_repo.get_records_by_user(user_id)
@@ -95,10 +96,74 @@ async def start_review(
     for qid in incorrect_question_ids:
         q = question_repo.get_question_by_id(qid)
         if q:
-            questions.append(q)
+            # 分野フィルターが指定されている場合はフィルタリング
+            if selected_domains:
+                domain = q.exam_domain or "その他"
+                if domain in selected_domains:
+                    questions.append(q)
+            else:
+                questions.append(q)
 
     if not questions:
         return RedirectResponse(url="/review/mistakes", status_code=303)
+
+    # ランダム5問モード
+    if mode == "random5":
+        questions = random.sample(questions, min(5, len(questions)))
+    else:
+        random.shuffle(questions)
+
+    # セッション作成
+    session_id = str(uuid.uuid4())
+    _review_sessions[session_id] = {
+        "questions": questions,
+        "current_index": 0,
+        "correct_count": 0,
+        "total_count": len(questions),
+        "user_id": user_id,
+    }
+
+    return RedirectResponse(
+        url=f"/review/{session_id}/question",
+        status_code=303,
+    )
+
+
+@router.post("/bookmark-start", response_class=HTMLResponse)
+async def start_bookmark_review(
+    request: Request,
+    db: Session = Depends(get_db),
+    user_id: str = Depends(get_current_user_id),
+):
+    """ブックマークした問題の復習クイズを開始する（分野フィルター対応）。"""
+    from app.data.repository_factory import get_bookmark_repository
+
+    bookmark_repo = get_bookmark_repository(db)
+    question_repo = get_question_repository(db)
+
+    form = await request.form()
+    mode = form.get("mode", "all")
+    selected_domains = form.getlist("domains")  # 選択された分野
+
+    # ブックマーク問題を取得
+    bookmark_records = bookmark_repo.get_by_user(user_id)
+    if not bookmark_records:
+        return RedirectResponse(url="/bookmarks", status_code=303)
+
+    questions = []
+    for bm in bookmark_records:
+        q = question_repo.get_question_by_id(bm["question_id"])
+        if q:
+            # 分野フィルターが指定されている場合はフィルタリング
+            if selected_domains:
+                domain = q.exam_domain or "その他"
+                if domain in selected_domains:
+                    questions.append(q)
+            else:
+                questions.append(q)
+
+    if not questions:
+        return RedirectResponse(url="/bookmarks", status_code=303)
 
     # ランダム5問モード
     if mode == "random5":
