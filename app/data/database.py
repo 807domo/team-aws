@@ -56,6 +56,10 @@ def get_db() -> Generator[Session, None, None]:
     """
     FastAPI 依存性注入用のデータベースセッションジェネレータ。
 
+    USE_DYNAMODB=1 の場合はダミーセッション（None）を返す。
+    DynamoDBモードではリポジトリが直接DynamoDBを使用するため、
+    SQLAlchemyセッションは不要。
+
     接続失敗時は最大3回リトライし、1秒間隔で再試行する。
     全リトライ失敗時は DatabaseConnectionError を送出する。
 
@@ -64,6 +68,11 @@ def get_db() -> Generator[Session, None, None]:
         def read_items(db: Session = Depends(get_db)):
             ...
     """
+    use_dynamodb = os.environ.get("USE_DYNAMODB", "0") == "1"
+    if use_dynamodb:
+        yield None  # type: ignore[arg-type]
+        return
+
     last_error: Exception | None = None
 
     for attempt in range(1, DB_CONNECTION_RETRY_COUNT + 1):

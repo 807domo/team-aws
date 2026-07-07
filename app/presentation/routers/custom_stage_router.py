@@ -4,19 +4,21 @@
 ユーザーが既存問題を組み合わせてオリジナルステージを作成・プレイする機能。
 """
 
+import os
 import uuid
 import logging
+import random
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
-from sqlalchemy.orm import Session
 
-from app.data.database import get_db
-from app.data.models import AnswerRecordModel
-from app.data.repository_factory import get_question_repository
-from app.domain.models import Question
+from app.data.repository_factory import (
+    get_question_repository,
+    get_user_record_repository,
+)
+from app.domain.models import AnswerRecord, Question
 from app.presentation.dependencies import get_current_user_id
 
 logger = logging.getLogger(__name__)
@@ -28,23 +30,41 @@ templates = Jinja2Templates(directory="app/templates")
 _custom_sessions: dict[str, dict] = {}
 
 
+def _get_db_session():
+    """SQLiteモード時のみDBセッションを返す。DynamoDBモードではNone。"""
+    if os.environ.get("USE_DYNAMODB", "0") == "1":
+        return None
+    from app.data.database import SessionLocal
+    return SessionLocal()
+
+
 @router.get("/create", response_class=HTMLResponse)
 async def create_stage_page(
     request: Request,
-    db: Session = Depends(get_db),
     user_id: str = Depends(get_current_user_id),
 ):
     """カスタムステージ作成画面を表示。分野・問題数・難易度を設定できる。"""
-    from app.data.models import QuestionModel as QM
+    use_dynamodb = os.environ.get("USE_DYNAMODB", "0") == "1"
 
-    # DBから全問題のexam_domainを取得（重複排除）
-    domain_rows = (
-        db.query(QM.exam_domain)
-        .filter(QM.exam_domain != None, QM.exam_domain != "")
-        .distinct()
-        .all()
-    )
-    domains = sorted(r[0] for r in domain_rows)
+    if use_dynamodb:
+        question_repo = get_question_repository()
+        domains = question_repo.get_all_domains()
+    else:
+        from sqlalchemy.orm import Session
+        from app.data.database import get_db, SessionLocal
+        from app.data.models import QuestionModel as QM
+
+        db = SessionLocal()
+        try:
+            domain_rows = (
+                db.query(QM.exam_domain)
+                .filter(QM.exam_domain != None, QM.exam_domain != "")
+                .distinct()
+                .all()
+            )
+            domains = sorted(r[0] for r in domain_rows)
+        finally:
+            db.close()
 
     return templates.TemplateResponse(
         request,
@@ -56,12 +76,10 @@ async def create_stage_page(
 @router.post("/start", response_class=HTMLResponse)
 async def start_custom_stage(
     request: Request,
-    db: Session = Depends(get_db),
     user_id: str = Depends(get_current_user_id),
 ):
     """設定に基づいて問題をランダム選択しカスタムステージを開始する。"""
-    import random
-    from app.data.models import QuestionModel as QM
+    use_dynamodb = os.environ.get("USE_DYNAMODB", "0") == "1"
 
     form = await request.form()
     selected_domains = form.getlist("domains")
@@ -71,29 +89,35 @@ async def start_custom_stage(
     if not selected_domains:
         return RedirectResponse(url="/custom-stage/create", status_code=303)
 
-    # DBから条件に合う問題をフィルタリング
-    query = db.query(QM).filter(QM.exam_domain.in_(selected_domains))
-    if difficulty != "all":
-        query = query.filter(QM.difficulty == difficulty)
-    candidate_models = query.all()
+    if use_dynamodb:
+        question_repo = get_question_repository()
+        candidates = question_repo.get_questions_filtered(selected_domains, difficulty)
+    else:
+        from app.data.database import SessionLocal
+        from app.data.models import QuestionModel as QM
 
-    if not candidate_models:
+        db = SessionLocal()
+        try:
+            query = db.query(QM).filter(QM.exam_domain.in_(selected_domains))
+            if difficulty != "all":
+                query = query.filter(QM.difficulty == difficulty)
+            candidate_models = query.all()
+
+            question_repo = get_question_repository(db)
+            candidates = []
+            for model in candidate_models:
+                q = question_repo.get_question_by_id(model.id)
+                if q:
+                    candidates.append(q)
+        finally:
+            db.close()
+
+    if not candidates:
         return RedirectResponse(url="/custom-stage/create", status_code=303)
 
     # ランダムに指定数を選択
-    count = min(count, len(candidate_models))
-    selected_models = random.sample(candidate_models, count)
-
-    # Questionオブジェクトに変換
-    question_repo = get_question_repository(db)
-    questions = []
-    for model in selected_models:
-        q = question_repo.get_question_by_id(model.id)
-        if q:
-            questions.append(q)
-
-    if not questions:
-        return RedirectResponse(url="/custom-stage/create", status_code=303)
+    count = min(count, len(candidates))
+    questions = random.sample(candidates, count)
 
     # セッション作成
     session_id = str(uuid.uuid4())
@@ -152,7 +176,6 @@ async def submit_custom_answer(
     session_id: str,
     request: Request,
     choice_index: int = Form(...),
-    db: Session = Depends(get_db),
     user_id: str = Depends(get_current_user_id),
 ):
     """カスタムステージの回答を送信し記録する。"""
@@ -167,9 +190,17 @@ async def submit_custom_answer(
     if is_correct:
         session["correct_count"] += 1
 
-    # DB記録
+    # 回答記録を保存
     try:
-        record = AnswerRecordModel(
+        use_dynamodb = os.environ.get("USE_DYNAMODB", "0") == "1"
+        if use_dynamodb:
+            record_repo = get_user_record_repository()
+        else:
+            from app.data.database import SessionLocal
+            db = SessionLocal()
+            record_repo = get_user_record_repository(db)
+
+        record = AnswerRecord(
             id=str(uuid.uuid4()),
             user_id=user_id,
             question_id=question.id,
@@ -178,10 +209,16 @@ async def submit_custom_answer(
             is_correct=is_correct,
             answered_at=datetime.now(),
         )
-        db.add(record)
-        db.commit()
-    except Exception:
-        db.rollback()
+        record_repo.save_answer_record(record)
+
+        if not use_dynamodb:
+            db.commit()
+            db.close()
+    except Exception as e:
+        logger.warning(f"回答記録の保存に失敗: {e}")
+        if not use_dynamodb and 'db' in locals():
+            db.rollback()
+            db.close()
 
     session["current_index"] += 1
 

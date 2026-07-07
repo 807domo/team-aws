@@ -70,6 +70,40 @@ class UserRepository:
             return None
         return self._to_dict(user)
 
+    def get_gemini_api_key(self, user_id: str) -> Optional[str]:
+        """ユーザーのGemini APIキーを取得する。
+
+        Args:
+            user_id: ユーザーID
+
+        Returns:
+            APIキー文字列 or None
+        """
+        user = (
+            self._db.query(UserModel)
+            .filter(UserModel.id == user_id)
+            .first()
+        )
+        if user is None:
+            return None
+        return getattr(user, "gemini_api_key", None)
+
+    def set_gemini_api_key(self, user_id: str, api_key: Optional[str]) -> None:
+        """ユーザーのGemini APIキーを設定する。
+
+        Args:
+            user_id: ユーザーID
+            api_key: APIキー文字列（Noneで削除）
+        """
+        user = (
+            self._db.query(UserModel)
+            .filter(UserModel.id == user_id)
+            .first()
+        )
+        if user:
+            user.gemini_api_key = api_key
+            self._db.commit()
+
     @staticmethod
     def _to_dict(user: UserModel) -> dict:
         """UserModelからユーザー情報辞書に変換する。"""
@@ -80,4 +114,5 @@ class UserRepository:
             "created_at": user.created_at,
             "total_xp": user.total_xp,
             "level": user.level,
+            "gemini_api_key": getattr(user, "gemini_api_key", None),
         }

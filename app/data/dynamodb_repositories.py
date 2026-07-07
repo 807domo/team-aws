@@ -184,6 +184,38 @@ class DynamoDBQuestionRepository:
 
         return [self._to_domain(item) for item in items]
 
+    def get_all_domains(self) -> list[str]:
+        """全問題のexam_domainの重複なしリストを返す。"""
+        items = scan_table("questions")
+        domains = set()
+        for item in items:
+            domain = item.get("exam_domain", "")
+            if domain:
+                domains.add(domain)
+        return sorted(domains)
+
+    def get_questions_filtered(
+        self, domains: list[str], difficulty: str = "all"
+    ) -> list[Question]:
+        """ドメインリストと難易度でフィルタリングした問題一覧を返す。
+
+        Args:
+            domains: 対象ドメインリスト
+            difficulty: 難易度フィルタ ("all" で全件)
+
+        Returns:
+            条件に合致するQuestionリスト
+        """
+        items = scan_table("questions")
+        filtered = []
+        for item in items:
+            if item.get("exam_domain", "") not in domains:
+                continue
+            if difficulty != "all" and item.get("difficulty", "") != difficulty:
+                continue
+            filtered.append(self._to_domain(item))
+        return filtered
+
     @staticmethod
     def _to_domain(item: dict) -> Question:
         """DynamoDB アイテムをドメイン Question に変換する"""
@@ -423,6 +455,40 @@ class DynamoDBUserRepository:
                 return self._to_dict(item)
         return None
 
+    def get_gemini_api_key(self, user_id: str) -> Optional[str]:
+        """ユーザーのGemini APIキーを取得する。
+
+        Args:
+            user_id: ユーザーID
+
+        Returns:
+            APIキー文字列 or None
+        """
+        item = get_item("users", {"id": user_id})
+        if item is None:
+            return None
+        return item.get("gemini_api_key")
+
+    def set_gemini_api_key(self, user_id: str, api_key: Optional[str]) -> None:
+        """ユーザーのGemini APIキーを設定する。
+
+        Args:
+            user_id: ユーザーID
+            api_key: APIキー文字列（Noneで削除）
+        """
+        table = get_table("users")
+        if api_key:
+            table.update_item(
+                Key={"id": user_id},
+                UpdateExpression="SET gemini_api_key = :key",
+                ExpressionAttributeValues={":key": api_key},
+            )
+        else:
+            table.update_item(
+                Key={"id": user_id},
+                UpdateExpression="REMOVE gemini_api_key",
+            )
+
     @staticmethod
     def _to_dict(item: dict) -> dict:
         """DynamoDB アイテムを標準辞書形式に変換する。"""
@@ -433,6 +499,7 @@ class DynamoDBUserRepository:
             "created_at": item.get("created_at", ""),
             "total_xp": int(item.get("total_xp", 0)),
             "level": int(item.get("level", 1)),
+            "gemini_api_key": item.get("gemini_api_key"),
         }
 
 
